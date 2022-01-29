@@ -13,8 +13,9 @@ const Posts = () => {
         <div className={s.posts}>
             <div className={s.title}>My posts</div>
             <CreatePost />
-            <Post />
-
+            <Post date="25 sep 2021" likesCount={13} text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto optio illo pariatur molestiae sapiente similique, velit impedit dolorum quam ducimus libero explicabo voluptatum officiis. Ipsum esse in sunt autem ipsam!"/>
+            <Post date="23 sep 2021" likesCount={7} text="Hey, why nobody love me?"/>
+            <Post date="21 sep 2021" likesCount={913} text="This is my first post. Now I'm with you!"/>
         </div>
     );
 }
