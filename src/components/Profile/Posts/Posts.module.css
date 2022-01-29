@@ -1,0 +1,9 @@
+.posts {
+    padding: 30px 50px;
+}
+
+.posts .title {
+    font-weight: 700;
+    font-size: 25px;
+    margin-bottom: 20px;
+}

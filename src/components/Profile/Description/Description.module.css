@@ -1,0 +1,16 @@
+.description {
+    padding: 30px 50px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.description p {
+    margin-right: 30px;
+    font-weight: 400;
+    color: #25ACAC;
+}
+
+.description p span {
+    color: #000;
+}

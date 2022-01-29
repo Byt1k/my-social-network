@@ -1,0 +1,43 @@
+.friends {
+    margin-top: 20px;
+}
+
+.friends .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 0 20px 0 30px;
+}
+
+.friends .title p {
+    font-size: 21px;
+    font-weight: 400;
+    font-weight: 700;
+}
+
+.friends .title .viewAll {
+    font-size: 13px;
+    color: #25ACAC;
+}
+
+.list {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.friend {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #000;
+}
+
+.friendImg {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
