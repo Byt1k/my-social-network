@@ -11,7 +11,7 @@ const Profile = () => {
         background: 'url(https://www.onlineheadway.com/assets/img/courses/06.jpg) no-repeat center center / cover'
     }
     return (
-        <div className={s.content}>
+        <div>
             <div className={s.background} style={background}></div>
             <AvaAndName />
             <Description />

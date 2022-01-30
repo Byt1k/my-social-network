@@ -1,4 +1,7 @@
+import React from "react";
 import s from './Menu.module.css';
+import {NavLink} from "react-router-dom";
+
 
 const Menu = () => {
     const imageAnna = {
@@ -12,8 +15,12 @@ const Menu = () => {
     }
     return (
         <ul className={s.menu}>
-            <li><a href="#" className={`${s.item} ${s.active}`}>My profile</a></li>
-            <li><a href="#" className={s.item}>Message</a></li>
+            <li>
+                <NavLink to="/profile" className={navData => navData.isActive ? `${s.item} ${s.active}` : s.item}>My profile</NavLink>
+            </li>
+            <li>
+                <NavLink to="/dialogs" className={navData => navData.isActive ?`${s.item} ${s.active}` : s.item}>Message</NavLink>
+            </li>
             <li><a href="#" className={s.item}>News</a></li>
             <li><a href="#" className={s.item}>Music</a></li>
             <li><a href="#" className={s.item}>Settings</a></li>
