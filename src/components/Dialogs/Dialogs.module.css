@@ -1,0 +1,32 @@
+.dialogs {
+    display: flex;
+    height: 100%;
+}
+
+.dialogsList {
+    width: 30%;
+    padding: 20px 0;
+    background: rgba(240, 255, 255, 0.96);
+    border-radius: 12px 0 0 12px;
+}
+
+.dialogsList .item {
+    display: block;
+    padding: 15px 30px;
+    color: #000;
+}
+
+.dialogsList .item.active {
+    font-weight: 700;
+    background: #fff;
+}
+
+.chat {
+    width: 70%;
+    padding: 30px;
+}
+
+.chat .message {
+    margin-bottom: 20px;
+}
+
