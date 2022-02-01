@@ -1,0 +1,24 @@
+.dialog {
+    display: flex;
+    align-items: center;
+    padding: 12px 30px;
+    color: #000;
+}
+
+.dialog:not(:last-child) {
+    border-bottom: 2px solid #fff;
+}
+
+
+.dialog.active {
+    font-weight: 700;
+    background: #fff;
+}
+
+.image {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #f4f4f4;
+    margin-right: 15px;
+}

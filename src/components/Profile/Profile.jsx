@@ -1,9 +1,9 @@
 import s from './Profile.module.css';
-import AvaAndName from "./AvaAndName/AvaAndName";
-import Description from "./Description/Description";
 import Posts from "./Posts/Posts";
+import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
+import React from "react";
 
-const Profile = () => {
+const Profile = props => {
     const background = {
         background: 'url(https://res.cloudinary.com/worldpackers/image/upload/c_fill,f_auto,q_auto,w_1024/v1/guides/article_cover/fl4bzxx2pvifrjtc4l6x) no-repeat center center / cover'
     }
@@ -12,10 +12,8 @@ const Profile = () => {
     }
     return (
         <div>
-            <div className={s.background} style={background}></div>
-            <AvaAndName />
-            <Description />
-            <Posts />
+            <ProfileInfo />
+            <Posts posts={props.state.posts}/>
         </div>
     );
 }

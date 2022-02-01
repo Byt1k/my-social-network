@@ -8,17 +8,17 @@ import {BrowserRouter} from "react-router-dom";
 import {Routes, Route} from "react-router";
 
 
-function App() {
+function App(props) {
     return (
         <BrowserRouter>
             <div className="wrapper">
                 <Header/>
                 <div className="container">
-                    <Navbar/>
+                    <Navbar state={props.state.navbar}/>
                     <div className="content">
                         <Routes>
-                            <Route path='/profile' element={<Profile />} />
-                            <Route path='/dialogs/*' element={<Dialogs />} />
+                            <Route path='/profile' element={<Profile state={props.state.profilePage}/>} />
+                            <Route path='/dialogs/*' element={<Dialogs state={props.state.dialogsPage}/>} />
                         </Routes>
                     </div>
                 </div>
