@@ -1,10 +1,13 @@
+import {rendererEntireTree} from "../render";
+
 let state = {
     profilePage: {
         posts: [
             {id: 1, date: "25 sep 2021", likesCount: 13, text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto optio illo pariatur molestiae sapiente similique, velit impedit dolorum quam ducimus libero explicabo voluptatum officiis. Ipsum esse in sunt autem ipsam!"},
             {id: 2, date: "23 sep 2021", likesCount: 7, text: "Hey, why nobody love me?"},
             {id: 3, date: "21 sep 2021", likesCount: 913, text: "This is my first post. Now I'm with you!"}
-        ]
+        ],
+        newPostText: ''
     },
     dialogsPage: {
         dialogs:  [
@@ -31,6 +34,24 @@ let state = {
             {id: 3, image: 'https://image.shutterstock.com/image-photo/portrait-happy-fashionable-handsome-man-260nw-600200732.jpg', firstName: 'Max'},
         ]
     }
+}
+
+window.state = state;
+
+export const addPost = () => {
+    let newPost = {
+        id: 4,
+        likesCount: 0,
+        text: state.profilePage.newPostText
+    }
+    state.profilePage.posts.unshift(newPost);
+    rendererEntireTree(state);
+    state.profilePage.newPostText = '';
+}
+
+export const updateNewPostText = newText => {
+    state.profilePage.newPostText = newText;
+    rendererEntireTree(state);
 }
 
 export default state;

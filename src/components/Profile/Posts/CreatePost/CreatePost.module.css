@@ -7,6 +7,7 @@
 }
 
 .newPost button {
+    cursor: pointer !important;
     margin-left: auto;
     display: block;
     margin-top: 12px;

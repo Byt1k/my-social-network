@@ -4,12 +4,12 @@ import Post from "./Post/Post";
 
 const Posts = props => {
 
-    let postsElements = props.posts.map(post => <Post date={post.date} likesCount={post.likesCount} text={post.text}/>);
+    let postsElements = props.state.posts.map(post => <Post date={post.date} likesCount={post.likesCount} text={post.text}/>);
 
     return (
         <div className={s.posts}>
             <div className={s.title}>My posts</div>
-            <CreatePost />
+            <CreatePost addPost={props.addPost} newPostText={props.state.newPostText} updateNewPostText={props.updateNewPostText}/>
             {postsElements}
         </div>
     );
