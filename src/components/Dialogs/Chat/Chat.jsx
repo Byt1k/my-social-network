@@ -10,7 +10,7 @@ export const Chat = props => {
     return (
         <div className={s.chat}>
             {messages}
-            <CreateMessage/>
+            <CreateMessage dispatch={props.dispatch} newMessageText={props.newMessageText}/>
         </div>
     );
 }
