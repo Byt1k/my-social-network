@@ -1,18 +1,18 @@
 import s from "./CreateMessage.module.css";
 import React from "react";
-import {sendMessageActionCreator, updateNewMessageTextActionCreator} from "../../../../redux/state";
+import {sendMessageCreator, updateNewMessageTextCreator} from "../../../../redux/dialogs-reducer";
 
 
 
 export const CreateMessage = props => {
 
     const sendMessage = () => {
-        props.dispatch(sendMessageActionCreator());
+        props.dispatch(sendMessageCreator());
     }
 
     const onMessageChange = e => {
         let newMessageText = e.target.value;
-        props.dispatch(updateNewMessageTextActionCreator(newMessageText))
+        props.dispatch(updateNewMessageTextCreator(newMessageText))
     }
 
     return (

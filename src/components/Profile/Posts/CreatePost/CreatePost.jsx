@@ -1,14 +1,14 @@
 import s from './CreatePost.module.css';
 import React from "react";
-import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../../redux/state";
+import {addPostCreator, updateNewPostTextCreator} from "../../../../redux/profile-reducer";
 
 const CreatePost = props => {
 
-    const addPost = () => props.dispatch(addPostActionCreator());
+    const addPost = () => props.dispatch(addPostCreator());
 
     const changeNewPostText = e => {
         let newPostText = e.target.value;
-        props.dispatch(updateNewPostTextActionCreator(newPostText));
+        props.dispatch(updateNewPostTextCreator(newPostText));
     }
 
     return (
