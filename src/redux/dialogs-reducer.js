@@ -6,15 +6,13 @@ const dialogsReducer = (state, action) => {
         case SEND_MESSAGE:
             let newMessage = {
                 id: 7,
-                message: this._state.dialogsPage.myNewMessageText
+                message: state.myNewMessageText
             }
-            this._state.dialogsPage.messages.push(newMessage);
-            this._callSubscriber(this._state);
-            this._state.dialogsPage.myNewMessageText = ''
+            state.messages.push(newMessage);
+            state.myNewMessageText = ''
             return state;
         case UPDATE_NEW_MESSAGE_TEXT:
-            this._state.dialogsPage.myNewMessageText = action.newMessageText;
-            this._callSubscriber(this._state);
+            state.myNewMessageText = action.newMessageText;
             return state;
         default:
             return state;
