@@ -1,14 +1,21 @@
 import React from "react";
 import {Chat} from "./Chat";
 import {sendMessageCreator, updateNewMessageTextCreator} from "../../../redux/dialogs-reducer";
+import StoreContext from "../../../StoreContext";
 
 export const ChatContainer = props => {
-    let messages = props.store.getState().dialogsPage.messages;
-    let newMessageText = props.store.getState().dialogsPage.myNewMessageText;
+    return (
+        <StoreContext.Consumer>
+            {store => {
+                let messages = store.getState().dialogsPage.messages;
+                let newMessageText = store.getState().dialogsPage.myNewMessageText;
 
-    const sendMessage = () =>  props.store.dispatch(sendMessageCreator());
+                const sendMessage = () =>  store.dispatch(sendMessageCreator());
 
-    const onMessageChange = text => props.store.dispatch(updateNewMessageTextCreator(text));
+                const onMessageChange = text => store.dispatch(updateNewMessageTextCreator(text));
+                return <Chat sendMessage={sendMessage} updateNewMessageText={onMessageChange} messages={messages} newMessageText={newMessageText}/>
+            }}
+        </StoreContext.Consumer>
+    );
 
-    return <Chat sendMessage={sendMessage} updateNewMessageText={onMessageChange} messages={messages} newMessageText={newMessageText}/>
 }
