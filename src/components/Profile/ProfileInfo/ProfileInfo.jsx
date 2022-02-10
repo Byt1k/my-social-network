@@ -19,6 +19,7 @@ export const ProfileInfo = props => {
         </div>
         <div className={s.description}>
             <p>Date of Birth: <span>11 April</span></p>
+            <p>Country: <span>Belarus</span></p>
             <p>City: <span>Minsk</span></p>
             <p>Education: <span>Military Academy</span></p>
             <p>Web Site: <span>vk.com</span></p>
