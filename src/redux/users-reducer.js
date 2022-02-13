@@ -1,13 +1,11 @@
-import users from "../components/Users/Users";
-
 const TOGGLE_FOLLOW = 'TOGGLE_FOLLOW';
 const SET_USERS = 'SET_USERS';
 
 let initialState = {
     users: [
-        {id: 1, followed: false, fullName: 'Lukas Podolski', avatar: 'https://grantavto.com.ua/files/photos/4/32.jpg', location: {country: 'Belarus', city: 'Minsk'}},
-         {id: 2, followed: true, fullName: 'Eva Martines', avatar: 'https://c4.wallpaperflare.com/wallpaper/691/864/895/women-face-portrait-gray-eyes-wallpaper-preview.jpg', location: {country: 'Belarus', city: 'Minsk'}},
-         {id: 3, followed: false, fullName: 'Anna Ferdinandes', avatar: 'https://t3.ftcdn.net/jpg/02/30/78/14/360_F_230781458_ER2KGThsKsV05VBN2sFlIDLMP0JEkZ0o.jpg', location: {country: 'Belarus', city: 'Minsk'}}
+         // {id: 1, followed: false, name: 'Lukas Podolski', photos: {small: 'https://grantavto.com.ua/files/photos/4/32.jpg'}, location: {country: 'Belarus', city: 'Minsk'}},
+         // {id: 2, followed: true, name: 'Eva Martines', photos: {small: 'https://grantavto.com.ua/files/photos/4/32.jpg'}, location: {country: 'Belarus', city: 'Minsk'}},
+         // {id: 3, followed: false, name: 'Anna Ferdinandes', photos: {small: 'https://grantavto.com.ua/files/photos/4/32.jpg'}, location: {country: 'Belarus', city: 'Minsk'}}
      ]
 }
 
@@ -20,13 +18,14 @@ const usersReducer = (state = initialState, action) => {
                     if (u.id === action.userID) {
                         return {...u, followed: !u.followed}
                     }
-                    return u;
+                    return u
                 })
             }
         case SET_USERS:
             return {
                 ...state,
-                users: [...state.users, ...action.users ]
+                // users: [...state.users, ...action.users ]
+                users: [...action.users]
             }
         default: return state;
     }
