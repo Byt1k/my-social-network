@@ -1,3 +1,26 @@
 .avatar {
     max-width: 100px;
 }
+
+.pagination {
+    display: flex;
+    /*justify-content: center;*/
+    overflow: hidden;
+}
+
+.pagination button {
+    margin: 0 5px;
+    width: 25px;
+    height: 25px;
+    background: #fff;
+    border: 1px solid #25ACAC;
+    border-radius: 5px;
+    color: #25ACAC;
+    font-size: 14px;
+    transition: all .3s ease;
+}
+
+.pagination button.active, .pagination button:hover {
+    background: #25ACAC;
+    color: #fff;
+}

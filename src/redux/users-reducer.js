@@ -1,12 +1,13 @@
 const TOGGLE_FOLLOW = 'TOGGLE_FOLLOW';
 const SET_USERS = 'SET_USERS';
+const SET_TOTAL_COUNT = 'SET_TOTAL_COUNT';
+const SET_CURRENT_PAGE = 'CHANGE_PAGE';
 
 let initialState = {
-    users: [
-         // {id: 1, followed: false, name: 'Lukas Podolski', photos: {small: 'https://grantavto.com.ua/files/photos/4/32.jpg'}, location: {country: 'Belarus', city: 'Minsk'}},
-         // {id: 2, followed: true, name: 'Eva Martines', photos: {small: 'https://grantavto.com.ua/files/photos/4/32.jpg'}, location: {country: 'Belarus', city: 'Minsk'}},
-         // {id: 3, followed: false, name: 'Anna Ferdinandes', photos: {small: 'https://grantavto.com.ua/files/photos/4/32.jpg'}, location: {country: 'Belarus', city: 'Minsk'}}
-     ]
+    users: [],
+    pageSize: 10,
+    totalCount: 0,
+    currentPage: 1
 }
 
 const usersReducer = (state = initialState, action) => {
@@ -25,13 +26,26 @@ const usersReducer = (state = initialState, action) => {
             return {
                 ...state,
                 // users: [...state.users, ...action.users ]
-                users: [...action.users]
+                users: action.users
             }
-        default: return state;
+        case SET_TOTAL_COUNT:
+            return {
+                ...state,
+                totalCount: action.totalCount
+            }
+        case SET_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPage: action.pageNumber
+            }
+        default:
+            return state;
     }
 }
 
 export let toggleFollowAC = userID => ({type: TOGGLE_FOLLOW, userID});
-export let setUsersAC = users => ({type: SET_USERS, users})
+export let setUsersAC = users => ({type: SET_USERS, users});
+export let setTotalCountAC = totalCount => ({type: SET_TOTAL_COUNT, totalCount});
+export let setCurrenPageAC = pageNumber => ({type: SET_CURRENT_PAGE, pageNumber})
 
 export default usersReducer;
