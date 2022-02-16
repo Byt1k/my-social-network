@@ -16,11 +16,9 @@ function App(props) {
                 <div className="container">
                     <Navbar />
                     <div className="content">
-                        <Routes>
-                            <Route path='/profile/*' element={<ProfileContainer />} />
-                            <Route path='/dialogs/*' element={<DialogsContainer />} />
-                            <Route path='/users' element={<UsersContainer />} />
-                        </Routes>
+                        <Route path='/profile' render={() => <ProfileContainer />} />
+                        <Route path='/dialogs' render={() => <DialogsContainer />} />
+                        <Route path='/users' render={() => <UsersContainer />} />
                     </div>
                 </div>
             </div>

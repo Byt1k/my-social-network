@@ -1,5 +1,6 @@
 import s from "./ProfileInfo.module.css";
 import Preloader from "../../common/Preloader/Preloader";
+import defaultImage from '../../../assets/images/user.jpg';
 
 export const ProfileInfo = props => {
     const background = {
@@ -14,7 +15,7 @@ export const ProfileInfo = props => {
     <div>
         <div className={s.background} style={background}></div>
         <div className={s.avaAndName}>
-            <div className={s.avatar} style={{background: `url(${props.profile.photos.large}) no-repeat center center / cover`}}>
+            <div className={s.avatar} style={{background: `url(${props.profile.photos.large ? props.profile.photos.large : defaultImage}) no-repeat center center / cover`}}>
                 {props.profile.lookingForAJob ? <div className={s.isOpenToWork} title={props.profile.lookingForAJobDescription}>#OpenToWork</div> : null}
             </div>
             <div>

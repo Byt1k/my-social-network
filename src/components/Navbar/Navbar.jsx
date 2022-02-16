@@ -7,9 +7,9 @@ const Navbar = props => {
     return (
         <div className={s.navbar}>
             <div className={s.menu}>
-                <NavLink to="/profile" className={navData => navData.isActive ? `${s.item} ${s.active}` : s.item}>My profile</NavLink>
-                <NavLink to="/dialogs" className={navData => navData.isActive ?`${s.item} ${s.active}` : s.item}>Message</NavLink>
-                <NavLink to="/users" className={navData => navData.isActive ?`${s.item} ${s.active}` : s.item}>Users</NavLink>
+                <NavLink to="/profile" className={s.item} activeClassName={s.active}>My profile</NavLink>
+                <NavLink to="/dialogs" className={s.item} activeClassName={s.active}>Message</NavLink>
+                <NavLink to="/users" className={s.item} activeClassName={s.active}>Users</NavLink>
                 <a href="#" className={s.item}>News</a>
                 <a href="#" className={s.item}>Music</a>
                 <a href="#" className={s.item}>Settings</a>
