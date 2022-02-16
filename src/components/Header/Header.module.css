@@ -4,9 +4,21 @@
     margin-bottom: 20px;
     box-shadow: 0px 3px 28px rgba(0, 149, 122, 0.12);
     border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 30px;
 }
 
-.logo {
-    max-height: 100%;
+.logo img {
+    width: 130px;
     margin-left: 10px;
+}
+
+.auth {
+    display: flex;
+    align-items: center;
+}
+
+.auth a {
+    color: #000;
 }

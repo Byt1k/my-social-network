@@ -1,18 +1,18 @@
 import './zeroing.css';
 import './App.css';
-import Header from './components/Header/Header';
 import Navbar from './components/Navbar/Navbar';
 import {BrowserRouter} from "react-router-dom";
 import {Routes, Route} from "react-router";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from './components/Users/UsersContainer'
 import ProfileContainer from "./components/Profile/ProfileContainer";
+import HeaderContainer from "./components/Header/HeaderContainer";
 
 function App(props) {
     return (
         <BrowserRouter>
             <div className="wrapper">
-                <Header />
+                <HeaderContainer />
                 <div className="container">
                     <Navbar />
                     <div className="content">
