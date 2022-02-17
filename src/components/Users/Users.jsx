@@ -2,6 +2,7 @@ import s from "./Users.module.css";
 import React from "react";
 import defaultImage from '../../assets/images/user.jpg'
 import {NavLink} from "react-router-dom";
+import * as axios from "axios";
 
 const Users = props => {
     let pageCount = Math.ceil(props.totalCount / props.pageSize);
@@ -26,7 +27,34 @@ const Users = props => {
                                 <p className={s.name}>{u.name}</p>
                                 <p className={s.status}>{u.status}</p>
                                 <button className={u.followed ? `${s.followBtn} ${s.followed}` : s.followBtn}
-                                        onClick={() => props.toggleFollow(u.id)}>
+                                        onClick={() => {
+                                            !u.followed ?
+                                                axios
+                                                    .post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,{},{
+                                                        withCredentials: true,
+                                                        headers: {
+                                                            'API-KEY': 'ebbe01eb-c053-4a58-8607-a075b006cd68'
+                                                        }
+                                                        },
+                                                    )
+                                                    .then(response => {
+                                                        if (response.data.resultCode === 0) {
+                                                            props.toggleFollow(u.id);
+                                                        }
+                                                    }):
+                                                axios
+                                                    .delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
+                                                        withCredentials: true,
+                                                        headers: {
+                                                            'API-KEY': 'ebbe01eb-c053-4a58-8607-a075b006cd68'
+                                                        }
+                                                    })
+                                                    .then(response => {
+                                                        if (response.data.resultCode === 0) {
+                                                            props.toggleFollow(u.id);
+                                                        }
+                                                    })
+                                        }}>
                                     {u.followed ? 'Unfollow' : 'Follow'}
                                 </button>
                             </div>
