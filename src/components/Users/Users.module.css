@@ -37,6 +37,11 @@
     margin-top: 15px;
 }
 
+.followBtn:disabled {
+    opacity: 0.5;
+}
+
+
 .followBtn.followed {
     border: 1px solid rgb(51, 122, 255);
     background: #fff;
@@ -45,7 +50,6 @@
 
 pagination {
     display: flex;
-    /*justify-content: center;*/
     overflow: hidden;
 }
 
