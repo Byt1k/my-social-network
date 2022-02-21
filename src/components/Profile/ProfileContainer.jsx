@@ -2,7 +2,7 @@ import React from "react";
 import Profile from "./Profile";
 import {getUserProfile, getUserStatus} from "../../redux/profile-reducer";
 import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
+import {Redirect, withRouter} from "react-router-dom";
 import Preloader from "../common/Preloader/Preloader";
 
 class ProfileContainer extends React.Component {
@@ -15,9 +15,15 @@ class ProfileContainer extends React.Component {
         this.props.getUserStatus(userId);
     }
     render() {
-        return (
-            this.props.isFetching ? <Preloader /> : <Profile profile={this.props.profile} userStatus={this.props.userStatus}/>
-        )
+        if (!this.props.isAuth) {
+            return  <Redirect to={'/login'} />
+        }
+        else {
+            return (
+                this.props.isFetching ? <Preloader /> : <Profile profile={this.props.profile} userStatus={this.props.userStatus}/>
+            )
+        }
+
     }
 }
 
@@ -25,7 +31,8 @@ let mapStateToProps = state => {
     return ({
         profile: state.profilePage.profile,
         userStatus: state.profilePage.userStatus,
-        isFetching: state.profilePage.isFetching
+        isFetching: state.profilePage.isFetching,
+        isAuth: state.auth.isAuth
     })
 }
 

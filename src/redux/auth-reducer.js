@@ -23,7 +23,7 @@ const authReducer = (state = initialState, action) => {
 
 export const setAuthUserData = (userId, login, email) => ({type: SET_AUTH_USER_DATA, data: {userId, login, email}});
 
-export const getMe = () => dispatch => {
+export const getAuthUserData = () => dispatch => {
     authAPI.getMe().then(data => {
         if (data.resultCode === 0) {
             let {id, login, email} = data.data;
