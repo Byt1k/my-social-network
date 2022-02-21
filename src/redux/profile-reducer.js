@@ -1,7 +1,10 @@
+import {profileAPI} from "../api/api";
+
 const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USERS_PROFILE';
 const SET_USER_STATUS = 'SET_USER_STATUS';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 let initialState = {
     posts: [
@@ -16,7 +19,8 @@ let initialState = {
     ],
     newPostText: '',
     profile: null,
-    userStatus: ''
+    userStatus: '',
+    isFetching: false
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -49,6 +53,12 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 userStatus: action.status
             }
+        case TOGGLE_IS_FETCHING: {
+            return {
+                ...state,
+                isFetching: action.isFetching
+            }
+        }
         default: return state;
     }
 }
@@ -57,5 +67,22 @@ export const addPostCreator = () => ({type: ADD_POST});
 export const updateNewPostTextCreator = text => ({type: UPDATE_NEW_POST_TEXT, newText: text});
 export const setUserProfile = profile => ({type: SET_USER_PROFILE, profile});
 export const setUserStatus = status => ({type: SET_USER_STATUS, status});
+export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
+
+export const getUserProfile = userId => dispatch => {
+    dispatch(toggleIsFetching(true));
+    profileAPI.getUserProfile(userId).then(data => {
+        dispatch(setUserProfile(data));
+        dispatch(toggleIsFetching(false));
+    });
+}
+
+export const getUserStatus = userId => dispatch => {
+    dispatch(toggleIsFetching(true));
+    profileAPI.getUserStatus(userId).then(data => {
+        dispatch(setUserStatus(data));
+        dispatch(toggleIsFetching(false));
+    });
+}
 
 export default profileReducer;
