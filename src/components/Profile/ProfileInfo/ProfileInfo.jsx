@@ -21,7 +21,7 @@ export const ProfileInfo = props => {
             </div>
             <div>
                 <p className={s.name}>{props.profile.fullName}</p>
-                <UserStatus userStatus={props.userStatus} />
+                <UserStatus userStatus={props.userStatus} updateUserStatus={props.updateUserStatus} />
             </div>
         </div>
         <div className={s.description}>

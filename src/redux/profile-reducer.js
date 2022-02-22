@@ -78,11 +78,17 @@ export const getUserProfile = userId => dispatch => {
 }
 
 export const getUserStatus = userId => dispatch => {
-    dispatch(toggleIsFetching(true));
     profileAPI.getUserStatus(userId).then(data => {
         dispatch(setUserStatus(data));
-        dispatch(toggleIsFetching(false));
     });
+}
+
+export const updateUserStatus = status => dispatch => {
+    profileAPI.updateUserStatus(status).then(response => {
+        if (response.data.resultCode === 0) {
+            dispatch(setUserStatus(status));
+        }
+    })
 }
 
 export default profileReducer;
