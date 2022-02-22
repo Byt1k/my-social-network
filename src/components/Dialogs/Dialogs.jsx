@@ -2,7 +2,6 @@ import s from './Dialogs.module.css';
 import {DialogItem} from "./DialogItem/DialogItem";
 import React from "react";
 import {Message} from "./Message/Message";
-import {Redirect} from "react-router-dom";
 
 
 const Dialogs = props => {
@@ -14,26 +13,22 @@ const Dialogs = props => {
     const sendMessage = () => props.sendMessage();
     const onMessageChange = e => props.updateNewMessageText(e.target.value);
 
-    if (!props.isAuth) {
-        return <Redirect to={'/login'}/>
-    }
-    else {
-        return (
-            <div className={s.dialogs}>
-                <div className={s.dialogsList}>
-                    {dialogsItems}
-                </div>
-                <div className={s.chat}>
-                    {messages}
-                    <div className={s.createMessage}>
+    return (
+        <div className={s.dialogs}>
+            <div className={s.dialogsList}>
+                {dialogsItems}
+            </div>
+            <div className={s.chat}>
+                {messages}
+                <div className={s.createMessage}>
                         <textarea onChange={onMessageChange} placeholder={'Your message...'}
                                   value={props.dialogsPage.newMessageText}></textarea>
-                        <button onClick={sendMessage}>Send</button>
-                    </div>
+                    <button onClick={sendMessage}>Send</button>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
+
 }
 
 
