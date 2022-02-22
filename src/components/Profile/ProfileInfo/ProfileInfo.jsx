@@ -1,6 +1,7 @@
 import s from "./ProfileInfo.module.css";
 import Preloader from "../../common/Preloader/Preloader";
 import defaultImage from '../../../assets/images/user.jpg';
+import UserStatus from './UserStatus'
 
 export const ProfileInfo = props => {
     const background = {
@@ -20,7 +21,7 @@ export const ProfileInfo = props => {
             </div>
             <div>
                 <p className={s.name}>{props.profile.fullName}</p>
-                <p><em>{props.userStatus ? props.userStatus : 'no status'}</em></p>
+                <UserStatus userStatus={props.userStatus} />
             </div>
         </div>
         <div className={s.description}>

@@ -72,3 +72,13 @@
     flex-wrap: wrap;
 }
 
+.editStatusInput {
+    padding: 5px 20px;
+    border: 1px solid #d6fafa;
+    border-radius: 7px;
+    background: lightcoral;
+}
+
+
+
+
