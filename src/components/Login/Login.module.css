@@ -1,0 +1,64 @@
+.loginPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: #e5ffff;
+    border-radius: 12px; /* Убрать, когда Login будет отдельной страницей */
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: rgb(51, 122, 255);
+}
+
+.inputBlock {
+    margin-bottom: 20px;
+}
+
+
+.inputBlock input {
+    border: 1px solid rgb(51, 122, 255);;
+    border-radius: 7px;
+    padding: 10px 20px;
+    font-size: 18px;
+}
+
+.inputBlock p {
+    margin-bottom: 8px;
+    color: rgb(51, 122, 255);;
+    opacity: 0.7;
+}
+
+.checkboxBlock {
+    display: flex;
+    align-items: center;
+}
+
+.checkboxBlock input {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.checkboxBlock label {
+    color: rgb(51, 122, 255);
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+button {
+    display: block;
+    width: 120px;
+    height: 36px;
+    border-radius: 7px;
+    background: rgb(51, 122, 255);
+    color: #fff;
+    font-weight: 700;
+    margin: 20px auto 0 auto;
+}
+
+
