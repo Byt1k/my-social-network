@@ -1,12 +1,14 @@
 import s from './Login.module.css'
 import {Field, reduxForm} from "redux-form";
+import {login} from "../../redux/auth-reducer";
+import {connect} from "react-redux";
 
 const LoginForm = props => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div className={s.inputBlock}>
-                <p>Login</p>
-                <Field component={'input'} name={'login'} />
+                <p>Email</p>
+                <Field component={'input'} name={'email'} />
             </div>
             <div className={s.inputBlock}>
                 <p>Password</p>
@@ -26,7 +28,8 @@ const LoginReduxForm = reduxForm({form: 'login'})(LoginForm)
 const Login = props => {
 
     const onSubmit = formData => {
-        console.log(formData);
+        let {email, password, rememberMe = false} = formData;
+        props.login(email, password, rememberMe);
     }
 
     return (
@@ -37,4 +40,9 @@ const Login = props => {
     )
 }
 
-export default Login;
+let mapStateToProps = state => {
+
+}
+
+
+export default connect(mapStateToProps, {login})(Login);

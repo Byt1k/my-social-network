@@ -50,7 +50,7 @@ h1 {
     cursor: pointer;
 }
 
-button {
+.loginPage button {
     display: block;
     width: 120px;
     height: 36px;

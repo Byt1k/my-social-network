@@ -27,6 +27,12 @@ export let followingAPI = {
 export let authAPI = {
     getMe() {
         return instance.get('auth/me').then(response => response.data)
+    },
+    login(email, password, rememberMe, captcha) {
+        return instance.post('auth/login', {email, password, rememberMe, captcha})
+    },
+    logout() {
+        return null;
     }
 }
 
