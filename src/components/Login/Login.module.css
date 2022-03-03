@@ -8,6 +8,10 @@
     border-radius: 12px; /* Убрать, когда Login будет отдельной страницей */
 }
 
+.formLogin {
+    position: relative;
+}
+
 h1 {
     font-size: 36px;
     font-weight: 700;
@@ -61,4 +65,11 @@ h1 {
     margin: 20px auto 0 auto;
 }
 
-
+.commonFormError {
+    text-align: center;
+    color: red;
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+}
