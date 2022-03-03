@@ -4,6 +4,7 @@ import {login} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
 import {Input} from "../common/FieldsForm/FieldsForm";
 import {email, requeired} from "../../utils/validators";
+import {Redirect} from "react-router-dom";
 
 const LoginForm = props => {
     return (
@@ -34,6 +35,10 @@ const Login = props => {
         props.login(email, password, rememberMe);
     }
 
+    if (props.isAuth) {
+        return <Redirect to={'/profile'} />
+    }
+
     return (
         <div className={s.loginPage}>
             <h1>Sign In!</h1>
@@ -42,9 +47,9 @@ const Login = props => {
     )
 }
 
-let mapStateToProps = state => {
-
-}
+let mapStateToProps = state => ({
+    isAuth: state.auth.isAuth
+})
 
 
 export default connect(mapStateToProps, {login})(Login);

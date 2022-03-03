@@ -1,7 +1,6 @@
 import {authAPI} from "../api/api";
 
-const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA';
-const SET_USER_ID = 'SET_USER_ID';
+const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA'
 
 let initialState = {
     userId: null,
@@ -15,26 +14,19 @@ const authReducer = (state = initialState, action) => {
         case SET_AUTH_USER_DATA:
             return {
                 ...state,
-                ...action.data,
-                isAuth: true
-            }
-        case SET_USER_ID:
-            return {
-                ...state,
-                userId: action.userId
+                ...action.payload
             }
         default: return state;
     }
 }
 
-export const setAuthUserData = (userId, login, email) => ({type: SET_AUTH_USER_DATA, data: {userId, login, email}});
-export const setUserId = (userId) => ({type: SET_USER_ID, userId})
+export const setAuthUserData = (userId, login, email, isAuth) => ({type: SET_AUTH_USER_DATA, payload: {userId, login, email, isAuth}});
 
 export const getAuthUserData = () => dispatch => {
     authAPI.getMe().then(data => {
         if (data.resultCode === 0) {
             let {id, login, email} = data.data;
-            dispatch(setAuthUserData(id, login, email));
+            dispatch(setAuthUserData(id, login, email, true));
         }
     })
 }
@@ -42,7 +34,15 @@ export const getAuthUserData = () => dispatch => {
 export const login = (email, password, rememberMe, captcha = true) => dispatch => {
     authAPI.login(email, password, rememberMe, captcha).then(response => {
         if (response.data.resultCode === 0) {
-            dispatch(setUserId(response.data.userId));
+            dispatch(getAuthUserData());
+        }
+    })
+}
+
+export const logout = () => dispatch => {
+    authAPI.logout().then(response => {
+        if (response.data.resultCode === 0) {
+            dispatch(setAuthUserData(null, null, null, false));
         }
     })
 }

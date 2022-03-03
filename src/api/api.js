@@ -32,7 +32,7 @@ export let authAPI = {
         return instance.post('auth/login', {email, password, rememberMe, captcha})
     },
     logout() {
-        return null;
+        return instance.delete('auth/login')
     }
 }
 

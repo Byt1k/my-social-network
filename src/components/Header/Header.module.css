@@ -22,3 +22,10 @@
 .auth a {
     color: #000;
 }
+
+.logoutBtn {
+    background: none;
+    padding: 0;
+    color: #25ACAC;
+    cursor: pointer;
+}
