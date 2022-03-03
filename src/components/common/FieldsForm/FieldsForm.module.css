@@ -1,0 +1,14 @@
+.inputBlock {
+    position: relative;
+}
+
+.error input {
+    border: 1px solid red;
+}
+
+.errorDesc {
+    color: red !important;
+    position: absolute;
+    top: -23px;
+    right: 0;
+}

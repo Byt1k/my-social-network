@@ -2,17 +2,19 @@ import s from './Login.module.css'
 import {Field, reduxForm} from "redux-form";
 import {login} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
+import {Input} from "../common/FieldsForm/FieldsForm";
+import {email, requeired} from "../../utils/validators";
 
 const LoginForm = props => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div className={s.inputBlock}>
                 <p>Email</p>
-                <Field component={'input'} name={'email'} />
+                <Field component={Input} name={'email'} validate={[requeired, email]} />
             </div>
             <div className={s.inputBlock}>
                 <p>Password</p>
-                <Field component={'input'} name={'password'} type={'password'}/>
+                <Field component={Input} name={'password'} type={'password'} validate={requeired}/>
             </div>
             <div className={s.checkboxBlock}>
                 <Field component={'input'} name={'rememberMe'} type={'checkbox'} id={'rememberMe'}/>
