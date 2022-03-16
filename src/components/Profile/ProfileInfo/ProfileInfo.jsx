@@ -2,6 +2,7 @@ import s from "./ProfileInfo.module.css";
 import Preloader from "../../common/Preloader/Preloader";
 import defaultImage from '../../../assets/images/user.jpg';
 import UserStatus from './UserStatus'
+import UserStatusWithHooks from "./UserStatusWithHooks";
 
 export const ProfileInfo = props => {
     const background = {
@@ -19,9 +20,9 @@ export const ProfileInfo = props => {
             <div className={s.avatar} style={{background: `url(${props.profile.photos.large ? props.profile.photos.large : defaultImage}) no-repeat center center / cover`}}>
                 {props.profile.lookingForAJob ? <div className={s.isOpenToWork} title={props.profile.lookingForAJobDescription}>#OpenToWork</div> : null}
             </div>
-            <div>
+            <div className={s.nameAndStatus}>
                 <p className={s.name}>{props.profile.fullName}</p>
-                <UserStatus userStatus={props.userStatus} updateUserStatus={props.updateUserStatus} />
+                <UserStatusWithHooks userStatus={props.userStatus} updateUserStatus={props.updateUserStatus} />
             </div>
         </div>
         <div className={s.description}>

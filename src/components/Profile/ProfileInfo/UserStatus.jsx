@@ -3,7 +3,7 @@ import s from './ProfileInfo.module.css'
 
 class UserStatus extends React.Component{
     state = {
-        exitMode: false,
+        editMode: false,
         status: this.props.userStatus
     }
     componentDidUpdate(prevProps, prevState) {
@@ -15,12 +15,12 @@ class UserStatus extends React.Component{
     }
     activateExitMode = () => {
         this.setState({
-            exitMode: true
+            editMode: true
         })
     }
     deactivateExitMode = () => {
         this.setState({
-            exitMode: false
+            editMode: false
         })
         this.props.updateUserStatus(this.state.status);
     }
@@ -31,7 +31,7 @@ class UserStatus extends React.Component{
     }
     render() {
         return (
-            !this.state.exitMode ?
+            !this.state.editMode ?
                 <em onClick={this.activateExitMode}>{this.props.userStatus ? this.props.userStatus : 'no status'}</em> :
                 <input autoFocus={true} onBlur={this.deactivateExitMode} className={s.editStatusInput} value={this.state.status} onChange={this.onStatusChange} />
         )
