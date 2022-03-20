@@ -1,7 +1,7 @@
-/*.pagination {*/
-/*    display: flex;*/
-/*    overflow: hidden;*/
-/*}*/
+.pagination {
+    display: flex;
+    justify-content: center;
+}
 
 .pagination button {
     margin: 0 5px;
