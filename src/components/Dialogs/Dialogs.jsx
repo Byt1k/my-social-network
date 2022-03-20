@@ -3,11 +3,12 @@ import {DialogItem} from "./DialogItem/DialogItem";
 import React from "react";
 import {Message} from "./Message/Message";
 import {Field, reduxForm} from "redux-form";
+import {Textarea} from "../common/FieldsForm/FieldsForm";
 
 let NewMessageForm = props => {
     return (
         <form onSubmit={props.handleSubmit} className={s.createMessage}>
-            <Field component={'textarea'} name={'newMessageText'} placeholder={'Your message...'} />
+            <Field component={Textarea} name={'newMessageText'} placeholder={'Your message...'} />
             <button>Send</button>
         </form>
     )

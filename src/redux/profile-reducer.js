@@ -50,35 +50,35 @@ const profileReducer = (state = initialState, action) => {
                 isFetching: action.isFetching
             }
         }
-        default: return state;
+        default:
+            return state;
     }
 }
 
-export const addPost = (newPostBody) => ({type: ADD_POST, newPostBody});
+export const addPost = newPostBody => ({type: ADD_POST, newPostBody});
 export const setUserProfile = profile => ({type: SET_USER_PROFILE, profile});
 export const setUserStatus = status => ({type: SET_USER_STATUS, status});
-export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
+export const toggleIsFetching = isFetching => ({type: TOGGLE_IS_FETCHING, isFetching});
 
-export const getUserProfile = userId => dispatch => {
+export const getUserProfile = userId => async dispatch => {
     dispatch(toggleIsFetching(true));
-    profileAPI.getUserProfile(userId).then(data => {
-        dispatch(setUserProfile(data));
-        dispatch(toggleIsFetching(false));
-    });
+
+    let data = await profileAPI.getUserProfile(userId);
+    dispatch(setUserProfile(data));
+
+    dispatch(toggleIsFetching(false));
 }
 
-export const getUserStatus = userId => dispatch => {
-    profileAPI.getUserStatus(userId).then(data => {
-        dispatch(setUserStatus(data));
-    });
+export const getUserStatus = userId => async dispatch => {
+    let data = await profileAPI.getUserStatus(userId)
+    dispatch(setUserStatus(data));
 }
 
-export const updateUserStatus = status => dispatch => {
-    profileAPI.updateUserStatus(status).then(response => {
-        if (response.data.resultCode === 0) {
-            dispatch(setUserStatus(status));
-        }
-    })
+export const updateUserStatus = status => async dispatch => {
+    let response = await profileAPI.updateUserStatus(status);
+    if (response.data.resultCode === 0) {
+        dispatch(setUserStatus(status));
+    }
 }
 
 export default profileReducer;

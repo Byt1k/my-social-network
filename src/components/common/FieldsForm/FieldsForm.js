@@ -9,8 +9,10 @@ export const Input = ({input, meta, ...props}) => {
     )
 }
 
-export const Textarea = props => {
+export const Textarea = ({input, ...props}) => {
+    debugger
     return (
-        <textarea {...props} />
+        <textarea {...input} {...props} />
     )
 }
+

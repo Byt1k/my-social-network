@@ -47,25 +47,3 @@
     background: #fff;
     color: rgb(51, 122, 255);
 }
-
-pagination {
-    display: flex;
-    overflow: hidden;
-}
-
-.pagination button {
-    margin: 0 5px;
-    min-width: 25px;
-    height: 25px;
-    background: #fff;
-    border: 1px solid rgb(51, 122, 255);
-    border-radius: 5px;
-    color: rgb(51, 122, 255);
-    font-size: 14px;
-    transition: all .3s ease;
-}
-
-.pagination button.active, .pagination button:hover {
-    background: rgb(51, 122, 255);
-    color: #fff;
-}

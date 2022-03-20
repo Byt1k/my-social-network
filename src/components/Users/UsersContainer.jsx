@@ -46,18 +46,7 @@ class UsersContainer extends React.Component {
     }
 }
 
-// const mapStateToProps = state => {
-//     return {
-//         users: state.usersPage.users,
-//         pageSize: state.usersPage.pageSize,
-//         totalCount: state.usersPage.totalCount,
-//         currentPage: state.usersPage.currentPage,
-//         isFetching: state.usersPage.isFetching,
-//         toggleFollowingInProgress: state.usersPage.toggleFollowingInProgress,
-//         followingInProgress: state.usersPage.followingInProgress
-//     }
-// }
-
+// Использование селекторов
 const mapStateToProps = state => {
     return {
         users: getUsers(state),

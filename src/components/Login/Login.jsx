@@ -6,7 +6,7 @@ import {Input} from "../common/FieldsForm/FieldsForm";
 import {email, requeired} from "../../utils/validators";
 import {Redirect} from "react-router-dom";
 
-const LoginForm = props => {
+let LoginForm = props => {
     return (
         <form className={s.formLogin} onSubmit={props.handleSubmit}>
             <div className={s.inputBlock}>
@@ -27,7 +27,7 @@ const LoginForm = props => {
     )
 }
 
-const LoginReduxForm = reduxForm({form: 'login'})(LoginForm)
+LoginForm = reduxForm({form: 'login'})(LoginForm)
 
 const Login = props => {
 
@@ -43,7 +43,7 @@ const Login = props => {
     return (
         <div className={s.loginPage}>
             <h1>Sign In!</h1>
-            <LoginReduxForm onSubmit={onSubmit} />
+            <LoginForm onSubmit={onSubmit} />
         </div>
     )
 }
