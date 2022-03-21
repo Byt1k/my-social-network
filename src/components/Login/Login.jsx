@@ -4,7 +4,7 @@ import {login} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
 import {Input} from "../common/FieldsForm/FieldsForm";
 import {email, requeired} from "../../utils/validators";
-import {Redirect} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 
 let LoginForm = props => {
     return (
@@ -37,7 +37,7 @@ const Login = props => {
     }
 
     if (props.isAuth) {
-        return <Redirect to={'/profile'} />
+        return <Navigate to={'/profile'} />
     }
 
     return (

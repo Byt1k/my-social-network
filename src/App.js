@@ -2,12 +2,20 @@ import './zeroing.css';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import {Routes, Route} from "react-router";
+
+// const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+// const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
+// const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
+// const HeaderContainer = React.lazy(() => import('./components/Header/HeaderContainer'));
+
+
+import Login from "./components/Login/Login";
+import HeaderContainer from "./components/Header/HeaderContainer";
+import ProfileContainer from "./components/Profile/ProfileContainer";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from './components/Users/UsersContainer'
-import ProfileContainer from "./components/Profile/ProfileContainer";
-import HeaderContainer from "./components/Header/HeaderContainer";
-import Login from "./components/Login/Login";
-import React, {Component} from "react";
+
+import React, {Component, Suspense} from "react";
 import {connect, Provider} from "react-redux";
 import Preloader from "./components/common/Preloader/Preloader";
 import {initializeApp} from "./redux/app-reducer";
@@ -18,7 +26,6 @@ class AppContainer extends Component {
     componentDidMount() {
         this.props.initializeApp();
     }
-
     render() {
         if (!this.props.initialized) {
             return <Preloader/>
@@ -27,12 +34,15 @@ class AppContainer extends Component {
             <div className="wrapper">
                 <HeaderContainer/>
                 <div className="container">
-                    <Navbar/>
+                    <Navbar authorizedUserId={this.props.authorizedUserId}/>
                     <div className="content">
-                        <Route path='/profile/:userID?' render={() => <ProfileContainer/>}/>
-                        <Route path='/dialogs' render={() => <DialogsContainer/>}/>
-                        <Route path='/users' render={() => <UsersContainer/>}/>
-                        <Route path='/login' render={() => <Login/>}/>
+                        <Routes>
+                            <Route path='/profile/:userId' element={<ProfileContainer/>}/>
+                            <Route path='/profile' element={<ProfileContainer/>}/>
+                            <Route path='/dialogs/*' element={<DialogsContainer/>}/>
+                            <Route path='/users' element={<UsersContainer/>}/>
+                            <Route path='/login' element={<Login/>}/>
+                        </Routes>
                     </div>
                 </div>
             </div>
@@ -41,7 +51,8 @@ class AppContainer extends Component {
 }
 
 let mapStateToProps = state => ({
-    initialized: state.app.initialized
+    initialized: state.app.initialized,
+    authorizedUserId: state.auth.userId
 })
 
 AppContainer = connect(mapStateToProps, {initializeApp})(AppContainer);
@@ -50,7 +61,7 @@ const App = props => {
     return (
         <BrowserRouter>
             <Provider store={store}>
-                <AppContainer />
+                <AppContainer/>
             </Provider>
         </BrowserRouter>
     )

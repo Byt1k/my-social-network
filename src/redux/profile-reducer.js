@@ -70,8 +70,12 @@ export const getUserProfile = userId => async dispatch => {
 }
 
 export const getUserStatus = userId => async dispatch => {
+    dispatch(toggleIsFetching(true));
+
     let data = await profileAPI.getUserStatus(userId)
     dispatch(setUserStatus(data));
+
+    dispatch(toggleIsFetching(false));
 }
 
 export const updateUserStatus = status => async dispatch => {

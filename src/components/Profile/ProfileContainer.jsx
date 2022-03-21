@@ -1,31 +1,27 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Profile from "./Profile";
 import {getUserProfile, getUserStatus, updateUserStatus} from "../../redux/profile-reducer";
 import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import Preloader from "../common/Preloader/Preloader";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 
-class ProfileContainer extends React.Component {
-    componentDidMount() {
-        let userId = this.props.match.params.userID;
-        if (!userId) {
-            userId = this.props.authorizedUserId;
-            if(!userId) {
-                this.props.history.push('/login');
-            }
-        }
-        this.props.getUserProfile(userId);
-        this.props.getUserStatus(userId);
+const ProfileContainer = props => {
+    let {userId} = useParams();
+    if (!userId) {
+        userId = props.authorizedUserId;
     }
+    useEffect(() => {
+        props.getUserProfile(userId);
+        props.getUserStatus(userId);
+    }, [userId])
 
-    render() {
-        return (
-            this.props.isFetching ? <Preloader/> :
-                <Profile profile={this.props.profile} userStatus={this.props.userStatus} updateUserStatus={this.props.updateUserStatus} />
-        )
-    }
+    return (
+        props.isFetching ? <Preloader/> :
+            <Profile profile={props.profile} userStatus={props.userStatus}
+                     updateUserStatus={props.updateUserStatus}/>
+    )
 }
 
 let mapStateToProps = state => {
@@ -37,6 +33,5 @@ let mapStateToProps = state => {
     })
 }
 
-export default compose(
-    connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus}),
-    withRouter)(ProfileContainer)
+export default compose(connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus}),
+    withAuthRedirect)(ProfileContainer)

@@ -10,7 +10,6 @@ export const Input = ({input, meta, ...props}) => {
 }
 
 export const Textarea = ({input, ...props}) => {
-    debugger
     return (
         <textarea {...input} {...props} />
     )
