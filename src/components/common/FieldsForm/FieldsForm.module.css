@@ -12,3 +12,7 @@
     top: -23px;
     right: 0;
 }
+
+textarea {
+    resize: none;
+}

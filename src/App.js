@@ -20,7 +20,7 @@ import {connect, Provider} from "react-redux";
 import Preloader from "./components/common/Preloader/Preloader";
 import {initializeApp} from "./redux/app-reducer";
 import store from "./redux/redux-store";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter} from "react-router-dom";
 
 class AppContainer extends Component {
     componentDidMount() {
@@ -28,7 +28,11 @@ class AppContainer extends Component {
     }
     render() {
         if (!this.props.initialized) {
-            return <Preloader/>
+            return (
+                <div className="startAppPreloader">
+                    <Preloader />
+                </div>
+            )
         }
         return (
             <div className="wrapper">
@@ -59,6 +63,8 @@ AppContainer = connect(mapStateToProps, {initializeApp})(AppContainer);
 
 const App = props => {
     return (
+        // BrowserRouter should be used
+        // HashRouter used only of deploy on GitHub Pages
         <BrowserRouter>
             <Provider store={store}>
                 <AppContainer/>
