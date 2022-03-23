@@ -64,7 +64,8 @@ export const addPost = newPostBody => ({type: ADD_POST, newPostBody});
 export const setUserProfile = profile => ({type: SET_USER_PROFILE, profile});
 const setUserStatus = status => ({type: SET_USER_STATUS, status});
 export const toggleIsFetching = isFetching => ({type: TOGGLE_IS_FETCHING, isFetching});
-const savePhoto = photos => ({type: UPDATE_MAIN_PHOTO, photos});
+const savePhotoSuccess = photos => ({type: UPDATE_MAIN_PHOTO, photos});
+
 
 export const getUserProfile = userId => async dispatch => {
     dispatch(toggleIsFetching(true));
@@ -94,8 +95,15 @@ export const updateUserStatus = status => async dispatch => {
 export const updateMainPhoto = photos => async dispatch => {
     let response = await profileAPI.uploadMainPhoto(photos);
     if (response.data.resultCode === 0) {
-        debugger
-        dispatch(savePhoto(response.data.data.photos));
+        dispatch(savePhotoSuccess(response.data.data.photos));
+    }
+}
+
+export const updateProfileData = data => async dispatch => {
+    console.log(data)
+    let response = await profileAPI.updateProfileData(data);
+    if (response.data.resultCode === 0) {
+        dispatch(getUserProfile(data.userId))
     }
 }
 

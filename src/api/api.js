@@ -50,5 +50,8 @@ export let profileAPI = {
         let formData = new FormData();
         formData.append('image', photos);
         return instance.put('profile/photo', formData);
+    },
+    updateProfileData(data) {
+        return instance.put('profile', data)
     }
 }

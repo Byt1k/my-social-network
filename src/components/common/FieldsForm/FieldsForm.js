@@ -9,9 +9,12 @@ export const Input = ({input, meta, ...props}) => {
     )
 }
 
-export const Textarea = ({input, ...props}) => {
+export const Textarea = ({input, meta, ...props}) => {
     return (
-        <textarea {...input} {...props} />
+        <div className={meta.touched && meta.error && s.error + ' ' + s.inputBlock }>
+            <textarea {...input} {...props} />
+            <p className={s.errorDesc}>{meta.touched && meta.error && meta.error}</p>
+        </div>
     )
 }
 

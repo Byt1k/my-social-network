@@ -2,64 +2,68 @@ import './zeroing.css';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import {Routes, Route} from "react-router";
-
-// const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
-// const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
-// const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
-// const HeaderContainer = React.lazy(() => import('./components/Header/HeaderContainer'));
-
-
 import Login from "./components/Login/Login";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from './components/Users/UsersContainer'
-
-import React, {Component, Suspense} from "react";
+import React, {useEffect, useState} from "react";
 import {connect, Provider} from "react-redux";
 import Preloader from "./components/common/Preloader/Preloader";
 import {initializeApp} from "./redux/app-reducer";
 import store from "./redux/redux-store";
 import {BrowserRouter, HashRouter} from "react-router-dom";
+import Modal from "./components/common/Modal/Modal";
+import ProfileEditDataForm from "./components/Profile/ProfileInfo/ProfileEditDataForm/ProfileEditDataForm";
+import {updateProfileData} from "./redux/profile-reducer";
 
-class AppContainer extends Component {
-    componentDidMount() {
-        this.props.initializeApp();
+let AppContainer = props => {
+    useEffect(() => props.initializeApp())
+
+    // редактирование профиля
+    let [editModeProfileData, setEditModeProfileData] = useState(false);
+    const saveProfileData = profileData => {
+        props.updateProfileData(profileData);
+        setEditModeProfileData(false);
     }
-    render() {
-        if (!this.props.initialized) {
-            return (
-                <div className="startAppPreloader">
-                    <Preloader />
-                </div>
-            )
-        }
+
+    if (!props.initialized) {
         return (
-            <div className="wrapper">
-                <HeaderContainer/>
-                <div className="container">
-                    <Navbar authorizedUserId={this.props.authorizedUserId}/>
-                    <div className="content">
-                        <Routes>
-                            <Route path='/profile/:userId' element={<ProfileContainer/>}/>
-                            <Route path='/profile' element={<ProfileContainer/>}/>
-                            <Route path='/dialogs/*' element={<DialogsContainer/>}/>
-                            <Route path='/users' element={<UsersContainer/>}/>
-                            <Route path='/login' element={<Login/>}/>
-                        </Routes>
-                    </div>
+            <div className="startAppPreloader">
+                <Preloader/>
+            </div>
+        )
+    }
+
+    return (
+        <div className="wrapper">
+            <HeaderContainer/>
+            <div className="container">
+                <Navbar authorizedUserId={props.authorizedUserId}/>
+                <div className="content">
+                    <Routes>
+                        <Route path='/profile/:userId' element={<ProfileContainer/>}/>
+                        <Route path='/profile' element={<ProfileContainer setEditModeProfileData={setEditModeProfileData}/>}/>
+                        <Route path='/dialogs/*' element={<DialogsContainer/>}/>
+                        <Route path='/users' element={<UsersContainer/>}/>
+                        <Route path='/login' element={<Login/>}/>
+                    </Routes>
                 </div>
             </div>
-        );
-    }
+            <Modal active={editModeProfileData} setActive={setEditModeProfileData}>
+                <ProfileEditDataForm initialValues={props.profile} onSubmit={saveProfileData}/>
+            </Modal>
+        </div>
+    );
 }
 
 let mapStateToProps = state => ({
     initialized: state.app.initialized,
-    authorizedUserId: state.auth.userId
+    authorizedUserId: state.auth.userId,
+    profile: state.profilePage.profile
 })
 
-AppContainer = connect(mapStateToProps, {initializeApp})(AppContainer);
+AppContainer = connect(mapStateToProps, {initializeApp, updateProfileData})(AppContainer);
 
 const App = props => {
     return (
