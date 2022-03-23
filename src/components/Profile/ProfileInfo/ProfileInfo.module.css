@@ -74,6 +74,7 @@
 
 .nameAndStatus {
     position: relative;
+    width: 520px;
 }
 
 .statusWrapper {
@@ -83,9 +84,12 @@
 }
 
 .status {
-    cursor: pointer;
     display: block;
     margin-bottom: 10px;
+}
+
+.statusOfOwner {
+    cursor: pointer;
 }
 
 .editStatusInput {

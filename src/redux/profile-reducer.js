@@ -1,9 +1,10 @@
 import {profileAPI} from "../api/api";
 
-const ADD_POST = 'ADD-POST';
-const SET_USER_PROFILE = 'SET_USERS_PROFILE';
-const SET_USER_STATUS = 'SET_USER_STATUS';
-const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
+const ADD_POST = 'profile/ADD-POST';
+const SET_USER_PROFILE = 'profile/SET_USERS_PROFILE';
+const SET_USER_STATUS = 'profile/SET_USER_STATUS';
+const TOGGLE_IS_FETCHING = 'profile/TOGGLE_IS_FETCHING';
+const UPDATE_MAIN_PHOTO = 'profile/UPDATE_MAIN_PHOTO'
 
 let initialState = {
     posts: [
@@ -44,12 +45,16 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 userStatus: action.status
             }
-        case TOGGLE_IS_FETCHING: {
+        case TOGGLE_IS_FETCHING:
             return {
                 ...state,
                 isFetching: action.isFetching
             }
-        }
+        case UPDATE_MAIN_PHOTO:
+            return {
+                ...state,
+                profile: {...state.profile, photos: action.photos}
+            }
         default:
             return state;
     }
@@ -57,8 +62,9 @@ const profileReducer = (state = initialState, action) => {
 
 export const addPost = newPostBody => ({type: ADD_POST, newPostBody});
 export const setUserProfile = profile => ({type: SET_USER_PROFILE, profile});
-export const setUserStatus = status => ({type: SET_USER_STATUS, status});
+const setUserStatus = status => ({type: SET_USER_STATUS, status});
 export const toggleIsFetching = isFetching => ({type: TOGGLE_IS_FETCHING, isFetching});
+const savePhoto = photos => ({type: UPDATE_MAIN_PHOTO, photos});
 
 export const getUserProfile = userId => async dispatch => {
     dispatch(toggleIsFetching(true));
@@ -82,6 +88,14 @@ export const updateUserStatus = status => async dispatch => {
     let response = await profileAPI.updateUserStatus(status);
     if (response.data.resultCode === 0) {
         dispatch(setUserStatus(status));
+    }
+}
+
+export const updateMainPhoto = photos => async dispatch => {
+    let response = await profileAPI.uploadMainPhoto(photos);
+    if (response.data.resultCode === 0) {
+        debugger
+        dispatch(savePhoto(response.data.data.photos));
     }
 }
 

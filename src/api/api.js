@@ -45,5 +45,10 @@ export let profileAPI = {
     },
     updateUserStatus(status) {
         return instance.put('profile/status', {status: status})
+    },
+    uploadMainPhoto(photos) {
+        let formData = new FormData();
+        formData.append('image', photos);
+        return instance.put('profile/photo', formData);
     }
 }

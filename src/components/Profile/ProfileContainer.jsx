@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import Profile from "./Profile";
-import {getUserProfile, getUserStatus, updateUserStatus} from "../../redux/profile-reducer";
+import {getUserProfile, getUserStatus, updateMainPhoto, updateUserStatus} from "../../redux/profile-reducer";
 import {connect} from "react-redux";
 import {useParams} from "react-router-dom";
 import Preloader from "../common/Preloader/Preloader";
@@ -9,8 +9,10 @@ import {compose} from "redux";
 
 const ProfileContainer = props => {
     let {userId} = useParams();
+    let isOwner = false;
     if (!userId) {
         userId = props.authorizedUserId;
+        isOwner = true;
     }
     useEffect(() => {
         props.getUserProfile(userId);
@@ -19,8 +21,12 @@ const ProfileContainer = props => {
 
     return (
         props.isFetching ? <Preloader/> :
-            <Profile profile={props.profile} userStatus={props.userStatus}
-                     updateUserStatus={props.updateUserStatus}/>
+            <Profile profile={props.profile}
+                     userStatus={props.userStatus}
+                     updateUserStatus={props.updateUserStatus}
+                     isOwner={isOwner}
+                     updateMainPhoto={props.updateMainPhoto}
+            />
     )
 }
 
@@ -29,9 +35,9 @@ let mapStateToProps = state => {
         profile: state.profilePage.profile,
         userStatus: state.profilePage.userStatus,
         isFetching: state.profilePage.isFetching,
-        authorizedUserId: state.auth.userId
+        authorizedUserId: state.auth.userId,
     })
 }
 
-export default compose(connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus}),
+export default compose(connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus, updateMainPhoto}),
     withAuthRedirect)(ProfileContainer)
