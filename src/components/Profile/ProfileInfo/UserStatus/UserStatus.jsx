@@ -24,7 +24,7 @@ const UserStatus = ({userStatus, updateUserStatus, isOwner}) => {
     }
     return (
         <div className={s.statusWrapper}>
-            {!editMode && <em onClick={activateEditMode} className={isOwner ? `${s.status} ${s.statusOfOwner}` : `${s.status}`}>{userStatus || 'no status'}</em>}
+            {!editMode && <em onClick={activateEditMode} className={isOwner ? `${s.status} ${s.statusOfOwner}` : s.status}>{userStatus || 'no status'}</em>}
             {editMode && <input onBlur={deactivateEditMode} value={status} onChange={onStatusChange} autoFocus={true} className={s.editStatusInput}/>}
         </div>
 

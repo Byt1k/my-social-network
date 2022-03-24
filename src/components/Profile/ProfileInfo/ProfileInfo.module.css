@@ -25,6 +25,36 @@
     box-shadow: 0 3px 28px rgba(0, 149, 122, 0.15);
 }
 
+.uploadAvatarWrapper {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.uploadAvatar {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 80%;
+    height: 50px;
+    background: #25ACAC;
+    opacity: 0.7;
+    transition: all .3s ease;
+    text-align: center;
+    padding-top: 20px;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.avatar:hover .uploadAvatar {
+    top: 0;
+}
+
 .isOpenToWork {
     position: absolute;
     bottom: 12px;
@@ -38,10 +68,27 @@
     z-index: 3;
 }
 
+.nameAndStatus {
+    position: relative;
+    width: 520px;
+}
+
+.nameContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .name {
     font-size: 36px;
     font-weight: 700;
     margin-bottom: 25px;
+}
+
+.editProfileBtn {
+    max-width: 18px;
+    cursor: pointer;
+    margin: 0 -10px 20px 0;
 }
 
 .description {
@@ -72,7 +119,3 @@
     flex-wrap: wrap;
 }
 
-.nameAndStatus {
-    position: relative;
-    width: 520px;
-}

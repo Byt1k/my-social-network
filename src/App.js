@@ -15,7 +15,8 @@ import store from "./redux/redux-store";
 import {BrowserRouter, HashRouter} from "react-router-dom";
 import Modal from "./components/common/Modal/Modal";
 import ProfileEditDataForm from "./components/Profile/ProfileInfo/ProfileEditDataForm/ProfileEditDataForm";
-import {updateProfileData} from "./redux/profile-reducer";
+import {updateMainPhoto, updateProfileData} from "./redux/profile-reducer";
+import UploadAvatarForm from "./components/Profile/ProfileInfo/UploadAvatarForm/UploadAvatarForm";
 
 let AppContainer = props => {
     useEffect(() => props.initializeApp())
@@ -23,8 +24,14 @@ let AppContainer = props => {
     // редактирование профиля
     let [editModeProfileData, setEditModeProfileData] = useState(false);
     const saveProfileData = profileData => {
-        props.updateProfileData(profileData);
-        setEditModeProfileData(false);
+        props.updateProfileData(profileData).then(() => setEditModeProfileData(false))
+    }
+
+    // закгрузка аватара
+    let [photoUploadMode, setPhotoUploadMode] = useState(false);
+    const saveMainPhoto = e => {
+        props.updateMainPhoto(e.target.files[0]);
+        setPhotoUploadMode(false);
     }
 
     if (!props.initialized) {
@@ -43,15 +50,20 @@ let AppContainer = props => {
                 <div className="content">
                     <Routes>
                         <Route path='/profile/:userId' element={<ProfileContainer/>}/>
-                        <Route path='/profile' element={<ProfileContainer setEditModeProfileData={setEditModeProfileData}/>}/>
+                        <Route path='/profile' element={<ProfileContainer setEditModeProfileData={setEditModeProfileData} setPhotoUploadMode={setPhotoUploadMode}/>}/>
                         <Route path='/dialogs/*' element={<DialogsContainer/>}/>
                         <Route path='/users' element={<UsersContainer/>}/>
                         <Route path='/login' element={<Login/>}/>
                     </Routes>
                 </div>
             </div>
+            {/* Модальное окно загрузки фото*/}
             <Modal active={editModeProfileData} setActive={setEditModeProfileData}>
                 <ProfileEditDataForm initialValues={props.profile} onSubmit={saveProfileData}/>
+            </Modal>
+            {/* Модальное окно загрузки аватара */}
+            <Modal active={photoUploadMode} setActive={setPhotoUploadMode}>
+                <UploadAvatarForm updateMainPhoto={saveMainPhoto}/>
             </Modal>
         </div>
     );
@@ -63,7 +75,7 @@ let mapStateToProps = state => ({
     profile: state.profilePage.profile
 })
 
-AppContainer = connect(mapStateToProps, {initializeApp, updateProfileData})(AppContainer);
+AppContainer = connect(mapStateToProps, {initializeApp, updateProfileData, updateMainPhoto})(AppContainer);
 
 const App = props => {
     return (

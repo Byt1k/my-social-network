@@ -29,6 +29,23 @@
     overflow: auto;
 }
 
+.modalContent::-webkit-scrollbar {
+    background: none;
+    position: absolute;
+    top: 0;
+    width: 5px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+    margin: 12px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+    background-color: #25ACAC;
+    border-radius: 9em;
+    box-shadow: inset 1px 1px 10px #f3faf7;
+}
+
 .modalContent.active {
     transform: translateY(0);
 }

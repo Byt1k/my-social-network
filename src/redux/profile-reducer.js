@@ -1,4 +1,5 @@
 import {profileAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 const ADD_POST = 'profile/ADD-POST';
 const SET_USER_PROFILE = 'profile/SET_USERS_PROFILE';
@@ -99,11 +100,17 @@ export const updateMainPhoto = photos => async dispatch => {
     }
 }
 
-export const updateProfileData = data => async dispatch => {
-    console.log(data)
+export const updateProfileData = data => async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     let response = await profileAPI.updateProfileData(data);
     if (response.data.resultCode === 0) {
-        dispatch(getUserProfile(data.userId))
+        dispatch(getUserProfile(userId));
+    }
+    else {
+        // dispatch(stopSubmit('editProfile', {'contacts': {'facebook': response.data.messages[0]}}))
+        // Распарсить строку, чтоб подсвечивать ошибочный инпут
+        dispatch(stopSubmit('editProfile', {_error: response.data.messages[0]} ));
+        return Promise.reject();
     }
 }
 

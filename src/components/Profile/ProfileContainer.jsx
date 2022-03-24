@@ -27,6 +27,7 @@ const ProfileContainer = props => {
                      isOwner={isOwner}
                      updateMainPhoto={props.updateMainPhoto}
                      setEditModeProfileData={props.setEditModeProfileData}
+                     setPhotoUploadMode={props.setPhotoUploadMode}
             />
     )
 }

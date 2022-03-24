@@ -58,3 +58,8 @@
     cursor: pointer;
     margin-left: 15px;
 }
+
+.summaryError {
+    text-align: center;
+    color: red;
+}
