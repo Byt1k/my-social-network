@@ -1,7 +1,7 @@
 import s from './ProfileEditDataForm.module.css';
 import {Field, reduxForm} from "redux-form";
 import {Input, Textarea} from "../../../common/FieldsForm/FieldsForm";
-import {requeired} from "../../../../utils/validators";
+import {required} from "../../../../utils/validators";
 
 let ProfileEditDataForm = ({handleSubmit, error}) => {
     return (
@@ -9,11 +9,11 @@ let ProfileEditDataForm = ({handleSubmit, error}) => {
             <p className={s.title}>Editing your profile information</p>
             <div className={s.formItem}>
                 <p className={s.fieldTitle}>Full name:</p>
-                <Field component={Input} name='fullName' validate={requeired} placeholder='Full name'/>
+                <Field component={Input} name='fullName' validate={required} placeholder='Full name'/>
             </div>
             <div className={s.formItem}>
                 <p className={s.fieldTitle}>About me:</p>
-                <Field component={Textarea} name='aboutMe' validate={requeired} placeholder='About me'/>
+                <Field component={Textarea} name='aboutMe' validate={required} placeholder='About me'/>
             </div>
             <p className={s.secondTitle}>Contacts</p>
             <div className={s.formItem}>

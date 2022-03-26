@@ -27,7 +27,7 @@ let AppContainer = props => {
         props.updateProfileData(profileData).then(() => setEditModeProfileData(false))
     }
 
-    // закгрузка аватара
+    // загрузка аватара
     let [photoUploadMode, setPhotoUploadMode] = useState(false);
     const saveMainPhoto = e => {
         props.updateMainPhoto(e.target.files[0]);
@@ -57,7 +57,7 @@ let AppContainer = props => {
                     </Routes>
                 </div>
             </div>
-            {/* Модальное окно загрузки фото*/}
+            {/* Модальное окно редактирования профиля*/}
             <Modal active={editModeProfileData} setActive={setEditModeProfileData}>
                 <ProfileEditDataForm initialValues={props.profile} onSubmit={saveProfileData}/>
             </Modal>

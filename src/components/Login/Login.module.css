@@ -6,6 +6,7 @@
     height: 100%;
     background: #e5ffff;
     border-radius: 12px; /* Убрать, когда Login будет отдельной страницей */
+    padding: 50px 0;
 }
 
 .formLogin {
@@ -24,7 +25,7 @@ h1 {
 }
 
 
-.inputBlock input {
+.inputBlock input, .captchaBlock input {
     border: 1px solid rgb(51, 122, 255);;
     border-radius: 7px;
     padding: 10px 20px;
@@ -73,3 +74,24 @@ h1 {
     left: 0;
     right: 0;
 }
+
+.captchaBlock {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.captchaBlock img {
+    max-width: 120px;
+}
+
+.captchaBlock input {
+    max-width: 120px;
+}
+
+.captchaBlock .inputBlock div p {
+    display: none;
+}
+
+
