@@ -1,0 +1,27 @@
+.errorContent {
+    padding: 30px 40px;
+    text-align: center;
+    max-width: 500px;
+}
+
+.errorContent h2 {
+    font-size: 25px;
+    font-weight: 700;
+    color: red;
+    margin-bottom: 20px;
+}
+
+
+.errorContent button {
+    margin: 30px auto 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 36px;
+    border-radius: 7px;
+    background: rgb(51, 122, 255);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}

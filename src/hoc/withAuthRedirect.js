@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 export const withAuthRedirect = Component => {
     const RedirectComponent = props => {
         if (!props.isAuth) {
-            return <Navigate to={'/login'}/>
+            return <Navigate to='/login'/>
         }
         return <Component {...props}/>
     }

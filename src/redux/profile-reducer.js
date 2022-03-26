@@ -5,7 +5,8 @@ const ADD_POST = 'profile/ADD-POST';
 const SET_USER_PROFILE = 'profile/SET_USERS_PROFILE';
 const SET_USER_STATUS = 'profile/SET_USER_STATUS';
 const TOGGLE_IS_FETCHING = 'profile/TOGGLE_IS_FETCHING';
-const UPDATE_MAIN_PHOTO = 'profile/UPDATE_MAIN_PHOTO'
+const UPDATE_MAIN_PHOTO = 'profile/UPDATE_MAIN_PHOTO';
+const SET_ERROR_MESSAGE = 'profile/SET_ERROR_MESSAGE';
 
 let initialState = {
     posts: [
@@ -20,7 +21,8 @@ let initialState = {
     ],
     profile: null,
     userStatus: '',
-    isFetching: false
+    isFetching: false,
+    errorMessage: null
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -56,6 +58,11 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 profile: {...state.profile, photos: action.photos}
             }
+        case SET_ERROR_MESSAGE:
+            return {
+                ...state,
+                errorMessage: action.errorMessage
+            }
         default:
             return state;
     }
@@ -66,6 +73,7 @@ export const setUserProfile = profile => ({type: SET_USER_PROFILE, profile});
 const setUserStatus = status => ({type: SET_USER_STATUS, status});
 export const toggleIsFetching = isFetching => ({type: TOGGLE_IS_FETCHING, isFetching});
 const savePhotoSuccess = photos => ({type: UPDATE_MAIN_PHOTO, photos});
+export const setErrorMessage = errorMessage => ({type: SET_ERROR_MESSAGE, errorMessage})
 
 
 export const getUserProfile = userId => async dispatch => {
@@ -90,6 +98,8 @@ export const updateUserStatus = status => async dispatch => {
     let response = await profileAPI.updateUserStatus(status);
     if (response.data.resultCode === 0) {
         dispatch(setUserStatus(status));
+    } else {
+        dispatch(setErrorMessage(response.data.messages[0]))
     }
 }
 
@@ -97,6 +107,8 @@ export const updateMainPhoto = photos => async dispatch => {
     let response = await profileAPI.uploadMainPhoto(photos);
     if (response.data.resultCode === 0) {
         dispatch(savePhotoSuccess(response.data.data.photos));
+    } else {
+        dispatch(setErrorMessage(response.data.messages[0]))
     }
 }
 

@@ -1,7 +1,7 @@
 import './zeroing.css';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import {Routes, Route} from "react-router";
+import {Routes, Route, Navigate} from "react-router";
 import Login from "./components/Login/Login";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
@@ -12,13 +12,14 @@ import {connect, Provider} from "react-redux";
 import Preloader from "./components/common/Preloader/Preloader";
 import {initializeApp} from "./redux/app-reducer";
 import store from "./redux/redux-store";
-import {BrowserRouter, HashRouter} from "react-router-dom";
+import {BrowserRouter} from "react-router-dom";
 import Modal from "./components/common/Modal/Modal";
 import ProfileEditDataForm from "./components/Profile/ProfileInfo/ProfileEditDataForm/ProfileEditDataForm";
-import {updateMainPhoto, updateProfileData} from "./redux/profile-reducer";
+import {setErrorMessage, updateMainPhoto, updateProfileData} from "./redux/profile-reducer";
 import UploadAvatarForm from "./components/Profile/ProfileInfo/UploadAvatarForm/UploadAvatarForm";
+import ErrorModal from "./components/common/ErrorModal/ErrorModal";
 
-let AppContainer = props => {
+let App = props => {
     useEffect(() => props.initializeApp())
 
     // редактирование профиля
@@ -49,6 +50,7 @@ let AppContainer = props => {
                 <Navbar authorizedUserId={props.authorizedUserId}/>
                 <div className="content">
                     <Routes>
+                        <Route path='/' exact element={<Navigate to='/profile'/>}/>
                         <Route path='/profile/:userId' element={<ProfileContainer/>}/>
                         <Route path='/profile' element={<ProfileContainer setEditModeProfileData={setEditModeProfileData} setPhotoUploadMode={setPhotoUploadMode}/>}/>
                         <Route path='/dialogs/*' element={<DialogsContainer/>}/>
@@ -65,6 +67,8 @@ let AppContainer = props => {
             <Modal active={photoUploadMode} setActive={setPhotoUploadMode}>
                 <UploadAvatarForm updateMainPhoto={saveMainPhoto}/>
             </Modal>
+            {/* Модальное окно глобальной ошибки */}
+            <ErrorModal errorMessage={props.errorMessage} active={!!props.errorMessage} hideModal={props.setErrorMessage}/>
         </div>
     );
 }
@@ -72,21 +76,22 @@ let AppContainer = props => {
 let mapStateToProps = state => ({
     initialized: state.app.initialized,
     authorizedUserId: state.auth.userId,
-    profile: state.profilePage.profile
+    profile: state.profilePage.profile,
+    errorMessage: state.profilePage.errorMessage
 })
 
-AppContainer = connect(mapStateToProps, {initializeApp, updateProfileData, updateMainPhoto})(AppContainer);
+const AppConnected = connect(mapStateToProps, {initializeApp, updateProfileData, updateMainPhoto, setErrorMessage})(App);
 
-const App = props => {
+const AppContainer = props => {
     return (
         // BrowserRouter should be used
         // HashRouter used only of deploy on GitHub Pages
         <BrowserRouter>
             <Provider store={store}>
-                <AppContainer/>
+                <AppConnected />
             </Provider>
         </BrowserRouter>
     )
 }
 
-export default App;
+export default AppContainer;
