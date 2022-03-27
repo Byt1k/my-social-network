@@ -1,30 +1,44 @@
 import s from "./Pagination.module.css";
-import React, {useState} from "react";
+import React from "react";
 
-const Pagination = ({totalCount, pageSize, onChangePage, currentPage, portionSize = 10}) => {
+const Pagination = ({totalCount, pageSize, onChangePage, currentPage, portionSize = 5}) => {
+    // portionSize - кол-во отображаемых страниц без первой и полседней
+
     let pageCount = Math.ceil(totalCount / pageSize);
     let pages = [];
     for (let i = 1; i <= pageCount; i++) {
         pages.push(i);
     }
 
-    let portionCount = Math.ceil(pageCount / portionSize);
-    let [portionNumber, setPortionNumber] = useState(1);
-    let leftBorderPortion = (portionNumber - 1) * portionSize + 1;
-    let rightBorderPortion = portionNumber * portionSize;
+    // количество отображаемых страниц рядом с текущей
+    let countElementsNearby = Math.floor(portionSize / 2);
+
+    let leftBtn = [];
+    let rightBtn = [];
+    for (let i = 1; i <= countElementsNearby; i++) {
+        if (currentPage + i < pages.length) {
+            rightBtn.push(<button onClick={() => onChangePage(currentPage + i)}>{currentPage + i}</button>);
+        }
+        if (currentPage - i > 0) {
+            leftBtn.unshift(<button onClick={() => onChangePage(currentPage - i)}>{currentPage - i}</button>);
+        }
+    }
 
     return (
         <div className={s.pagination}>
-            {portionNumber > 1 && <button onClick={() => setPortionNumber(portionNumber - 1)}>Prev</button>}
+            <button disabled={currentPage === 1} onClick={() => onChangePage(currentPage - 1)}>Prev</button>
+            {currentPage > countElementsNearby + 1 && <button onClick={() => onChangePage(1)}>1</button>}
+            {currentPage > countElementsNearby + 2 && <p>...</p>}
             {
-                pages
-                    .filter(p => p >= leftBorderPortion && p <= rightBorderPortion)
-                    .map(p => {
-                    return <button onClick={() => onChangePage(p)} key={p}
-                                   className={currentPage === p ? s.active : ''}>{p}</button>
-                })
+                <>
+                    {leftBtn}
+                    <button className={s.active}>{currentPage}</button>
+                    {rightBtn}
+                </>
             }
-            {portionNumber < portionCount && <button onClick={() => setPortionNumber(portionNumber + 1)}>Next</button>}
+            {currentPage + countElementsNearby + 1 < pages.length && <p>...</p>}
+            {currentPage < pages.length && <button onClick={() => onChangePage(pages.length)}>{pages.length}</button>}
+            <button disabled={currentPage === pages.length} onClick={() => onChangePage(currentPage + 1)}>Next</button>
         </div>
     )
 }

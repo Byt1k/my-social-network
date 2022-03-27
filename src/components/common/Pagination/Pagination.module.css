@@ -1,6 +1,13 @@
 .pagination {
     display: flex;
     justify-content: center;
+    align-items: flex-end;
+}
+
+.pagination p {
+    font-size: 25px;
+    color: rgb(51, 122, 255);
+    margin: 0 5px;
 }
 
 .pagination button {
@@ -13,6 +20,14 @@
     color: rgb(51, 122, 255);
     font-size: 14px;
     transition: all .3s ease;
+    padding: 0 3px;
+}
+
+.pagination button:disabled, .pagination button:disabled:hover {
+    opacity: 0.5;
+    color: rgb(51, 122, 255);
+    background: none;
+    cursor: auto;
 }
 
 .pagination button.active, .pagination button:hover {
