@@ -1,8 +1,13 @@
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import React from "react";
-import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import MyPosts from "./MyPosts/MyPosts";
+import Preloader from "../common/Preloader/Preloader";
 
 const Profile = props => {
+    if (!props.profile) {
+        return <Preloader/>
+    }
+
     return (
         <div>
             <ProfileInfo profile={props.profile}
@@ -13,7 +18,7 @@ const Profile = props => {
                          setEditModeProfileData={props.setEditModeProfileData}
                          setPhotoUploadMode={props.setPhotoUploadMode}
             />
-            <MyPostsContainer/>
+            <MyPosts isOwner={props.isOwner} profile={props.profile} posts={props.posts} addPost={props.addPost}/>
         </div>
     );
 }

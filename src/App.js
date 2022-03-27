@@ -10,12 +10,12 @@ import UsersContainer from './components/Users/UsersContainer'
 import React, {useEffect, useState} from "react";
 import {connect, Provider} from "react-redux";
 import Preloader from "./components/common/Preloader/Preloader";
-import {initializeApp} from "./redux/app-reducer";
+import {initializeApp, setErrorMessage} from "./redux/app-reducer";
 import store from "./redux/redux-store";
 import {BrowserRouter} from "react-router-dom";
 import Modal from "./components/common/Modal/Modal";
 import ProfileEditDataForm from "./components/Profile/ProfileInfo/ProfileEditDataForm/ProfileEditDataForm";
-import {setErrorMessage, updateMainPhoto, updateProfileData} from "./redux/profile-reducer";
+import {updateMainPhoto, updateProfileData} from "./redux/profile-reducer";
 import UploadAvatarForm from "./components/Profile/ProfileInfo/UploadAvatarForm/UploadAvatarForm";
 import ErrorModal from "./components/common/ErrorModal/ErrorModal";
 
@@ -67,7 +67,7 @@ let App = props => {
             <Modal active={photoUploadMode} setActive={setPhotoUploadMode}>
                 <UploadAvatarForm updateMainPhoto={saveMainPhoto}/>
             </Modal>
-            {/* Модальное окно глобальной ошибки */}
+            {/* Модальное окно ошибки */}
             <ErrorModal errorMessage={props.errorMessage} active={!!props.errorMessage} hideModal={props.setErrorMessage}/>
         </div>
     );
@@ -77,7 +77,7 @@ let mapStateToProps = state => ({
     initialized: state.app.initialized,
     authorizedUserId: state.auth.userId,
     profile: state.profilePage.profile,
-    errorMessage: state.profilePage.errorMessage
+    errorMessage: state.app.errorMessage
 })
 
 const AppConnected = connect(mapStateToProps, {initializeApp, updateProfileData, updateMainPhoto, setErrorMessage})(App);

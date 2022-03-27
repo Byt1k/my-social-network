@@ -9,10 +9,6 @@ export const ProfileInfo = ({profile, userStatus, updateUserStatus, isOwner, ...
         background: 'url(https://res.cloudinary.com/worldpackers/image/upload/c_fill,f_auto,q_auto,w_1024/v1/guides/article_cover/fl4bzxx2pvifrjtc4l6x) no-repeat center center / cover'
     }
 
-    if (!profile) {
-        return <Preloader/>
-    }
-
     // проверка для отображения заголовка "Контакты"
     let contactsExist = Object.keys(profile.contacts).some(key => profile.contacts[key] !== null);
 

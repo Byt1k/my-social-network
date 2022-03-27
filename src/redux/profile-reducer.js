@@ -1,12 +1,12 @@
 import {profileAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
+import {setErrorMessage} from "./app-reducer";
 
 const ADD_POST = 'profile/ADD-POST';
 const SET_USER_PROFILE = 'profile/SET_USERS_PROFILE';
 const SET_USER_STATUS = 'profile/SET_USER_STATUS';
 const TOGGLE_IS_FETCHING = 'profile/TOGGLE_IS_FETCHING';
 const UPDATE_MAIN_PHOTO = 'profile/UPDATE_MAIN_PHOTO';
-const SET_ERROR_MESSAGE = 'profile/SET_ERROR_MESSAGE';
 
 let initialState = {
     posts: [
@@ -21,15 +21,15 @@ let initialState = {
     ],
     profile: null,
     userStatus: '',
-    isFetching: false,
-    errorMessage: null
+    isFetching: false
 }
 
 const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_POST: {
             let newPost = {
-                id: 4,
+                id: action.newPostId,
+                date: action.date,
                 likesCount: 0,
                 text: action.newPostBody
             }
@@ -58,22 +58,16 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 profile: {...state.profile, photos: action.photos}
             }
-        case SET_ERROR_MESSAGE:
-            return {
-                ...state,
-                errorMessage: action.errorMessage
-            }
         default:
             return state;
     }
 }
 
-export const addPost = newPostBody => ({type: ADD_POST, newPostBody});
+export const addPost = (newPostBody, date, newPostId) => ({type: ADD_POST, newPostBody, date, newPostId});
 export const setUserProfile = profile => ({type: SET_USER_PROFILE, profile});
 const setUserStatus = status => ({type: SET_USER_STATUS, status});
 export const toggleIsFetching = isFetching => ({type: TOGGLE_IS_FETCHING, isFetching});
 const savePhotoSuccess = photos => ({type: UPDATE_MAIN_PHOTO, photos});
-export const setErrorMessage = errorMessage => ({type: SET_ERROR_MESSAGE, errorMessage})
 
 
 export const getUserProfile = userId => async dispatch => {

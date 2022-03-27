@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import Profile from "./Profile";
-import {getUserProfile, getUserStatus, updateMainPhoto, updateUserStatus} from "../../redux/profile-reducer";
+import {addPost, getUserProfile, getUserStatus, updateMainPhoto, updateUserStatus} from "../../redux/profile-reducer";
 import {connect} from "react-redux";
 import {useParams} from "react-router-dom";
 import Preloader from "../common/Preloader/Preloader";
@@ -28,6 +28,8 @@ const ProfileContainer = props => {
                      updateMainPhoto={props.updateMainPhoto}
                      setEditModeProfileData={props.setEditModeProfileData}
                      setPhotoUploadMode={props.setPhotoUploadMode}
+                     posts={props.posts}
+                     addPost={props.addPost}
             />
     )
 }
@@ -38,8 +40,9 @@ let mapStateToProps = state => {
         userStatus: state.profilePage.userStatus,
         isFetching: state.profilePage.isFetching,
         authorizedUserId: state.auth.userId,
+        posts: state.profilePage.posts
     })
 }
 
-export default compose(connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus, updateMainPhoto}),
+export default compose(connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus, updateMainPhoto, addPost}),
     withAuthRedirect)(ProfileContainer)
