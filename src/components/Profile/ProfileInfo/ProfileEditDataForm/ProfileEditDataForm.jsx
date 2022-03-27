@@ -62,4 +62,4 @@ let ProfileEditDataForm = ({handleSubmit, error}) => {
     )
 }
 
-export default reduxForm({form: 'editProfile'})(ProfileEditDataForm);
+export default reduxForm({form: 'editProfile', enableReinitialize: true})(ProfileEditDataForm);
