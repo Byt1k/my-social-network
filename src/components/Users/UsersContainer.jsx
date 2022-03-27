@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {
     follow,
@@ -18,32 +18,28 @@ import {
     getUsers
 } from "../../redux/users-selectors";
 
+const UsersContainer = props => {
+    useEffect(() => {
+        props.getUsers(props.currentPage, props.pageSize)
+    }, [props.currentPage, props.pageSize])
 
-class UsersContainer extends React.Component {
-    componentDidMount() {
-        this.props.getUsers(this.props.currentPage, this.props.pageSize);
-
+    const onChangePage = pageNumber => {
+        props.setCurrentPage(pageNumber);
+        props.getUsers(pageNumber, this.props.pageSize);
     }
 
-    onChangePage = pageNumber => {
-        this.props.setCurrentPage(pageNumber);
-        this.props.getUsers(pageNumber, this.props.pageSize);
-    }
-
-    render() {
-        return <>
-            {this.props.isFetching ? <Preloader/> : <Users
-                totalCount={this.props.totalCount}
-                pageSize={this.props.pageSize}
-                users={this.props.users}
-                onChangePage={this.onChangePage}
-                currentPage={this.props.currentPage}
-                followingInProgress={this.props.followingInProgress}
-                follow={this.props.follow}
-                unfollow={this.props.unfollow}
-            />}
-        </>
-    }
+    return <>
+        {props.isFetching ? <Preloader/> : <Users
+            totalCount={props.totalCount}
+            pageSize={props.pageSize}
+            users={props.users}
+            onChangePage={onChangePage}
+            currentPage={props.currentPage}
+            followingInProgress={props.followingInProgress}
+            follow={props.follow}
+            unfollow={props.unfollow}
+        />}
+    </>
 }
 
 // Использование селекторов
@@ -59,5 +55,10 @@ const mapStateToProps = state => {
     }
 }
 
-export default compose(connect(mapStateToProps, {getUsers: requestUsers, follow, unfollow, setCurrentPage}),withAuthRedirect)(UsersContainer)
+export default compose(connect(mapStateToProps, {
+    getUsers: requestUsers,
+    follow,
+    unfollow,
+    setCurrentPage
+}), withAuthRedirect)(UsersContainer)
 

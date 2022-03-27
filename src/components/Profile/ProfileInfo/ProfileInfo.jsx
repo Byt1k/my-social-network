@@ -1,5 +1,4 @@
 import s from "./ProfileInfo.module.css";
-import Preloader from "../../common/Preloader/Preloader";
 import defaultImage from '../../../assets/images/user.jpg';
 import UserStatus from "./UserStatus/UserStatus";
 import editProfileBtn from '../../../assets/images/eidtProfileBtn.png'
@@ -38,7 +37,7 @@ export const ProfileInfo = ({profile, userStatus, updateUserStatus, isOwner, ...
                     {contactsExist && <p className={s.title}>Contacts</p>}
                     <div>
                         {Object.keys(profile.contacts).map(key => {
-                            return <ContactItem key={key} contactTitle={key} ContactValue={profile.contacts[key]}/>
+                            return <ContactItem key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
                         })}
                     </div>
                 </div>
@@ -47,10 +46,10 @@ export const ProfileInfo = ({profile, userStatus, updateUserStatus, isOwner, ...
     );
 }
 
-const ContactItem = ({contactTitle, ContactValue}) => {
+const ContactItem = ({contactTitle, contactValue}) => {
     return (
         <div>
-            {ContactValue && <p>{contactTitle}: <span>{ContactValue}</span></p>}
+            {contactValue && <p>{contactTitle}: <span>{contactValue}</span></p>}
         </div>
     )
 }

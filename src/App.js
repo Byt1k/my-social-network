@@ -43,6 +43,12 @@ let App = props => {
         )
     }
 
+    if (!props.isAuth) {
+        return <div className="startAppPreloader">
+            <Login />;
+        </div>
+    }
+
     return (
         <div className="wrapper">
             <HeaderContainer/>
@@ -52,7 +58,9 @@ let App = props => {
                     <Routes>
                         <Route path='/' exact element={<Navigate to='/profile'/>}/>
                         <Route path='/profile/:userId' element={<ProfileContainer/>}/>
-                        <Route path='/profile' element={<ProfileContainer setEditModeProfileData={setEditModeProfileData} setPhotoUploadMode={setPhotoUploadMode}/>}/>
+                        <Route path='/profile'
+                               element={<ProfileContainer setEditModeProfileData={setEditModeProfileData}
+                                                          setPhotoUploadMode={setPhotoUploadMode}/>}/>
                         <Route path='/dialogs/*' element={<DialogsContainer/>}/>
                         <Route path='/users' element={<UsersContainer/>}/>
                         <Route path='/login' element={<Login/>}/>
@@ -68,7 +76,8 @@ let App = props => {
                 <UploadAvatarForm updateMainPhoto={saveMainPhoto}/>
             </Modal>
             {/* Модальное окно ошибки */}
-            <ErrorModal errorMessage={props.errorMessage} active={!!props.errorMessage} hideModal={props.setErrorMessage}/>
+            <ErrorModal errorMessage={props.errorMessage} active={!!props.errorMessage}
+                        hideModal={props.setErrorMessage}/>
         </div>
     );
 }
@@ -77,10 +86,16 @@ let mapStateToProps = state => ({
     initialized: state.app.initialized,
     authorizedUserId: state.auth.userId,
     profile: state.profilePage.profile,
-    errorMessage: state.app.errorMessage
+    errorMessage: state.app.errorMessage,
+    isAuth: state.auth.isAuth
 })
 
-const AppConnected = connect(mapStateToProps, {initializeApp, updateProfileData, updateMainPhoto, setErrorMessage})(App);
+const AppConnected = connect(mapStateToProps, {
+    initializeApp,
+    updateProfileData,
+    updateMainPhoto,
+    setErrorMessage
+})(App);
 
 const AppContainer = props => {
     return (
