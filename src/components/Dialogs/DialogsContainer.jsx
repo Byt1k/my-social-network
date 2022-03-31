@@ -2,7 +2,7 @@ import s from './Dialogs.module.css';
 import {DialogItem} from "./DialogItem/DialogItem";
 import React from "react";
 import {Message} from "./Message/Message";
-import {Field, reduxForm, reset} from "redux-form";
+import {Field, reduxForm} from "redux-form";
 import {Textarea} from "../common/FieldsForm/FieldsForm";
 import {connect} from "react-redux";
 import {sendMessage} from "../../redux/dialogs-reducer";

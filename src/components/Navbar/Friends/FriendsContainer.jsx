@@ -1,5 +1,4 @@
 import Friends from "./Friends";
-import React from "react";
 import {connect} from "react-redux";
 
 let mapStateToProps = state => {
