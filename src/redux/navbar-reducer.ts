@@ -1,4 +1,14 @@
-let initialState = {
+type FriendType = {
+    id: number
+    image: string
+    firstName: string
+}
+
+type InitialStateType = {
+    friends: Array<FriendType>
+}
+
+const initialState: InitialStateType = {
     friends: [
         {id: 1, image: 'https://img.freepik.com/free-photo/portrait-of-confident-beautiful-brunette-woman-turning-face-at-camera-with-dreamy-look-white_1258-19144.jpg?size=626&ext=jpg', firstName: 'Anna'},
         {id: 2, image: 'https://img.freepik.com/free-photo/portrait-dark-skinned-cheerful-woman-with-curly-hair-touches-chin-gently-laughs-happily-enjoys-day-off-feels-happy-enthusiastic-hears-something-positive-wears-casual-blue-turtleneck_273609-43443.jpg?size=626&ext=jpg&ga=GA1.1.1517186578.1641859200', firstName: 'Maria'},
@@ -6,9 +16,8 @@ let initialState = {
     ]
 }
 
-const navbarReducer = (state = initialState, action) => {
-
+const navbarReducer = (state = initialState, action):InitialStateType => {
     return state;
 }
 
-export default navbarReducer;
+export default navbarReducer
