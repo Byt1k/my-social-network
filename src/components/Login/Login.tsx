@@ -1,3 +1,4 @@
+// @ts-ignore
 import s from './Login.module.css'
 import {Field, reduxForm} from "redux-form";
 import {login} from "../../redux/auth-reducer";
@@ -5,6 +6,13 @@ import {connect} from "react-redux";
 import {Input} from "../common/FieldsForm/FieldsForm";
 import {email, required} from "../../utils/validators";
 import {Navigate} from "react-router-dom";
+import {FC} from "react";
+
+type PropsType = {
+    login: (email: string, password: string, rememberMe: boolean, captcha: string) => void
+    isAuth: boolean
+    captchaUrl: string
+}
 
 let LoginForm = ({handleSubmit, error, captchaUrl}) => {
     return (
@@ -38,7 +46,7 @@ let LoginForm = ({handleSubmit, error, captchaUrl}) => {
 
 LoginForm = reduxForm({form: 'login'})(LoginForm)
 
-const Login = ({login, isAuth, captchaUrl}) => {
+const Login:FC<PropsType> = ({login, isAuth, captchaUrl}) => {
 
     const onSubmit = formData => {
         let {email, password, rememberMe = false, captcha = null} = formData;

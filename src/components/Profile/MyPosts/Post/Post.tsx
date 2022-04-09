@@ -1,8 +1,20 @@
+// @ts-ignore
 import s from './Post.module.css';
+// @ts-ignore
 import defaultImage from '../../../../assets/images/user.jpg'
+// @ts-ignore
 import likeIcon from '../../../../assets/images/like.svg'
+import {ProfileType} from "../../../../types/types";
+import {FC} from "react";
 
-const Post = ({profile, text, likesCount, date}) => {
+type PropsType = {
+    profile: ProfileType
+    text: string
+    likesCount: number
+    date: string
+}
+
+const Post: FC<PropsType> = ({profile, text, likesCount, date}) => {
     return (
         <div className={s.item}>
             <div className={s.title}>

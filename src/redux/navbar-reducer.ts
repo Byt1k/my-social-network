@@ -1,8 +1,4 @@
-type FriendType = {
-    id: number
-    image: string
-    firstName: string
-}
+import {FriendType} from "../types/types";
 
 type InitialStateType = {
     friends: Array<FriendType>
@@ -17,7 +13,9 @@ const initialState: InitialStateType = {
 }
 
 const navbarReducer = (state = initialState, action):InitialStateType => {
-    return state;
+    switch (action) {
+        default: return state
+    }
 }
 
 export default navbarReducer

@@ -1,9 +1,16 @@
+// @ts-ignore
 import s from './ProfileEditDataForm.module.css';
 import {Field, reduxForm} from "redux-form";
 import {Input, Textarea} from "../../../common/FieldsForm/FieldsForm";
 import {required} from "../../../../utils/validators";
+import {FC} from "react";
 
-let ProfileEditDataForm = ({handleSubmit, error}) => {
+type PropsType = {
+    handleSubmit: () => void
+    error: string
+}
+
+const ProfileEditDataForm: FC<PropsType> = ({handleSubmit, error}) => {
     return (
         <form className={s.form} onSubmit={handleSubmit} >
             <p className={s.title}>Editing your profile information</p>

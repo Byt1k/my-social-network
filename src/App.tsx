@@ -1,36 +1,57 @@
-import './zeroing.css';
-import './App.css';
-import Navbar from './components/Navbar/Navbar';
-import {Routes, Route, Navigate} from "react-router";
-import Login from "./components/Login/Login";
-import HeaderContainer from "./components/Header/HeaderContainer";
-import ProfileContainer from "./components/Profile/ProfileContainer";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import './zeroing.css'
+import './App.css'
+import Navbar from './components/Navbar/Navbar'
+import {Routes, Route, Navigate} from "react-router"
+import Login from "./components/Login/Login"
+import Header from "./components/Header/Header"
+import ProfileContainer from "./components/Profile/ProfileContainer"
+import DialogsContainer from "./components/Dialogs/DialogsContainer"
 import UsersContainer from './components/Users/UsersContainer'
-import React, {useEffect, useState} from "react";
-import {connect, Provider} from "react-redux";
-import Preloader from "./components/common/Preloader/Preloader";
-import {initializeApp, setErrorMessage} from "./redux/app-reducer";
-import store from "./redux/redux-store";
-import {BrowserRouter} from "react-router-dom";
-import Modal from "./components/common/Modal/Modal";
-import ProfileEditDataForm from "./components/Profile/ProfileInfo/ProfileEditDataForm/ProfileEditDataForm";
-import {updateMainPhoto, updateProfileData} from "./redux/profile-reducer";
-import UploadAvatarForm from "./components/Profile/ProfileInfo/UploadAvatarForm/UploadAvatarForm";
-import ErrorModal from "./components/common/ErrorModal/ErrorModal";
+import {ChangeEvent, FC, HTMLInputTypeAttribute, useEffect, useState} from "react"
+import {connect, Provider} from "react-redux"
+import Preloader from "./components/common/Preloader/Preloader"
+import {initializeApp, setErrorMessage} from "./redux/app-reducer"
+import store, {GlobalStateType} from "./redux/redux-store"
+import {BrowserRouter} from "react-router-dom"
+import Modal from "./components/common/Modal/Modal"
+import ProfileEditDataForm from "./components/Profile/ProfileInfo/ProfileEditDataForm/ProfileEditDataForm"
+import {updateMainPhoto, updateProfileData} from "./redux/profile-reducer"
+import UploadAvatarForm from "./components/Profile/ProfileInfo/UploadAvatarForm/UploadAvatarForm"
+import ErrorModal from "./components/common/ErrorModal/ErrorModal"
+import {ProfileType} from "./types/types"
+import {AxiosPromise} from "axios"
 
-let App = props => {
+type MapStatePropsType = {
+    initialized: boolean
+    isAuth: boolean
+    authorizedUserId: number
+    profile : ProfileType
+    errorMessage: string | null
+}
+
+type MapDispatchPropsType = {
+    initializeApp: () => void
+    updateProfileData: (profileData: ProfileType) => AxiosPromise
+    updateMainPhoto: (photo: string) => void
+    setErrorMessage: (errorMessage: string | null) => void
+}
+
+type OwnPropsType = {}
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
+
+const App:FC<PropsType> = props => {
     useEffect(() => props.initializeApp())
 
     // редактирование профиля
     let [editModeProfileData, setEditModeProfileData] = useState(false);
-    const saveProfileData = profileData => {
+    const saveProfileData = (profileData: ProfileType) => {
         props.updateProfileData(profileData).then(() => setEditModeProfileData(false))
     }
 
     // загрузка аватара
     let [photoUploadMode, setPhotoUploadMode] = useState(false);
-    const saveMainPhoto = e => {
+    const saveMainPhoto = (e) => {
         props.updateMainPhoto(e.target.files[0]);
         setPhotoUploadMode(false);
     }
@@ -51,12 +72,12 @@ let App = props => {
 
     return (
         <div className="wrapper">
-            <HeaderContainer/>
+            <Header />
             <div className="container">
                 <Navbar authorizedUserId={props.authorizedUserId}/>
                 <div className="content">
                     <Routes>
-                        <Route path='/' exact element={<Navigate to='/profile'/>}/>
+                        <Route path='/' element={<Navigate to='/profile'/>}/>
                         <Route path='/profile/:userId' element={<ProfileContainer/>}/>
                         <Route path='/profile'
                                element={<ProfileContainer setEditModeProfileData={setEditModeProfileData}
@@ -82,7 +103,7 @@ let App = props => {
     );
 }
 
-let mapStateToProps = state => ({
+let mapStateToProps = (state: GlobalStateType): MapStatePropsType => ({
     initialized: state.app.initialized,
     authorizedUserId: state.auth.userId,
     profile: state.profilePage.profile,
@@ -90,7 +111,7 @@ let mapStateToProps = state => ({
     isAuth: state.auth.isAuth
 })
 
-const AppConnected = connect(mapStateToProps, {
+const AppConnected = connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, GlobalStateType>(mapStateToProps, {
     initializeApp,
     updateProfileData,
     updateMainPhoto,

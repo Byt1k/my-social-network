@@ -1,8 +1,17 @@
+// @ts-ignore
 import s from "./../Modal/Modal.module.css";
+// @ts-ignore
 import styles from './ErrorModal.module.css';
 import cn from 'classnames'
+import {FC} from "react";
 
-const ErrorModal = ({active, errorMessage, hideModal}) => {
+type PropsType = {
+    active:boolean
+    errorMessage: string
+    hideModal: (errorMessage: null) => void
+}
+
+const ErrorModal:FC<PropsType> = ({active, errorMessage, hideModal}) => {
     return (
         <div className={cn({[s.active]: active}, s.modalWrapper)} onClick={() => hideModal(null)}>
             <div className={cn({[s.active]: active}, s.modalContent, styles.errorContent)}

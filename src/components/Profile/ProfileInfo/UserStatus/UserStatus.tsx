@@ -1,7 +1,14 @@
-import React, {useEffect, useState} from "react";
+import {ChangeEvent, FC, useEffect, useState} from "react";
+// @ts-ignore
 import s from './UserStatus.module.css'
 
-const UserStatus = ({userStatus, updateUserStatus, isOwner}) => {
+type PropsType = {
+    userStatus: string
+    updateUserStatus: (status: string) => void
+    isOwner: boolean
+}
+
+const UserStatus: FC<PropsType> = ({userStatus, updateUserStatus, isOwner}) => {
 
     let [editMode, setEditMode] = useState(false);
     let [status, setStatus] = useState(userStatus);
@@ -19,7 +26,7 @@ const UserStatus = ({userStatus, updateUserStatus, isOwner}) => {
         updateUserStatus(status);
     }
 
-    const onStatusChange = e => {
+    const onStatusChange = (e:ChangeEvent<HTMLInputElement>) => {
         setStatus(e.currentTarget.value);
     }
     return (

@@ -1,8 +1,17 @@
+// @ts-ignore
 import s from "./Modal.module.css";
+// @ts-ignore
 import closeModalImg from '../../../assets/images/close.svg'
 import cn from 'classnames'
+import {FC} from "react";
 
-const Modal = ({active, setActive, children}) => {
+type PropsType = {
+    active:boolean
+    setActive: (active: boolean) => void
+    children: JSX.Element
+}
+
+const Modal:FC<PropsType> = ({active, setActive, children}) => {
    return (
         <div className={cn({[s.active]: active}, s.modalWrapper)} onClick={() => setActive(false)}>
             <div className={cn({[s.active]: active}, s.modalContent)} onClick={e => e.stopPropagation()}>

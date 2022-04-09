@@ -1,8 +1,9 @@
+// @ts-ignore
 import preloader from "../../../assets/images/preloader1.svg";
-import React from "react";
+// @ts-ignore
 import s from './Preloader.module.css'
 
-const Preloader = props => {
+const Preloader = () => {
     return (
         <div className={s.preloader} role={'preloader'}>
             <img src={preloader} alt="preloader"/>

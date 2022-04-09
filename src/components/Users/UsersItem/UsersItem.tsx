@@ -1,9 +1,20 @@
-import s from "../Users.module.css";
-import {NavLink} from "react-router-dom";
-import defaultImage from "../../../assets/images/user.jpg";
-import React from "react";
+// @ts-ignore
+import s from "../Users.module.css"
+import {NavLink} from "react-router-dom"
+// @ts-ignore
+import defaultImage from "../../../assets/images/user.jpg"
+import {FC} from "react";
+import {UserType} from "../../../types/types";
+import cn from 'classnames'
 
-const UsersItem = ({user, followingInProgress, follow, unfollow}) => {
+type PropsType = {
+    user: UserType
+    followingInProgress: Array<number>
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+}
+
+const UsersItem: FC<PropsType> = ({user, followingInProgress, follow, unfollow}) => {
     let followingClick = () => !user.followed ? follow(user.id) : unfollow(user.id);
     return (
         <div className={s.item}>
@@ -17,8 +28,8 @@ const UsersItem = ({user, followingInProgress, follow, unfollow}) => {
                 <p className={s.name}>{user.name}</p>
                 <p className={s.status}>{user.status}</p>
                 <button disabled={followingInProgress.some(id => id === user.id)}
-                        className={user.followed ? `${s.followBtn} ${s.followed}` : s.followBtn}
-                        onClick={(e) => followingClick(e.target)}>
+                        className={cn({[s.followed]: user.followed}, s.followBtn)}
+                        onClick={() => followingClick()}>
                     {user.followed ? 'Unfollow' : 'Follow'}
                 </button>
             </div>

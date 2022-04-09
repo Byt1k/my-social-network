@@ -1,6 +1,13 @@
+// @ts-ignore
 import s from './UploadAvatarForm.module.css'
+import {FC} from "react";
 
-const UploadAvatarForm = ({handleSubmit, updateMainPhoto}) => {
+type PropsType = {
+    handleSubmit: () => void
+    updateMainPhoto: (e) => void
+}
+
+const UploadAvatarForm:FC<PropsType> = ({handleSubmit, updateMainPhoto}) => {
     return (
         <div onSubmit={handleSubmit} className={s.form}>
             <p className={s.title}>Upload a new photo</p>
