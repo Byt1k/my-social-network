@@ -48,6 +48,7 @@ export type UserType = {
     status: string
     photos: ProfilePhotosType
     followed: boolean
+    uniqueUrlName?: string | null
 }
 
 export type FriendType = {

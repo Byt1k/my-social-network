@@ -1,7 +1,9 @@
-import {profileAPI} from "../api/api"
+import {profileAPI, ResultCodeForCaptcha, ResultCodesEnum} from "../api/api"
 import {stopSubmit} from "redux-form"
 import {setErrorMessage} from "./app-reducer"
 import {PostType, ProfilePhotosType, ProfileType} from "../types/types"
+import {ThunkAction} from "redux-thunk";
+import {GlobalStateType} from "./redux-store";
 
 const ADD_POST = 'profile/ADD-POST'
 const SET_USER_PROFILE = 'profile/SET_USERS_PROFILE'
@@ -27,7 +29,7 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-const profileReducer = (state = initialState, action): InitialStateType => {
+const profileReducer = (state = initialState, action: ActionTypes): InitialStateType => {
     switch (action.type) {
         case ADD_POST: {
             let newPost = {
@@ -66,6 +68,10 @@ const profileReducer = (state = initialState, action): InitialStateType => {
     }
 }
 
+type ActionTypes = AddPostActionType | SetUserProfileActionType | SetUserStatusActionType | ToggleIsFetchingActionType |
+    SavePhotoSuccessActionType
+type ThunkType = ThunkAction<Promise<void>, GlobalStateType, unknown, ActionTypes>
+
 type AddPostActionType = {
     type: typeof ADD_POST
     newPostBody: string
@@ -98,7 +104,7 @@ type SavePhotoSuccessActionType = {
 }
 const savePhotoSuccess = (photos: ProfilePhotosType): SavePhotoSuccessActionType => ({type: UPDATE_MAIN_PHOTO, photos})
 
-export const getUserProfile = (userId: number) => async dispatch => {
+export const getUserProfile = (userId: number): ThunkType => async dispatch => {
     dispatch(toggleIsFetching(true))
 
     let data = await profileAPI.getUserProfile(userId)
@@ -107,7 +113,7 @@ export const getUserProfile = (userId: number) => async dispatch => {
     dispatch(toggleIsFetching(false))
 }
 
-export const getUserStatus = (userId: number) => async dispatch => {
+export const getUserStatus = (userId: number): ThunkType => async dispatch => {
     dispatch(toggleIsFetching(true))
 
     let data = await profileAPI.getUserStatus(userId)
@@ -116,28 +122,31 @@ export const getUserStatus = (userId: number) => async dispatch => {
     dispatch(toggleIsFetching(false))
 }
 
+// Типизировать
 export const updateUserStatus = (status:string) => async dispatch => {
-    let response = await profileAPI.updateUserStatus(status)
-    if (response.data.resultCode === 0) {
+    let data = await profileAPI.updateUserStatus(status)
+    if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(setUserStatus(status))
     } else {
-        dispatch(setErrorMessage(response.data.messages[0]))
+        dispatch(setErrorMessage(data.messages[0]))
     }
 }
 
+// Типизировать
 export const updateMainPhoto = (photos: ProfilePhotosType) => async dispatch => {
-    let response = await profileAPI.uploadMainPhoto(photos)
-    if (response.data.resultCode === 0) {
-        dispatch(savePhotoSuccess(response.data.data.photos))
+    let data = await profileAPI.uploadMainPhoto(photos)
+    if (data.resultCode === ResultCodesEnum.Success) {
+        dispatch(savePhotoSuccess(data.data))
     } else {
-        dispatch(setErrorMessage(response.data.messages[0]))
+        dispatch(setErrorMessage(data.messages[0]))
     }
 }
 
+// Типизировать
 export const updateProfileData = (data: ProfileType) => async (dispatch, getState) => {
     const userId = getState().auth.userId
     let response = await profileAPI.updateProfileData(data)
-    if (response.data.resultCode === 0) {
+    if (response.data.resultCode === ResultCodesEnum.Success) {
         dispatch(getUserProfile(userId))
     }
     else {
