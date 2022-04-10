@@ -2,7 +2,7 @@
 import s from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogItem"
 import Message from "./Message/Message"
-import {Field, reduxForm} from "redux-form"
+import {Field, InjectedFormProps, reduxForm} from "redux-form"
 import {Textarea} from "../common/FieldsForm/FieldsForm"
 import {connect} from "react-redux"
 import {sendMessage} from "../../redux/dialogs-reducer"
@@ -23,43 +23,45 @@ type MapDispatchPropsType = {
     sendMessage: (newMessage: string) => void
 }
 
-type OwnPropsType = {}
+type PropsType = MapStatePropsType & MapDispatchPropsType
 
-type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
+type NewMessageType = {
+    newMessageText: string
+}
 
-const Dialogs: FC<PropsType> = ({dialogsPage, sendMessage}) => {
+const Dialogs: FC<PropsType> = ({dialogsPage: {dialogs, messages}, sendMessage}) => {
 
-    let dialogsItems = dialogsPage.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id} image={d.image}/>)
-    let messages = dialogsPage.messages.map(m => <Message key={m.id} message={m.message}/>)
+    const dialogsList = dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id} image={d.image}/>)
+    const messagesList = messages.map(m => <Message key={m.id} message={m.message}/>)
 
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsList}>
-                {dialogsItems}
+                {dialogsList}
             </div>
             <div className={s.chat}>
-                {messages}
-                <NewMessageForm onSubmit={values => sendMessage(values.newMessageText)}/>
+                {messagesList}
+                <NewMessageReduxForm onSubmit={values => sendMessage(values.newMessageText)}/>
             </div>
         </div>
     )
 }
 
-let NewMessageForm = props => {
+const NewMessageForm: FC<InjectedFormProps<NewMessageType>> = ({handleSubmit}) => {
     return (
-        <form onSubmit={props.handleSubmit} className={s.createMessage}>
-            <Field component={Textarea} name={'newMessageText'} placeholder={'Your message...'}/>
+        <form onSubmit={handleSubmit} className={s.createMessage}>
+            <Field component={Textarea} name='newMessageText' placeholder='Your message...' />
             <button>Send</button>
         </form>
     )
 }
 
-NewMessageForm = reduxForm({form: 'dialogsNewMessage'})(NewMessageForm);
+const NewMessageReduxForm = reduxForm<NewMessageType>({form: 'dialogsNewMessage'})(NewMessageForm);
 
-let mapStateToProps = (state: GlobalStateType):MapStatePropsType => ({dialogsPage: state.dialogsPage})
+const mapStateToProps = (state: GlobalStateType):MapStatePropsType => ({dialogsPage: state.dialogsPage})
 
 const DialogsContainer = compose(
-    connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, GlobalStateType>(mapStateToProps, {sendMessage}),
-    withAuthRedirect)(Dialogs);
+    connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateToProps, {sendMessage}),
+    withAuthRedirect)(Dialogs)
 
-export default DialogsContainer;
+export default DialogsContainer

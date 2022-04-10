@@ -1,5 +1,5 @@
 // @ts-ignore
-import preloader from "../../../assets/images/preloader1.svg";
+import preloader from "../../../assets/images/preloader1.svg"
 // @ts-ignore
 import s from './Preloader.module.css'
 
@@ -11,4 +11,4 @@ const Preloader = () => {
     )
 }
 
-export default Preloader;
+export default Preloader

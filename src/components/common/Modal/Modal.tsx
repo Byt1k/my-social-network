@@ -8,7 +8,6 @@ import {FC} from "react";
 type PropsType = {
     active:boolean
     setActive: (active: boolean) => void
-    children: JSX.Element
 }
 
 const Modal:FC<PropsType> = ({active, setActive, children}) => {
@@ -22,4 +21,4 @@ const Modal:FC<PropsType> = ({active, setActive, children}) => {
     )
 }
 
-export  default Modal;
+export default Modal;

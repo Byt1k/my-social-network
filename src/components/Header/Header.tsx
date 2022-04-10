@@ -6,11 +6,16 @@ import {connect} from "react-redux"
 import {logout} from "../../redux/auth-reducer"
 import {FC} from "react"
 
-type PropsType = {
+type MapStatePropsType = {
     isAuth: boolean
     login: string
+}
+
+type MapDispatchPropsType = {
     logout: () => void
 }
+
+type PropsType = MapStatePropsType & MapDispatchPropsType
 
 const Header:FC<PropsType> = ({isAuth, login, logout}) => {
     return (
@@ -27,11 +32,11 @@ const Header:FC<PropsType> = ({isAuth, login, logout}) => {
     )
 }
 
-let mapStateToProps = (state: GlobalStateType) => {
+const mapStateToProps = (state: GlobalStateType): MapStatePropsType => {
     return {
         isAuth: state.auth.isAuth,
         login: state.auth.login
     }
 }
 
-export default connect(mapStateToProps, {logout})(Header)
+export default connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateToProps, {logout})(Header)
