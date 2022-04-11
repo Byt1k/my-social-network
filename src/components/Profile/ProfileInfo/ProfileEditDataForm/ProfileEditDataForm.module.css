@@ -16,15 +16,15 @@
 
 }
 
-.formItem {
+.inputBlock {
     margin-bottom: 20px;
 }
 
-.fieldTitle {
+.inputBlock p {
     margin-bottom: 8px;
 }
 
-.formItem input, .formItem textarea {
+.inputBlock input, .inputBlock textarea {
     border: 1px solid #25ACAC;
     border-radius: 7px;
     padding: 10px 20px;

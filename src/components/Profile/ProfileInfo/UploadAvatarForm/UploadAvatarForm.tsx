@@ -1,15 +1,14 @@
 // @ts-ignore
 import s from './UploadAvatarForm.module.css'
-import {FC} from "react";
+import {ChangeEvent, FC} from "react";
 
 type PropsType = {
-    handleSubmit: () => void
-    updateMainPhoto: (e) => void
+    updateMainPhoto: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-const UploadAvatarForm:FC<PropsType> = ({handleSubmit, updateMainPhoto}) => {
+const UploadAvatarForm:FC<PropsType> = ({updateMainPhoto}) => {
     return (
-        <div onSubmit={handleSubmit} className={s.form}>
+        <div className={s.form}>
             <p className={s.title}>Upload a new photo</p>
             <p className={s.text}>It will be easier for friends to recognize you if you upload your real photo. <br/>
                 You can upload an image with a maximum size of 10 MB</p>

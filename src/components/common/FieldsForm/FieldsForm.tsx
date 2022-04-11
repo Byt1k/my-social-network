@@ -1,7 +1,7 @@
 // @ts-ignore
 import s from './FieldsForm.module.css';
-import {Field, WrappedFieldArrayProps, WrappedFieldMetaProps, WrappedFieldProps} from "redux-form";
-import {FC} from "react";
+import {Field, WrappedFieldProps} from "redux-form";
+import {FC, InputHTMLAttributes} from "react";
 import {ValidatorType} from "../../../utils/validators";
 
 const FormControl: FC<WrappedFieldProps> = ({meta: {touched, error}, children}) => {
@@ -13,8 +13,9 @@ const FormControl: FC<WrappedFieldProps> = ({meta: {touched, error}, children}) 
     )
 }
 
-export const Input = (props) => {
-    const {input, meta, child, ...restProps} = props;
+export const Input: FC<WrappedFieldProps> = (props) => {
+    // const {input, meta, child, ...restProps} = props;
+    const {input, meta, ...restProps} = props;
     return (
         <FormControl {...props}>
             <input {...input} {...restProps} />
@@ -22,8 +23,9 @@ export const Input = (props) => {
     )
 }
 
-export const Textarea = (props) => {
-    const {input, meta, child, ...restProps} = props;
+export const Textarea: FC<WrappedFieldProps> = (props) => {
+    // const {input, meta, child, ...restProps} = props;
+    const {input, meta, ...restProps} = props;
     return (
         <FormControl {...props}>
             <textarea {...input} {...restProps} />
@@ -31,15 +33,15 @@ export const Textarea = (props) => {
     )
 }
 
-export function createField<T extends string>(title: string,
+export const createField = <T extends string>(title: string,
                                               component: string | FC<WrappedFieldProps>,
                                               name: T,
                                               validators: Array<ValidatorType> = [],
-                                              restProps = {type: 'text'}) {
-    if (restProps.type === 'checkbox') {
+                                              props: InputHTMLAttributes  = {type: 'text'}) => {
+    if (props.type === 'checkbox') {
         return (
             <div className={s.checkboxBlock}>
-                <Field component={component} name={name} id={name} {...restProps}/>
+                <Field component={component} name={name} id={name} {...props}/>
                 <label htmlFor={name}>{title}</label>
             </div>
         )
@@ -47,7 +49,7 @@ export function createField<T extends string>(title: string,
     return (
         <div className={s.inputBlock}>
             <p>{title}</p>
-            <Field component={component} name={name} validate={validators} {...restProps}/>
+            <Field component={component} name={name} validate={validators} {...props}/>
         </div>
     )
 }

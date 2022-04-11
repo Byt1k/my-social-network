@@ -5,7 +5,7 @@ import Message from "./Message/Message"
 import {Field, InjectedFormProps, reduxForm} from "redux-form"
 import {Textarea} from "../common/FieldsForm/FieldsForm"
 import {connect} from "react-redux"
-import {sendMessage} from "../../redux/dialogs-reducer"
+import {actionsDialogs} from "../../redux/dialogs-reducer"
 import {withAuthRedirect} from "../../hoc/withAuthRedirect"
 import {compose} from "redux"
 import {FC} from "react";
@@ -61,7 +61,8 @@ const NewMessageReduxForm = reduxForm<NewMessageType>({form: 'dialogsNewMessage'
 const mapStateToProps = (state: GlobalStateType):MapStatePropsType => ({dialogsPage: state.dialogsPage})
 
 const DialogsContainer = compose(
-    connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateToProps, {sendMessage}),
+    connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateToProps,
+        {sendMessage: actionsDialogs.sendMessage}),
     withAuthRedirect)(Dialogs)
 
 export default DialogsContainer

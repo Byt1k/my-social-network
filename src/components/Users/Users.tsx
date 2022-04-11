@@ -2,8 +2,8 @@ import Pagination from "../common/Pagination/Pagination"
 import UsersItem from "./UsersItem/UsersItem"
 // @ts-ignore
 import s from './Users.module.css'
-import {UserType} from "../../types/types";
-import {FC} from "react";
+import {UserType} from "../../types/types"
+import {FC} from "react"
 
 type PropsType = {
     totalCount: number
@@ -29,4 +29,4 @@ const Users: FC<PropsType> = ({totalCount, pageSize, onChangePage, currentPage, 
     )
 }
 
-export default Users;
+export default Users

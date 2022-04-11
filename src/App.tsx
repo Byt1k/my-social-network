@@ -7,10 +7,10 @@ import Header from "./components/Header/Header"
 import ProfileContainer from "./components/Profile/ProfileContainer"
 import DialogsContainer from "./components/Dialogs/DialogsContainer"
 import UsersContainer from './components/Users/UsersContainer'
-import {ChangeEvent, FC, HTMLInputTypeAttribute, useEffect, useState} from "react"
+import {FC, useEffect, useState} from "react"
 import {connect, Provider} from "react-redux"
 import Preloader from "./components/common/Preloader/Preloader"
-import {initializeApp, setErrorMessage} from "./redux/app-reducer"
+import {initializeApp, actionsApp} from "./redux/app-reducer"
 import store, {GlobalStateType} from "./redux/redux-store"
 import {BrowserRouter} from "react-router-dom"
 import Modal from "./components/common/Modal/Modal"
@@ -19,7 +19,6 @@ import {updateMainPhoto, updateProfileData} from "./redux/profile-reducer"
 import UploadAvatarForm from "./components/Profile/ProfileInfo/UploadAvatarForm/UploadAvatarForm"
 import ErrorModal from "./components/common/ErrorModal/ErrorModal"
 import {ProfileType} from "./types/types"
-import {AxiosPromise} from "axios"
 
 type MapStatePropsType = {
     initialized: boolean
@@ -30,17 +29,15 @@ type MapStatePropsType = {
 }
 
 type MapDispatchPropsType = {
-    initializeApp: () => void
-    updateProfileData: (profileData: ProfileType) => AxiosPromise
-    updateMainPhoto: (photo: string) => void
-    setErrorMessage: (errorMessage: string | null) => void
+    initializeApp: any
+    updateProfileData: any
+    updateMainPhoto: any
+    setErrorMessage: any
 }
 
-type OwnPropsType = {}
+type PropsType = MapStatePropsType & MapDispatchPropsType
 
-type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
-
-const App:FC<PropsType> = props => {
+const App:FC<PropsType> = (props) => {
     useEffect(() => props.initializeApp())
 
     // редактирование профиля
@@ -64,27 +61,23 @@ const App:FC<PropsType> = props => {
         )
     }
 
-    if (!props.isAuth) {
-        return <div className="startAppPreloader">
-            <Login />;
-        </div>
-    }
-
     return (
         <div className="wrapper">
             <Header />
             <div className="container">
-                <Navbar authorizedUserId={props.authorizedUserId}/>
+                <Navbar />
                 <div className="content">
                     <Routes>
-                        <Route path='/' element={<Navigate to='/profile'/>}/>
-                        <Route path='/profile/:userId' element={<ProfileContainer/>}/>
+                        <Route path='/' element={<Navigate to='/profile' />}/>
+                        <Route path='/profile/:userId'
+                               element={<ProfileContainer setEditModeProfileData={setEditModeProfileData}
+                                                          setPhotoUploadMode={setPhotoUploadMode} />} />
                         <Route path='/profile'
                                element={<ProfileContainer setEditModeProfileData={setEditModeProfileData}
-                                                          setPhotoUploadMode={setPhotoUploadMode}/>}/>
-                        <Route path='/dialogs/*' element={<DialogsContainer/>}/>
-                        <Route path='/users' element={<UsersContainer/>}/>
-                        <Route path='/login' element={<Login/>}/>
+                                                          setPhotoUploadMode={setPhotoUploadMode}/>} />
+                        <Route path='/dialogs/*' element={<DialogsContainer />}/>
+                        <Route path='/users' element={<UsersContainer />}/>
+                        <Route path='/login' element={<Login />}/>
                     </Routes>
                 </div>
             </div>
@@ -103,7 +96,7 @@ const App:FC<PropsType> = props => {
     );
 }
 
-let mapStateToProps = (state: GlobalStateType): MapStatePropsType => ({
+const mapStateToProps = (state: GlobalStateType): MapStatePropsType => ({
     initialized: state.app.initialized,
     authorizedUserId: state.auth.userId,
     profile: state.profilePage.profile,
@@ -111,11 +104,11 @@ let mapStateToProps = (state: GlobalStateType): MapStatePropsType => ({
     isAuth: state.auth.isAuth
 })
 
-const AppConnected = connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, GlobalStateType>(mapStateToProps, {
+const AppConnected = connect(mapStateToProps, {
     initializeApp,
     updateProfileData,
     updateMainPhoto,
-    setErrorMessage
+    setErrorMessage: actionsApp.setErrorMessage
 })(App);
 
 const AppContainer = props => {

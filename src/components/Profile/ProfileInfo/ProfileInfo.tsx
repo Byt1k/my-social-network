@@ -70,7 +70,7 @@ export const ProfileInfo: FC<PropsType> = ({
     );
 }
 
-const ContactItem = ({contactTitle, contactValue}) => {
+const ContactItem: FC<{contactTitle: string, contactValue: string}> = ({contactTitle, contactValue}) => {
     return (
         <div>
             {contactValue && <p>{contactTitle}: <span>{contactValue}</span></p>}

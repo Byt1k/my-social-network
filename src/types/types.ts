@@ -51,8 +51,5 @@ export type UserType = {
     uniqueUrlName?: string | null
 }
 
-export type FriendType = {
-    id: number
-    image: string
-    firstName: string
-}
+// Generic for ActionTypes
+export type InferValuesType<T> = T extends {[key: string]: infer U} ? U : never

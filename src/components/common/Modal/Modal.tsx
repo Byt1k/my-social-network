@@ -1,9 +1,9 @@
 // @ts-ignore
-import s from "./Modal.module.css";
+import s from "./Modal.module.css"
 // @ts-ignore
 import closeModalImg from '../../../assets/images/close.svg'
 import cn from 'classnames'
-import {FC} from "react";
+import {FC} from "react"
 
 type PropsType = {
     active:boolean

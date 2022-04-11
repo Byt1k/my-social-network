@@ -15,7 +15,7 @@ type PropsType = {
 }
 
 const UsersItem: FC<PropsType> = ({user, followingInProgress, follow, unfollow}) => {
-    let followingClick = () => !user.followed ? follow(user.id) : unfollow(user.id);
+    const followingClick = () => !user.followed ? follow(user.id) : unfollow(user.id);
     return (
         <div className={s.item}>
             <div>

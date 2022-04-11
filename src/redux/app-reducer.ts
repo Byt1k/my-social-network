@@ -1,9 +1,7 @@
 import {getAuthUserData} from "./auth-reducer"
 import {ThunkAction} from "redux-thunk";
 import {GlobalStateType} from "./redux-store";
-
-const INITIALIZED_SUCCESS = 'app/INITIALIZED_SUCCESS'
-const SET_ERROR_MESSAGE = 'app/SET_ERROR_MESSAGE'
+import {InferValuesType} from "../types/types";
 
 const initialState = {
     initialized: false,
@@ -12,39 +10,37 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-const appReducer = (state = initialState, action: ActionsTypes):InitialStateType => {
+const appReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case INITIALIZED_SUCCESS:
+        case "app/INITIALIZED_SUCCESS":
             return {
                 ...state,
                 initialized: true
             }
-        case SET_ERROR_MESSAGE:
+        case "app/SET_ERROR_MESSAGE":
             return {
                 ...state,
                 errorMessage: action.errorMessage
             }
-        default: return state;
+        default:
+            return state;
     }
 }
-type ActionsTypes = InitializedSuccessActionType | SetErrorMessageActionType;
-type ThunkType = ThunkAction<void, GlobalStateType, unknown, ActionsTypes>
 
-type InitializedSuccessActionType = {
-    type: typeof INITIALIZED_SUCCESS
-}
-export const initializedSuccess = ():InitializedSuccessActionType => ({type: INITIALIZED_SUCCESS});
+type ActionsTypes = ReturnType<InferValuesType<typeof actionsApp>>
 
-export type SetErrorMessageActionType = {
-    type: typeof SET_ERROR_MESSAGE
-    errorMessage: string
+export type ThunkType = ThunkAction<void, GlobalStateType, unknown, ActionsTypes>
+
+export const actionsApp = {
+    initializedSuccess: () => ({type: 'app/INITIALIZED_SUCCESS'} as const),
+    setErrorMessage: (errorMessage: string) => ({type: 'app/SET_ERROR_MESSAGE', errorMessage} as const)
 }
-export const setErrorMessage = (errorMessage: string):SetErrorMessageActionType => ({type: SET_ERROR_MESSAGE, errorMessage})
+
 
 export const initializeApp = (): ThunkType => (dispatch) => {
     let promise = dispatch(getAuthUserData());
     Promise.all([promise]).then(() => {
-        dispatch(initializedSuccess());
+        dispatch(actionsApp.initializedSuccess());
     })
 }
 

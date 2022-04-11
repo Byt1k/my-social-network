@@ -1,16 +1,16 @@
-import {FC, useEffect} from "react";
-import {connect} from "react-redux";
+import {FC, useEffect} from "react"
+import {connect} from "react-redux"
 import {
     follow,
-    getUsers, setCurrentPage,
+    getUsers, actionsUsers,
     unfollow,
-} from "../../redux/users-reducer";
-import Users from "./Users";
-import Preloader from "../common/Preloader/Preloader";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {compose} from "redux";
-import {GlobalStateType} from "../../redux/redux-store";
-import {UserType} from "../../types/types";
+} from "../../redux/users-reducer"
+import Users from "./Users"
+import Preloader from "../common/Preloader/Preloader"
+import {withAuthRedirect} from "../../hoc/withAuthRedirect"
+import {compose} from "redux"
+import {GlobalStateType} from "../../redux/redux-store"
+import {UserType} from "../../types/types"
 
 type MapStatePropsType = {
     users: Array<UserType>
@@ -28,11 +28,7 @@ type MapDispatchPropsType = {
     setCurrentPage: (pageNumber: number) => void
 }
 
-type OwnPropsType = {
-
-}
-
-type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
+type PropsType = MapStatePropsType & MapDispatchPropsType
 
 const UsersContainer: FC<PropsType> = props => {
     useEffect(() => {
@@ -41,7 +37,7 @@ const UsersContainer: FC<PropsType> = props => {
 
     const onChangePage = (pageNumber: number) => {
         props.setCurrentPage(pageNumber);
-        props.getUsers(pageNumber, props.pageSize);
+        props.getUsers(pageNumber, props.pageSize)
     }
 
     return <>
@@ -58,7 +54,6 @@ const UsersContainer: FC<PropsType> = props => {
     </>
 }
 
-// Использование селекторов
 const mapStateToProps = (state: GlobalStateType): MapStatePropsType => {
     return {
         users: state.usersPage.users,
@@ -71,8 +66,8 @@ const mapStateToProps = (state: GlobalStateType): MapStatePropsType => {
 }
 
 export default compose(
-    connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, GlobalStateType>(mapStateToProps,
-    {getUsers, follow, unfollow, setCurrentPage}),
+    connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateToProps,
+    {getUsers, follow, unfollow, setCurrentPage: actionsUsers.setCurrentPage}),
     withAuthRedirect)
 (UsersContainer)
 

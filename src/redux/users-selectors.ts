@@ -9,7 +9,6 @@ const getUsersSelector = (state: GlobalStateType) => {
 export const getUsers = createSelector(getUsersSelector, users => {
     return users.filter(u => u);
 })
-//
 
 export const getPageSize = (state: GlobalStateType) => {
     return state.usersPage.pageSize

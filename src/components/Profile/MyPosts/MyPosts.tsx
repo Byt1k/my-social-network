@@ -2,12 +2,17 @@
 import s from './MyPosts.module.css';
 import Post from "./Post/Post";
 import {FC} from "react";
-import {Field, reduxForm, reset} from "redux-form";
+import {Field, FormAction, InjectedFormProps, reduxForm, reset} from "redux-form";
 import {Textarea} from "../../common/FieldsForm/FieldsForm";
 import {getCurrentDate} from "../../../utils/getCurrentDate";
 import {PostType, ProfileType} from "../../../types/types";
+import {Dispatch} from "redux";
 
-let NewPostForm = ({handleSubmit}) => {
+type NewPostFormValuesType = {
+    newPostBody: string
+}
+
+const NewPostForm: FC<InjectedFormProps<NewPostFormValuesType>> = ({handleSubmit}) => {
     return (
         <form onSubmit={handleSubmit} className={s.newPost}>
             <Field component={Textarea} name="newPostBody" placeholder="Your news..." required={true} />
@@ -16,7 +21,7 @@ let NewPostForm = ({handleSubmit}) => {
     );
 }
 
-NewPostForm = reduxForm({form: 'addNewPost'})(NewPostForm);
+const NewPostReduxForm = reduxForm<NewPostFormValuesType>({form: 'addNewPost'})(NewPostForm);
 
 type PropsType = {
     posts: Array<PostType>
@@ -29,23 +34,24 @@ const MyPosts: FC<PropsType> = ({posts, profile, isOwner, addPost}) => {
 
     let postsElements = posts.map(p => <Post key={p.id} profile={profile} date={p.date} likesCount={p.likesCount} text={p.text}/>);
 
-    const sendPost = (values, dispatch) => {
+    const sendPost = (values: NewPostFormValuesType, dispatch: Dispatch<FormAction>) => {
         // Получение даты поста
-        let currentDate = getCurrentDate();
+        const currentDate = getCurrentDate();
 
         // Генерация нового id для поста
-        let newPostId = posts.length + 1;
+        const newPostId = posts.length + 1;
 
         addPost(values.newPostBody, currentDate, newPostId);
 
         // очистка формы
+        // перенести потом в санку
         dispatch(reset('addNewPost'));
     };
 
     return (
         <div className={s.posts}>
             <div className={s.title}>{isOwner ? 'My posts' : 'Posts'}</div>
-            {isOwner && <NewPostForm onSubmit={sendPost} />}
+            {isOwner && <NewPostReduxForm onSubmit={sendPost} />}
             {postsElements}
         </div>
     );

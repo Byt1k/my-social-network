@@ -3,7 +3,12 @@ import s from './Friends.module.css'
 import {FriendItem} from "./FriendItem/FriendItem"
 import {connect} from "react-redux"
 import {FC} from "react"
-import {FriendType} from "../../../types/types"
+
+type FriendType = {
+    id: number
+    image: string
+    firstName: string
+}
 
 type PropsType = {
     friends: Array<FriendType>
