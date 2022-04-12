@@ -1,4 +1,4 @@
-import {DialogType, MessageType} from "../types/types"
+import {DialogType, InferValuesType, MessageType} from "../types/types"
 
 const initialState = {
     dialogs:  [
@@ -21,7 +21,7 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-const dialogsReducer = (state = initialState, action: ActionTypes):InitialStateType => {
+const dialogsReducer = (state = initialState, action: ActionsType):InitialStateType => {
     switch (action.type) {
         case 'SEND-MESSAGE': {
             let newMessage = {
@@ -37,9 +37,7 @@ const dialogsReducer = (state = initialState, action: ActionTypes):InitialStateT
     }
 }
 
-type InferValuesType<T> = T extends { [key: string]: infer U } ? U : never
-type ActionTypes = ReturnType<InferValuesType<typeof actionsDialogs>>
-
+type ActionsType = InferValuesType<typeof actionsDialogs>
 
 export const actionsDialogs = {
     sendMessage: (newMessageText: string) => ({type: 'SEND-MESSAGE', newMessageText} as const)

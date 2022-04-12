@@ -41,7 +41,7 @@ const Dialogs: FC<PropsType> = ({dialogsPage: {dialogs, messages}, sendMessage})
             </div>
             <div className={s.chat}>
                 {messagesList}
-                <NewMessageReduxForm onSubmit={values => sendMessage(values.newMessageText)}/>
+                <NewMessageReduxForm onSubmit={(values: NewMessageType) => sendMessage(values.newMessageText)}/>
             </div>
         </div>
     )
@@ -62,7 +62,7 @@ const mapStateToProps = (state: GlobalStateType):MapStatePropsType => ({dialogsP
 
 const DialogsContainer = compose(
     connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateToProps,
-        {sendMessage: actionsDialogs.sendMessage}),
+        {sendMessage: actionsDialogs.sendMessage}), // @ts-ignore
     withAuthRedirect)(Dialogs)
 
 export default DialogsContainer

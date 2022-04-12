@@ -5,7 +5,7 @@ import {FC} from "react";
 import {PostType, ProfileType} from "../../types/types";
 
 type PropsType = {
-    profile: ProfileType
+    profile: ProfileType | null
     userStatus: string
     updateUserStatus: (status: string) => void
     isOwner: boolean

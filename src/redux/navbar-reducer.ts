@@ -1,3 +1,5 @@
+import {InferValuesType} from "../types/types";
+
 const initialState = {
     friends: [
         {id: 1, image: 'https://img.freepik.com/free-photo/portrait-of-confident-beautiful-brunette-woman-turning-face-at-camera-with-dreamy-look-white_1258-19144.jpg?size=626&ext=jpg', firstName: 'Anna'},
@@ -8,10 +10,16 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-const navbarReducer = (state = initialState, action):InitialStateType => {
+const navbarReducer = (state = initialState, action: ActionsType):InitialStateType => {
     switch (action) {
         default: return state
     }
 }
+
+const actionsNavbar = {
+
+}
+
+type ActionsType = InferValuesType<typeof actionsNavbar>
 
 export default navbarReducer

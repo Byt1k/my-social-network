@@ -1,9 +1,6 @@
-// @ts-ignore
 import s from "./ProfileInfo.module.css"
-// @ts-ignore
 import defaultImage from '../../../assets/images/user.jpg'
 import UserStatus from "./UserStatus/UserStatus"
-// @ts-ignore
 import editProfileBtn from '../../../assets/images/eidtProfileBtn.png'
 import {FC} from "react"
 import {ProfileType} from "../../../types/types";
@@ -30,6 +27,7 @@ export const ProfileInfo: FC<PropsType> = ({
     }
 
     // проверка для отображения заголовка "Контакты"
+    // @ts-ignore
     let contactsExist = Object.keys(profile.contacts).some(key => profile.contacts[key] !== null);
 
     return (
@@ -61,6 +59,7 @@ export const ProfileInfo: FC<PropsType> = ({
                     {contactsExist && <p className={s.title}>Contacts</p>}
                     <div>
                         {Object.keys(profile.contacts).map(key => {
+                            // @ts-ignore
                             return <ContactItem key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
                         })}
                     </div>

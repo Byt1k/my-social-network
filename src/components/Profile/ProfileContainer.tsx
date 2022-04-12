@@ -10,10 +10,10 @@ import {PostType, ProfileType} from "../../types/types";
 import {GlobalStateType} from "../../redux/redux-store";
 
 type MapStatePropsType = {
-    profile: ProfileType
+    profile: ProfileType | null
     userStatus: string
     isFetching: boolean
-    authorizedUserId: number
+    authorizedUserId: number | null
     posts: Array<PostType>
 }
 
@@ -35,12 +35,14 @@ const ProfileContainer: FC<PropsType> = (props) => {
     let {userId} = useParams()
     let isOwner = false
     if (!userId) {
+        // @ts-ignore
         userId = props.authorizedUserId;
         isOwner = true;
     }
     useEffect(() => {
-        console.log(userId)
+        // @ts-ignore
         props.getUserProfile(userId);
+        // @ts-ignore
         props.getUserStatus(userId);
     }, [userId])
 
@@ -71,4 +73,5 @@ const mapStateToProps = (state: GlobalStateType): MapStatePropsType => {
 export default compose(
     connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, GlobalStateType>(mapStateToProps,
         {getUserProfile, getUserStatus, updateUserStatus, addPost: actionsProfile.addPost}),
+    // @ts-ignore
     withAuthRedirect)(ProfileContainer)

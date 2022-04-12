@@ -1,8 +1,7 @@
 import {authAPI, ResultCodeForCaptcha, ResultCodesEnum, securityAPI} from "../api/api"
-import {stopSubmit} from "redux-form"
-import {ThunkAction} from "redux-thunk";
-import {GlobalStateType} from "./redux-store";
-import {InferValuesType} from "../types/types";
+import {FormAction, stopSubmit} from "redux-form"
+import {BaseThunkType, InferValuesType} from "../types/types";
+import {Dispatch} from "redux";
 
 const initialState = {
     userId: null as number | null,
@@ -14,7 +13,7 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-const authReducer = (state = initialState, action: ActionsTypes):InitialStateType => {
+const authReducer = (state = initialState, action: ActionsType):InitialStateType => {
     switch (action.type) {
         case "auth/SET_AUTH_USER_DATA":
         case "auth/SET_CAPTCHA_URL":
@@ -27,16 +26,15 @@ const authReducer = (state = initialState, action: ActionsTypes):InitialStateTyp
     }
 }
 
-type ActionsTypes = ReturnType<InferValuesType<typeof actionsAuth>>
-
-type ThunkType = ThunkAction<Promise<void>, GlobalStateType, unknown, ActionsTypes>
+type ActionsType = InferValuesType<typeof actionsAuth>
+type ThunkType = BaseThunkType<ActionsType | FormAction>
 
 export const actionsAuth = {
-    setAuthUserData: (userId: number, login: string, email: string, isAuth: boolean) => ({
+    setAuthUserData: (userId: number | null, login: string | null, email: string | null, isAuth: boolean) => ({
         type: 'auth/SET_AUTH_USER_DATA',
         payload: {userId, login, email, isAuth}
     } as const),
-    setCaptchaUrl: (captchaUrl: string) => ({
+    setCaptchaUrl: (captchaUrl: string | null) => ({
         type: 'auth/SET_CAPTCHA_URL',
         payload: {captchaUrl}
     } as const)
@@ -50,8 +48,7 @@ export const getAuthUserData = (): ThunkType => async dispatch => {
     }
 }
 
-// Типизировать
-export const login = (email: string, password: string, rememberMe: boolean, captcha: string) => async dispatch => {
+export const login = (email: string, password: string, rememberMe: boolean, captcha: string): ThunkType => async dispatch => {
     const data = await authAPI.login(email, password, rememberMe, captcha)
     if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(getAuthUserData())

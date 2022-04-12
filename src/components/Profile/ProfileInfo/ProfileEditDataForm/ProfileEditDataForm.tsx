@@ -4,20 +4,17 @@ import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {createField, Input, Textarea} from "../../../common/FieldsForm/FieldsForm";
 import {required} from "../../../../utils/validators";
 import {FC} from "react";
+import {ProfileType} from "../../../../types/types";
 
 type PropsType = {
 
 }
 
-const ProfileEditDataForm: FC<InjectedFormProps> = ({handleSubmit, error}) => {
+const ProfileEditDataForm: FC<InjectedFormProps<ProfileType>> = ({handleSubmit, error}) => {
     return (
         <form className={s.form} onSubmit={handleSubmit} >
             <p className={s.title}>Editing your profile information</p>
             {createField('Full name:', Input, 'fullName', [required], {placeholder: 'Full name'})}
-            {/*<div className={s.formItem}>*/}
-            {/*    <p className={s.fieldTitle}>Full name:</p>*/}
-            {/*    <Field component={Input} name='fullName' validate={required} placeholder='Full name'/>*/}
-            {/*</div>*/}
             <div className={s.formItem}>
                 <p className={s.fieldTitle}>About me:</p>
                 <Field component={Textarea} name='aboutMe' validate={required} placeholder='About me'/>
@@ -69,4 +66,4 @@ const ProfileEditDataForm: FC<InjectedFormProps> = ({handleSubmit, error}) => {
     )
 }
 
-export default reduxForm({form: 'editProfile', enableReinitialize: true})(ProfileEditDataForm);
+export default reduxForm<ProfileType>({form: 'editProfile', enableReinitialize: true})(ProfileEditDataForm);

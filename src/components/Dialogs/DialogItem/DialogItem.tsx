@@ -11,7 +11,7 @@ type PropsType = {
 
 const DialogItem:FC<PropsType> = ({id, image, name}) => {
     let path = "/dialogs/" + id;
-    const isActiveDialogs = navData => navData.isActive ? `${s.dialog} ${s.active}` : s.dialog
+    const isActiveDialogs = (navData: any) => navData.isActive ? `${s.dialog} ${s.active}` : s.dialog
     return (
         <NavLink to={path} className={isActiveDialogs}>
             <div className={s.image} style={{background: `url(${image}) no-repeat center center / cover`}}></div>

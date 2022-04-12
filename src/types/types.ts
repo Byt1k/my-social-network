@@ -1,3 +1,7 @@
+import {GlobalStateType} from "../redux/redux-store";
+import {ThunkAction} from "redux-thunk";
+import {Action} from "redux";
+
 export type DialogType = {
     id: number
     name: string
@@ -52,4 +56,9 @@ export type UserType = {
 }
 
 // Generic for ActionTypes
-export type InferValuesType<T> = T extends {[key: string]: infer U} ? U : never
+type ValuesType<T> = T extends {[key: string]: infer U} ? U : never
+export type InferValuesType<T extends {[key: string]: (...args: any[]) => any}> = ReturnType<ValuesType<T>>
+
+// Generic for ThunkType
+export type BaseThunkType<A extends Action, R = void> = ThunkAction<R, GlobalStateType, unknown, A>
+

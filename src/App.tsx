@@ -1,7 +1,7 @@
 import './zeroing.css'
 import './App.css'
 import Navbar from './components/Navbar/Navbar'
-import {Routes, Route, Navigate} from "react-router"
+
 import Login from "./components/Login/Login"
 import Header from "./components/Header/Header"
 import ProfileContainer from "./components/Profile/ProfileContainer"
@@ -12,7 +12,7 @@ import {connect, Provider} from "react-redux"
 import Preloader from "./components/common/Preloader/Preloader"
 import {initializeApp, actionsApp} from "./redux/app-reducer"
 import store, {GlobalStateType} from "./redux/redux-store"
-import {BrowserRouter} from "react-router-dom"
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom"
 import Modal from "./components/common/Modal/Modal"
 import ProfileEditDataForm from "./components/Profile/ProfileInfo/ProfileEditDataForm/ProfileEditDataForm"
 import {updateMainPhoto, updateProfileData} from "./redux/profile-reducer"
@@ -23,8 +23,8 @@ import {ProfileType} from "./types/types"
 type MapStatePropsType = {
     initialized: boolean
     isAuth: boolean
-    authorizedUserId: number
-    profile : ProfileType
+    authorizedUserId: number | null
+    profile : any
     errorMessage: string | null
 }
 
@@ -48,7 +48,7 @@ const App:FC<PropsType> = (props) => {
 
     // загрузка аватара
     let [photoUploadMode, setPhotoUploadMode] = useState(false);
-    const saveMainPhoto = (e) => {
+    const saveMainPhoto = (e: any) => {
         props.updateMainPhoto(e.target.files[0]);
         setPhotoUploadMode(false);
     }
@@ -111,7 +111,7 @@ const AppConnected = connect(mapStateToProps, {
     setErrorMessage: actionsApp.setErrorMessage
 })(App);
 
-const AppContainer = props => {
+const AppContainer = (props: any) => {
     return (
         // BrowserRouter should be used
         // HashRouter used only of deploy on GitHub Pages

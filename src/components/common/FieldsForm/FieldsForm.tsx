@@ -37,7 +37,7 @@ export const createField = <T extends string>(title: string,
                                               component: string | FC<WrappedFieldProps>,
                                               name: T,
                                               validators: Array<ValidatorType> = [],
-                                              props: InputHTMLAttributes  = {type: 'text'}) => {
+                                              props: any  = {type: 'text'}) => {
     if (props.type === 'checkbox') {
         return (
             <div className={s.checkboxBlock}>

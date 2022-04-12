@@ -7,7 +7,7 @@ import {FC} from "react";
 
 type PropsType = {
     active:boolean
-    errorMessage: string
+    errorMessage: string | null
     hideModal: (errorMessage: null) => void
 }
 

@@ -1,7 +1,5 @@
 import {followingAPI, ResultCodesEnum, usersAPI} from "../api/api"
-import {InferValuesType, UserType} from "../types/types"
-import {ThunkAction} from "redux-thunk";
-import {GlobalStateType} from "./redux-store";
+import {BaseThunkType, InferValuesType, UserType} from "../types/types"
 import {Dispatch} from "redux";
 
 const initialState = {
@@ -15,7 +13,7 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-const usersReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
+const usersReducer = (state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case "users/TOGGLE_FOLLOW" :
             return {
@@ -59,8 +57,8 @@ const usersReducer = (state = initialState, action: ActionsTypes): InitialStateT
     }
 }
 
-type ActionsTypes = ReturnType<InferValuesType<typeof actionsUsers>>
-type ThunkType = ThunkAction<Promise<void>, GlobalStateType, unknown, ActionsTypes>
+type ActionsType = InferValuesType<typeof actionsUsers>
+type ThunkType = BaseThunkType<ActionsType>
 
 export const actionsUsers = {
     toggleFollow: (userId: number) => ({type: 'users/TOGGLE_FOLLOW', userId} as const),
@@ -85,8 +83,7 @@ export const getUsers = (currentPage: number, pageSize: number): ThunkType => as
     dispatch(actionsUsers.toggleIsFetching(false))
 }
 
-const followUnfollowFlow = async (apiRequest: any, userId: number, dispatch: Dispatch<ActionsTypes>) => {
-
+const followUnfollowFlow = async (apiRequest: any, userId: number, dispatch: Dispatch<ActionsType>) => {
     dispatch(actionsUsers.toggleFollowingInProgress(true, userId));
 
     let data = await apiRequest(userId)

@@ -3,6 +3,7 @@ import s from './Friends.module.css'
 import {FriendItem} from "./FriendItem/FriendItem"
 import {connect} from "react-redux"
 import {FC} from "react"
+import {GlobalStateType} from "../../../redux/redux-store";
 
 type FriendType = {
     id: number
@@ -29,7 +30,7 @@ const Friends:FC<PropsType> = ({friends}) => {
     );
 }
 
-let mapStateToProps = state => {
+let mapStateToProps = (state: GlobalStateType) => {
     return {
         friends: state.navbar.friends
     }

@@ -70,7 +70,7 @@ type MapStatePropsType = {
 }
 
 type MapDispatchPropsType = {
-    login: (email: string, password: string, rememberMe: boolean, captcha: string | null) => void
+    login: (email: string, password: string, rememberMe: boolean, captcha: string | null) => Promise<void>
 }
 
 const mapStateToProps = (state: GlobalStateType): MapStatePropsType => ({
@@ -78,5 +78,5 @@ const mapStateToProps = (state: GlobalStateType): MapStatePropsType => ({
     captchaUrl: state.auth.captchaUrl
 })
 
-
-export default connect<MapStatePropsType, MapDispatchPropsType>(mapStateToProps, {login})(Login);
+// @ts-ignore
+export default connect(mapStateToProps, {login})(Login);

@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom"
 import Friends from "./Friends/Friends"
 
 const Navbar = () => {
-    const isActiveLink = navData => navData.isActive ? `${s.item} ${s.active}` : s.item;
+    const isActiveLink = (navData: any) => navData.isActive ? `${s.item} ${s.active}` : s.item;
     return (
         <div className={s.navbar}>
             <div className={s.menu}>

@@ -8,7 +8,7 @@ import {FC} from "react"
 
 type MapStatePropsType = {
     isAuth: boolean
-    login: string
+    login: string | null
 }
 
 type MapDispatchPropsType = {

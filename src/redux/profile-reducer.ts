@@ -1,9 +1,7 @@
 import {profileAPI, ResultCodesEnum} from "../api/api"
-import {stopSubmit} from "redux-form"
+import {FormAction, stopSubmit} from "redux-form"
 import {actionsApp} from "./app-reducer"
-import {InferValuesType, PostType, ProfilePhotosType, ProfileType} from "../types/types"
-import {ThunkAction} from "redux-thunk";
-import {GlobalStateType} from "./redux-store";
+import {BaseThunkType, InferValuesType, PostType, ProfilePhotosType, ProfileType} from "../types/types"
 
 const initialState = {
     posts: [
@@ -23,7 +21,7 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-const profileReducer = (state = initialState, action: ActionTypes): InitialStateType => {
+const profileReducer = (state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case "profile/ADD-POST": {
             let newPost = {
@@ -55,6 +53,7 @@ const profileReducer = (state = initialState, action: ActionTypes): InitialState
         case "profile/UPDATE_MAIN_PHOTO":
             return {
                 ...state,
+                // @ts-ignore
                 profile: {...state.profile, photos: action.photos}
             }
         default:
@@ -62,7 +61,8 @@ const profileReducer = (state = initialState, action: ActionTypes): InitialState
     }
 }
 
-type ActionTypes = ReturnType<InferValuesType<typeof actionsProfile>>
+type ActionsType = InferValuesType<typeof actionsProfile>
+type ThunkType = BaseThunkType<ActionsType | FormAction>
 
 export const actionsProfile = {
     addPost: (newPostBody: string, date: string, newPostId: number) => ({type: 'profile/ADD-POST', newPostBody, date, newPostId} as const),
@@ -72,9 +72,7 @@ export const actionsProfile = {
     savePhotoSuccess: (photos: ProfilePhotosType) => ({type: 'profile/UPDATE_MAIN_PHOTO', photos} as const)
 }
 
-type ThunkType = ThunkAction<Promise<void>, GlobalStateType, unknown, ActionTypes>
-
-export const getUserProfile = (userId: number): ThunkType => async dispatch => {
+export const getUserProfile = (userId: number | null): ThunkType => async dispatch => {
     dispatch(actionsProfile.toggleIsFetching(true))
 
     let data = await profileAPI.getUserProfile(userId)
@@ -92,8 +90,7 @@ export const getUserStatus = (userId: number): ThunkType => async dispatch => {
     dispatch(actionsProfile.toggleIsFetching(false))
 }
 
-// Типизировать
-export const updateUserStatus = (status:string) => async dispatch => {
+export const updateUserStatus = (status:string): ThunkType => async dispatch => {
     let data = await profileAPI.updateUserStatus(status)
     if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(actionsProfile.setUserStatus(status))
@@ -102,8 +99,7 @@ export const updateUserStatus = (status:string) => async dispatch => {
     }
 }
 
-// Типизировать
-export const updateMainPhoto = (photos: ProfilePhotosType) => async dispatch => {
+export const updateMainPhoto = (photos: File): ThunkType => async dispatch => {
     let data = await profileAPI.uploadMainPhoto(photos)
     if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(actionsProfile.savePhotoSuccess(data.data))
@@ -112,17 +108,16 @@ export const updateMainPhoto = (photos: ProfilePhotosType) => async dispatch => 
     }
 }
 
-// Типизировать
-export const updateProfileData = (data: ProfileType) => async (dispatch, getState) => {
+export const updateProfileData = (profileData: ProfileType): ThunkType => async (dispatch, getState) => {
     const userId = getState().auth.userId
-    let response = await profileAPI.updateProfileData(data)
-    if (response.data.resultCode === ResultCodesEnum.Success) {
+    let data = await profileAPI.updateProfileData(profileData)
+    if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(getUserProfile(userId))
     }
     else {
         // dispatch(stopSubmit('editProfile', {'contacts': {'facebook': response.data.messages[0]}}))
         // Распарсить строку, чтоб подсвечивать ошибочный инпут
-        dispatch(stopSubmit('editProfile', {_error: response.data.messages[0]} ))
+        dispatch(stopSubmit('editProfile', {_error: data.messages[0]} ))
         return Promise.reject()
     }
 }
