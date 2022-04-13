@@ -16,15 +16,7 @@
 
 }
 
-.inputBlock {
-    margin-bottom: 20px;
-}
-
-.inputBlock p {
-    margin-bottom: 8px;
-}
-
-.inputBlock input, .inputBlock textarea {
+.form div input, .form div textarea {
     border: 1px solid #25ACAC;
     border-radius: 7px;
     padding: 10px 20px;
@@ -46,6 +38,7 @@
 .lookingJob {
     display: flex;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .lookingJob .fieldTitle {

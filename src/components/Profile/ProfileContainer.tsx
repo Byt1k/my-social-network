@@ -32,18 +32,16 @@ type OwnPropsType = {
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
 const ProfileContainer: FC<PropsType> = (props) => {
-    let {userId} = useParams()
+    //@ts-ignore
+    let {userId} = +useParams()
     let isOwner = false
     if (!userId) {
-        // @ts-ignore
         userId = props.authorizedUserId;
         isOwner = true;
     }
     useEffect(() => {
-        // @ts-ignore
-        props.getUserProfile(userId);
-        // @ts-ignore
-        props.getUserStatus(userId);
+        props.getUserStatus(userId)
+        props.getUserProfile(userId)
     }, [userId])
 
     return (
@@ -70,8 +68,7 @@ const mapStateToProps = (state: GlobalStateType): MapStatePropsType => {
     })
 }
 
-export default compose(
+export default compose<FC<OwnPropsType>>(
     connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, GlobalStateType>(mapStateToProps,
         {getUserProfile, getUserStatus, updateUserStatus, addPost: actionsProfile.addPost}),
-    // @ts-ignore
     withAuthRedirect)(ProfileContainer)

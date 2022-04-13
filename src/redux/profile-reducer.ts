@@ -62,7 +62,7 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
 }
 
 type ActionsType = InferValuesType<typeof actionsProfile>
-type ThunkType = BaseThunkType<ActionsType | FormAction>
+export type ThunkType = BaseThunkType<ActionsType | FormAction>
 
 export const actionsProfile = {
     addPost: (newPostBody: string, date: string, newPostId: number) => ({type: 'profile/ADD-POST', newPostBody, date, newPostId} as const),

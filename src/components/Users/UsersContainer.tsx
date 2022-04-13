@@ -65,9 +65,8 @@ const mapStateToProps = (state: GlobalStateType): MapStatePropsType => {
     }
 }
 
-export default compose(
+export default compose<FC>(
     connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateToProps,
     {getUsers, follow, unfollow, setCurrentPage: actionsUsers.setCurrentPage}),
-    // @ts-ignore
     withAuthRedirect)(UsersContainer)
 

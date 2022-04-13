@@ -1,4 +1,3 @@
-// @ts-ignore
 import s from './Login.module.css'
 import {InjectedFormProps, reduxForm} from "redux-form";
 import {login} from "../../redux/auth-reducer";
@@ -70,7 +69,7 @@ type MapStatePropsType = {
 }
 
 type MapDispatchPropsType = {
-    login: (email: string, password: string, rememberMe: boolean, captcha: string | null) => Promise<void>
+    login: (email: string, password: string, rememberMe: boolean, captcha: string | null) => void
 }
 
 const mapStateToProps = (state: GlobalStateType): MapStatePropsType => ({
@@ -78,5 +77,4 @@ const mapStateToProps = (state: GlobalStateType): MapStatePropsType => ({
     captchaUrl: state.auth.captchaUrl
 })
 
-// @ts-ignore
-export default connect(mapStateToProps, {login})(Login);
+export default connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateToProps, {login})(Login);

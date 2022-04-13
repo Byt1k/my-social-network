@@ -1,5 +1,4 @@
 import {NavLink} from "react-router-dom"
-// @ts-ignore
 import s from "./DialogItem.module.css"
 import {FC} from "react"
 
@@ -14,7 +13,7 @@ const DialogItem:FC<PropsType> = ({id, image, name}) => {
     const isActiveDialogs = (navData: any) => navData.isActive ? `${s.dialog} ${s.active}` : s.dialog
     return (
         <NavLink to={path} className={isActiveDialogs}>
-            <div className={s.image} style={{background: `url(${image}) no-repeat center center / cover`}}></div>
+            <div className={s.image} style={{background: `url(${image}) no-repeat center center / cover`}} />
             {name}
         </NavLink>
     )

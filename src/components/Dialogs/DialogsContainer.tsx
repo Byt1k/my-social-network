@@ -1,4 +1,3 @@
-// @ts-ignore
 import s from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogItem"
 import Message from "./Message/Message"
@@ -8,7 +7,7 @@ import {connect} from "react-redux"
 import {actionsDialogs} from "../../redux/dialogs-reducer"
 import {withAuthRedirect} from "../../hoc/withAuthRedirect"
 import {compose} from "redux"
-import {FC} from "react";
+import {ComponentType, FC} from "react";
 import {DialogType, MessageType} from "../../types/types"
 import {GlobalStateType} from "../../redux/redux-store"
 
@@ -60,9 +59,9 @@ const NewMessageReduxForm = reduxForm<NewMessageType>({form: 'dialogsNewMessage'
 
 const mapStateToProps = (state: GlobalStateType):MapStatePropsType => ({dialogsPage: state.dialogsPage})
 
-const DialogsContainer = compose(
+const DialogsContainer = compose<FC>(
     connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateToProps,
-        {sendMessage: actionsDialogs.sendMessage}), // @ts-ignore
+        {sendMessage: actionsDialogs.sendMessage}),
     withAuthRedirect)(Dialogs)
 
 export default DialogsContainer

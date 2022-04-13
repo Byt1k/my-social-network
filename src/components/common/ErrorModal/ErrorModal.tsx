@@ -1,6 +1,4 @@
-// @ts-ignore
 import s from "./../Modal/Modal.module.css";
-// @ts-ignore
 import styles from './ErrorModal.module.css';
 import cn from 'classnames'
 import {FC} from "react";
@@ -8,7 +6,7 @@ import {FC} from "react";
 type PropsType = {
     active:boolean
     errorMessage: string | null
-    hideModal: (errorMessage: null) => void
+    hideModal: (errorMessage: string | null) => void
 }
 
 const ErrorModal:FC<PropsType> = ({active, errorMessage, hideModal}) => {

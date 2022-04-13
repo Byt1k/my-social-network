@@ -1,4 +1,3 @@
-//@ts-ignore
 import s from "./Pagination.module.css"
 import {FC} from "react"
 

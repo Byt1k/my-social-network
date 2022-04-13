@@ -1,6 +1,5 @@
 import Pagination from "../common/Pagination/Pagination"
 import UsersItem from "./UsersItem/UsersItem"
-// @ts-ignore
 import s from './Users.module.css'
 import {UserType} from "../../types/types"
 import {FC} from "react"

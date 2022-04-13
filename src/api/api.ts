@@ -1,7 +1,7 @@
 import axios from "axios";
 import {ProfilePhotosType, ProfileType, UserType} from "../types/types";
 
-let instance = axios.create({
+const instance = axios.create({
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     headers: {
@@ -9,30 +9,12 @@ let instance = axios.create({
     }
 })
 
-export enum ResultCodesEnum {
-    Success = 0,
-    Error = 1
-}
-
-export enum ResultCodeForCaptcha {
-    CaptchaIsRequired = 10
-}
-
-export type GetItemsres<T> = {
-    items: Array<T>
-    totalCount: number
-    error: string | null
-}
-
-export type ServerResponseType<T = {}, C = number> = {
-    resultCode: ResultCodesEnum | C
-    messages: Array<string>
-    data: T
-}
-
 export const usersAPI = {
     getUsers(currentPage = 1, pageSize = 10) {
-        return instance.get<GetItemsres<UserType>>(`users?page=${currentPage}&count=${pageSize}`).then(res => res.data)
+        return instance.get<GetItemsResponse<UserType>>(`users?page=${currentPage}&count=${pageSize}`).then(res => res.data)
+    },
+    getFriends(currentPage = 1, pageSize = 10) {
+        return instance.get<GetItemsResponse>(`users?page=${currentPage}&count=${pageSize}&friend=${true}`).then(res => res.data)
     }
 }
 
@@ -45,21 +27,11 @@ export const followingAPI = {
     }
 }
 
-type MeDataType = {
-    id: number
-    email: string
-    login: string
-}
-
-type LoginResponseDataType = {
-    id: number
-}
-
 export const authAPI = {
     getMe() {
         return instance.get<ServerResponseType<MeDataType>>('auth/me').then(res => res.data)
     },
-    login(email: string, password: string, rememberMe: boolean, captcha: string) {
+    login(email: string, password: string, rememberMe: boolean, captcha: string | null) {
         return instance.post<ServerResponseType<LoginResponseDataType, ResultCodeForCaptcha>>('auth/login', {email, password, rememberMe, captcha}).then(res => res.data)
     },
     logout() {
@@ -91,4 +63,36 @@ export const securityAPI = {
     getCaptchaUrl() {
         return instance.get<{url: string}>('security/get-captcha-url').then(res => res.data.url)
     }
+}
+
+
+export enum ResultCodesEnum {
+    Success = 0,
+    Error = 1
+}
+
+export enum ResultCodeForCaptcha {
+    CaptchaIsRequired = 10
+}
+
+export type GetItemsResponse<T = {}> = {
+    items: Array<T>
+    totalCount: number
+    error: string | null
+}
+
+export type ServerResponseType<T = {}, C = number> = {
+    resultCode: ResultCodesEnum | C
+    messages: Array<string>
+    data: T
+}
+
+type MeDataType = {
+    id: number
+    email: string
+    login: string
+}
+
+type LoginResponseDataType = {
+    id: number
 }

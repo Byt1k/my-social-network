@@ -3,7 +3,7 @@ import defaultImage from '../../../assets/images/user.jpg'
 import UserStatus from "./UserStatus/UserStatus"
 import editProfileBtn from '../../../assets/images/eidtProfileBtn.png'
 import {FC} from "react"
-import {ProfileType} from "../../../types/types";
+import {ProfileContactsType, ProfileType} from "../../../types/types";
 
 type PropsType = {
     profile: ProfileType
@@ -27,8 +27,7 @@ export const ProfileInfo: FC<PropsType> = ({
     }
 
     // проверка для отображения заголовка "Контакты"
-    // @ts-ignore
-    let contactsExist = Object.keys(profile.contacts).some(key => profile.contacts[key] !== null);
+    let contactsExist = Object.keys(profile.contacts).some(key => profile.contacts[key as keyof ProfileContactsType] !== null);
 
     return (
         <div>
@@ -58,10 +57,11 @@ export const ProfileInfo: FC<PropsType> = ({
                 <div className={s.contacts}>
                     {contactsExist && <p className={s.title}>Contacts</p>}
                     <div>
-                        {Object.keys(profile.contacts).map(key => {
-                            // @ts-ignore
-                            return <ContactItem key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
-                        })}
+                        {Object.keys(profile.contacts)
+                            .map((key) => {
+                                return <ContactItem key={key} contactTitle={key} contactValue={profile.contacts[key as keyof ProfileContactsType]}/>
+                            })
+                        }
                     </div>
                 </div>
             </div>

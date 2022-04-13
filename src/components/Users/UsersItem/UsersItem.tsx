@@ -1,7 +1,6 @@
 // @ts-ignore
 import s from "../Users.module.css"
 import {NavLink} from "react-router-dom"
-// @ts-ignore
 import defaultImage from "../../../assets/images/user.jpg"
 import {FC} from "react";
 import {UserType} from "../../../types/types";

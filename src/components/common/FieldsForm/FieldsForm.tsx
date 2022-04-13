@@ -1,7 +1,6 @@
-// @ts-ignore
 import s from './FieldsForm.module.css';
 import {Field, WrappedFieldProps} from "redux-form";
-import {FC, InputHTMLAttributes} from "react";
+import {FC} from "react";
 import {ValidatorType} from "../../../utils/validators";
 
 const FormControl: FC<WrappedFieldProps> = ({meta: {touched, error}, children}) => {
@@ -37,7 +36,7 @@ export const createField = <T extends string>(title: string,
                                               component: string | FC<WrappedFieldProps>,
                                               name: T,
                                               validators: Array<ValidatorType> = [],
-                                              props: any  = {type: 'text'}) => {
+                                              props: {[key: string]: string}  = {}) => {
     if (props.type === 'checkbox') {
         return (
             <div className={s.checkboxBlock}>

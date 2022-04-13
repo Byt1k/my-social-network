@@ -1,38 +1,31 @@
 import './zeroing.css'
 import './App.css'
 import Navbar from './components/Navbar/Navbar'
-
 import Login from "./components/Login/Login"
 import Header from "./components/Header/Header"
 import ProfileContainer from "./components/Profile/ProfileContainer"
 import DialogsContainer from "./components/Dialogs/DialogsContainer"
 import UsersContainer from './components/Users/UsersContainer'
-import {FC, useEffect, useState} from "react"
+import {ChangeEvent, FC, useEffect, useState} from "react"
 import {connect, Provider} from "react-redux"
 import Preloader from "./components/common/Preloader/Preloader"
-import {initializeApp, actionsApp} from "./redux/app-reducer"
+import {actionsApp, initializeApp} from "./redux/app-reducer"
 import store, {GlobalStateType} from "./redux/redux-store"
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom"
 import Modal from "./components/common/Modal/Modal"
 import ProfileEditDataForm from "./components/Profile/ProfileInfo/ProfileEditDataForm/ProfileEditDataForm"
-import {updateMainPhoto, updateProfileData} from "./redux/profile-reducer"
+import {ThunkType, updateMainPhoto, updateProfileData} from "./redux/profile-reducer"
 import UploadAvatarForm from "./components/Profile/ProfileInfo/UploadAvatarForm/UploadAvatarForm"
 import ErrorModal from "./components/common/ErrorModal/ErrorModal"
 import {ProfileType} from "./types/types"
 
-type MapStatePropsType = {
-    initialized: boolean
-    isAuth: boolean
-    authorizedUserId: number | null
-    profile : any
-    errorMessage: string | null
-}
+type MapStatePropsType = ReturnType<typeof mapStateToProps>
 
 type MapDispatchPropsType = {
-    initializeApp: any
-    updateProfileData: any
-    updateMainPhoto: any
-    setErrorMessage: any
+    initializeApp: () => void
+    updateProfileData: Function
+    updateMainPhoto: Function
+    setErrorMessage: (errorMessage: string | null) => void
 }
 
 type PropsType = MapStatePropsType & MapDispatchPropsType
@@ -48,8 +41,10 @@ const App:FC<PropsType> = (props) => {
 
     // загрузка аватара
     let [photoUploadMode, setPhotoUploadMode] = useState(false);
-    const saveMainPhoto = (e: any) => {
-        props.updateMainPhoto(e.target.files[0]);
+    const saveMainPhoto = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files?.length) {
+            props.updateMainPhoto(e.target.files[0])
+        }
         setPhotoUploadMode(false);
     }
 
@@ -74,7 +69,7 @@ const App:FC<PropsType> = (props) => {
                                                           setPhotoUploadMode={setPhotoUploadMode} />} />
                         <Route path='/profile'
                                element={<ProfileContainer setEditModeProfileData={setEditModeProfileData}
-                                                          setPhotoUploadMode={setPhotoUploadMode}/>} />
+                                                          setPhotoUploadMode={setPhotoUploadMode} />} />
                         <Route path='/dialogs/*' element={<DialogsContainer />}/>
                         <Route path='/users' element={<UsersContainer />}/>
                         <Route path='/login' element={<Login />}/>
@@ -83,6 +78,7 @@ const App:FC<PropsType> = (props) => {
             </div>
             {/* Модальное окно редактирования профиля*/}
             <Modal active={editModeProfileData} setActive={setEditModeProfileData}>
+                {/* @ts-ignore */}
                 <ProfileEditDataForm initialValues={props.profile} onSubmit={saveProfileData}/>
             </Modal>
             {/* Модальное окно загрузки аватара */}
@@ -96,7 +92,7 @@ const App:FC<PropsType> = (props) => {
     );
 }
 
-const mapStateToProps = (state: GlobalStateType): MapStatePropsType => ({
+const mapStateToProps = (state: GlobalStateType) => ({
     initialized: state.app.initialized,
     authorizedUserId: state.auth.userId,
     profile: state.profilePage.profile,
@@ -104,14 +100,14 @@ const mapStateToProps = (state: GlobalStateType): MapStatePropsType => ({
     isAuth: state.auth.isAuth
 })
 
-const AppConnected = connect(mapStateToProps, {
+const AppConnected = connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateToProps, {
     initializeApp,
     updateProfileData,
     updateMainPhoto,
     setErrorMessage: actionsApp.setErrorMessage
 })(App);
 
-const AppContainer = (props: any) => {
+const AppContainer: FC = () => {
     return (
         // BrowserRouter should be used
         // HashRouter used only of deploy on GitHub Pages

@@ -27,7 +27,7 @@ const authReducer = (state = initialState, action: ActionsType):InitialStateType
 }
 
 type ActionsType = InferValuesType<typeof actionsAuth>
-type ThunkType = BaseThunkType<ActionsType | FormAction>
+export type ThunkType = BaseThunkType<ActionsType | FormAction>
 
 export const actionsAuth = {
     setAuthUserData: (userId: number | null, login: string | null, email: string | null, isAuth: boolean) => ({
@@ -48,7 +48,7 @@ export const getAuthUserData = (): ThunkType => async dispatch => {
     }
 }
 
-export const login = (email: string, password: string, rememberMe: boolean, captcha: string): ThunkType => async dispatch => {
+export const login = (email: string, password: string, rememberMe: boolean, captcha: string | null): ThunkType => async dispatch => {
     const data = await authAPI.login(email, password, rememberMe, captcha)
     if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(getAuthUserData())

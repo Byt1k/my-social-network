@@ -1,4 +1,4 @@
-import profileReducer, {addPost} from "./profile-reducer";
+import profileReducer, {actionsProfile} from "./profile-reducer";
 
 
 let state = {
@@ -19,14 +19,14 @@ let state = {
 
 test('posts count should incremented', () => {
     let newPostText = 'Hello!';
-    let action = addPost(newPostText);
+    let action = actionsProfile.addPost(newPostText, '', 1);
     let newState = profileReducer(state, action);
     expect(newState.posts.length).toBe(4);
 });
 
 test('posts message is correct', () => {
     let newPostText = 'Hello!';
-    let action = addPost(newPostText);
+    let action = actionsProfile.addPost(newPostText, '', 1);
     let newState = profileReducer(state, action);
     expect(newState.posts[0].text).toBe(newPostText);
 });

@@ -1,6 +1,4 @@
 import {getAuthUserData} from "./auth-reducer"
-import {ThunkAction} from "redux-thunk";
-import {GlobalStateType} from "./redux-store";
 import {BaseThunkType, InferValuesType} from "../types/types";
 
 const initialState = {
@@ -28,11 +26,11 @@ const appReducer = (state = initialState, action: ActionsType): InitialStateType
 }
 
 type ActionsType = InferValuesType<typeof actionsApp>
-type ThunkType = BaseThunkType<ActionsType>
+export type ThunkType = BaseThunkType<ActionsType>
 
 export const actionsApp = {
     initializedSuccess: () => ({type: 'app/INITIALIZED_SUCCESS'} as const),
-    setErrorMessage: (errorMessage: string) => ({type: 'app/SET_ERROR_MESSAGE', errorMessage} as const)
+    setErrorMessage: (errorMessage: string | null) => ({type: 'app/SET_ERROR_MESSAGE', errorMessage} as const)
 }
 
 
