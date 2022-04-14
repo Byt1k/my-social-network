@@ -9,7 +9,8 @@ const initialState = {
     totalCount: 0,
     currentPage: 1,
     isFetching: false,
-    followingInProgress: [] as Array<number>
+    followingInProgress: [] as Array<number>,
+    term: ''
 }
 
 type InitialStateType = typeof initialState
@@ -41,6 +42,11 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
                 ...state,
                 currentPage: action.pageNumber
             }
+        case "users/SET_USERS_FILTER":
+            return {
+                ...state,
+                term: action.term
+            }
         case "users/TOGGLE_IS_FETCHING":
             return {
                 ...state,
@@ -66,6 +72,7 @@ export const actionsUsers = {
     setUsers: (users: Array<UserType>) => ({type: 'users/SET_USERS', users} as const),
     setTotalCount: (totalCount: number) => ({type: 'users/SET_TOTAL_COUNT', totalCount} as const),
     setCurrentPage: (pageNumber: number)  => ({type: 'users/CHANGE_PAGE', pageNumber} as const),
+    setUsersFilter: (term: string)  => ({type: 'users/SET_USERS_FILTER', term} as const),
     toggleIsFetching: (isFetching: boolean) => ({type: 'users/TOGGLE_IS_FETCHING', isFetching} as const),
     toggleFollowingInProgress: (isFollowing: boolean, userId: number) => ({
         type: 'users/TOGGLE_FOLLOWING_IN_PROGRESS',
@@ -74,12 +81,13 @@ export const actionsUsers = {
     } as const)
 }
 
-export const getUsers = (currentPage: number, pageSize: number, isFriend?: boolean): ThunkType => async dispatch => {
+export const getUsers = (currentPage: number, pageSize: number, term: string, isFriend: boolean | undefined = undefined): ThunkType => async dispatch => {
     dispatch(actionsUsers.toggleIsFetching(true))
 
-    let data = await usersAPI.getUsers(currentPage, pageSize, isFriend);
-    dispatch(actionsUsers.setUsers(data.items));
-    dispatch(actionsUsers.setTotalCount(data.totalCount));
+    let data = await usersAPI.getUsers(currentPage, pageSize, term, isFriend);
+    dispatch(actionsUsers.setUsers(data.items))
+    dispatch(actionsUsers.setTotalCount(data.totalCount))
+    dispatch(actionsUsers.setUsersFilter(term))
 
     dispatch(actionsUsers.toggleIsFetching(false))
 }

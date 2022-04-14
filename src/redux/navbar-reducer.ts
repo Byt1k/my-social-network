@@ -27,7 +27,7 @@ type ActionsType = InferValuesType<typeof actionsNavbar>
 export type ThunkType = BaseThunkType<ActionsType>
 
 export const getFriendsToNavbar = (): ThunkType => async (dispatch) => {
-    const data = await usersAPI.getUsers(1, 3, true)
+    const data = await usersAPI.getUsers(1, 3, '', true)
     dispatch(actionsNavbar.setFriends(data.items))
 }
 

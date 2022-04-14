@@ -5,6 +5,7 @@
     justify-content: center;
     color: #000;
     width: 30%;
+    text-align: center;
 }
 
 .friendImg {
@@ -17,4 +18,5 @@
 
 .name {
     font-size: 10px;
+    line-height: 1.2em;
 }

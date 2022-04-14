@@ -29,7 +29,7 @@ test('', async () => {
     }
 
     userAPIMock.getUsers.mockReturnValue(Promise.resolve(getUsersResult))
-    const thunk = getUsers(1, 10)
+    const thunk = getUsers(1, 10, '')
     await thunk(dispatchMock, getStateMock, {})
     expect(dispatchMock).toBeCalledTimes(4);
 })
