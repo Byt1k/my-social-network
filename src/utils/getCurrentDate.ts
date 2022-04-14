@@ -1,5 +1,5 @@
 export const getCurrentDate = () => {
-    let date = new Date();
+    const date = new Date();
     let day = date.getDate();
     let month = '';
     switch (date.getMonth()) {
