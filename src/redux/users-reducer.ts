@@ -1,7 +1,8 @@
 import {ResultCodesEnum, ServerResponseType} from "../api/api"
 import {BaseThunkType, InferValuesType, UserType} from "../types/types"
-import {Dispatch} from "redux";
+import {Action, Dispatch} from "redux";
 import {usersAPI} from "../api/users-api";
+import {actionsProfile} from "./profile-reducer";
 
 const initialState = {
     users: [] as Array<UserType>,
@@ -93,12 +94,15 @@ export const getUsers = (currentPage: number, pageSize: number, term: string, is
 }
 
 const _followUnfollowFlow = async (apiRequest: (userId: number) => Promise<ServerResponseType>,
-                                   userId: number, dispatch: Dispatch<ActionsType>) => {
+                                   userId: number, dispatch: Dispatch<Action>) => {
     dispatch(actionsUsers.toggleFollowingInProgress(true, userId));
 
     let data = await apiRequest(userId)
     if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(actionsUsers.toggleFollow(userId))
+
+        let followed = await usersAPI.isFollowed(userId)
+        dispatch(actionsProfile.setProfileFollowed(followed))
     }
 
     dispatch(actionsUsers.toggleFollowingInProgress(false, userId))

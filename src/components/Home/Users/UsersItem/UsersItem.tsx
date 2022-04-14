@@ -13,13 +13,13 @@ type PropsType = {
 }
 
 const UsersItem: FC<PropsType> = ({user, followingInProgress, follow, unfollow}) => {
-    const followingClick = () => !user.followed ? follow(user.id) : unfollow(user.id);
+    const followingClick = () => !user.followed ? follow(user.id) : unfollow(user.id)
     return (
         <div className={s.item}>
             <div>
                 <NavLink to={'/profile/' + user.id}>
                     <div className={s.avatar}
-                         style={{background: `url(${user.photos.small ? user.photos.small : defaultImage}) no-repeat center center / cover`}}></div>
+                         style={{background: `url(${user.photos.small ? user.photos.small : defaultImage}) no-repeat center center / cover`}} />
                 </NavLink>
             </div>
             <div>

@@ -119,3 +119,28 @@
     flex-wrap: wrap;
 }
 
+.followBtn {
+    display: block;
+    width: 120px;
+    height: 36px;
+    border-radius: 7px;
+    background: rgb(51, 122, 255);
+    color: #fff;
+    font-weight: 700;
+    margin-top: 15px;
+    position: absolute;
+    top: 0;
+    right: -30px;
+}
+
+.followBtn:disabled {
+    opacity: 0.5;
+}
+
+
+.followBtn.followed {
+    border: 1px solid rgb(51, 122, 255);
+    background: #fff;
+    color: rgb(51, 122, 255);
+}
+

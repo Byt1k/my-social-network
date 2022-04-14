@@ -13,6 +13,9 @@ type PropsType = {
     setPhotoUploadMode?: (photoUploadMode: boolean) => void
     posts: Array<PostType>
     addPost: (newPostBody: string, currentDate: string, newPostId: number) => void
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+    followingInProgress: number[]
 }
 
 const Profile: FC<PropsType> = props => {
@@ -28,6 +31,9 @@ const Profile: FC<PropsType> = props => {
                          isOwner={props.isOwner}
                          setEditModeProfileData={props.setEditModeProfileData}
                          setPhotoUploadMode={props.setPhotoUploadMode}
+                         follow={props.follow}
+                         unfollow={props.unfollow}
+                         followingInProgress={props.followingInProgress}
             />
             <MyPosts isOwner={props.isOwner} profile={props.profile} posts={props.posts} addPost={props.addPost}/>
         </div>

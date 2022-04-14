@@ -12,5 +12,8 @@ export const usersAPI = {
     },
     unfollow(userId: number) {
         return instance.delete<ServerResponseType>(`follow/${userId}`).then(res => res.data)
+    },
+    isFollowed(userId: number) {
+        return instance.get<boolean>(`follow/${userId}`).then(res => res.data)
     }
 }

@@ -44,6 +44,7 @@ export type ProfileType = {
     contacts: ProfileContactsType
     photos: ProfilePhotosType
     aboutMe: string
+    followed?: boolean
 }
 
 export type UserType = {

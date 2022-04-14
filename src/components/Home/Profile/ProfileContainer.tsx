@@ -8,6 +8,7 @@ import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {PostType, ProfileType} from "../../../types/types";
 import {GlobalStateType} from "../../../redux/redux-store";
+import {follow, unfollow} from "../../../redux/users-reducer";
 
 type MapStatePropsType = {
     profile: ProfileType | null
@@ -15,6 +16,7 @@ type MapStatePropsType = {
     isFetching: boolean
     authorizedUserId: number | null
     posts: Array<PostType>
+    followingInProgress: number[]
 }
 
 type MapDispatchPropsType = {
@@ -22,6 +24,8 @@ type MapDispatchPropsType = {
     getUserStatus: (userId: number) => void
     updateUserStatus: (status: string) => void
     addPost: (newPostBody: string, currentDate: string, newPostId: number) => void
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
 }
 
 type OwnPropsType = {
@@ -31,32 +35,24 @@ type OwnPropsType = {
 
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
-const ProfileContainer: FC<PropsType> = (props) => {
+const ProfileContainer: FC<PropsType> = ({getUserStatus, getUserProfile, authorizedUserId,  ...props}) => {
     let {userId} = useParams()
     let isOwner = false
     if (!userId) {
         // @ts-ignore
-        userId = props.authorizedUserId;
+        userId = authorizedUserId;
         isOwner = true;
     }
     useEffect(() => {
         // @ts-ignore
-        props.getUserStatus(userId)
+        getUserStatus(userId)
         // @ts-ignore
-        props.getUserProfile(userId)
+        getUserProfile(userId)
     }, [userId])
 
     return (
         props.isFetching ? <Preloader/> :
-            <Profile profile={props.profile}
-                     userStatus={props.userStatus}
-                     updateUserStatus={props.updateUserStatus}
-                     isOwner={isOwner}
-                     setEditModeProfileData={props.setEditModeProfileData}
-                     setPhotoUploadMode={props.setPhotoUploadMode}
-                     posts={props.posts}
-                     addPost={props.addPost}
-            />
+            <Profile {...props} isOwner={isOwner}/>
     )
 }
 
@@ -66,11 +62,13 @@ const mapStateToProps = (state: GlobalStateType): MapStatePropsType => {
         userStatus: state.profilePage.userStatus,
         isFetching: state.profilePage.isFetching,
         authorizedUserId: state.auth.userId,
-        posts: state.profilePage.posts
+        posts: state.profilePage.posts,
+        followingInProgress: state.usersPage.followingInProgress
     })
 }
 
 export default compose<FC<OwnPropsType>>(
     connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, GlobalStateType>(mapStateToProps,
-        {getUserProfile, getUserStatus, updateUserStatus, addPost: actionsProfile.addPost}),
+        {getUserProfile, getUserStatus, updateUserStatus,
+            addPost: actionsProfile.addPost, follow, unfollow}),
     withAuthRedirect)(ProfileContainer)

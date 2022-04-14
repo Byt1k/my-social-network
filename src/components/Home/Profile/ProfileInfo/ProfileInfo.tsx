@@ -4,6 +4,7 @@ import UserStatus from "./UserStatus/UserStatus"
 import editProfileBtn from '../../../../assets/images/eidtProfileBtn.png'
 import {FC} from "react"
 import {ProfileContactsType, ProfileType} from "../../../../types/types";
+import cn from 'classnames'
 
 type PropsType = {
     profile: ProfileType
@@ -12,16 +13,14 @@ type PropsType = {
     isOwner: boolean
     setEditModeProfileData?: (editModeProfileData: boolean) => void
     setPhotoUploadMode?: (photoUploadMode: boolean) => void
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+    followingInProgress: number[]
 }
 
-export const ProfileInfo: FC<PropsType> = ({
-                                               profile,
-                                               userStatus,
-                                               updateUserStatus,
-                                               isOwner,
-                                               setPhotoUploadMode,
-                                               setEditModeProfileData
-                                           }) => {
+export const ProfileInfo: FC<PropsType> = ({profile, userStatus, updateUserStatus, isOwner,
+                                           setPhotoUploadMode, setEditModeProfileData, follow, unfollow,
+                                           followingInProgress}) => {
     const background = {
         background: 'url(https://res.cloudinary.com/worldpackers/image/upload/c_fill,f_auto,q_auto,w_1024/v1/guides/article_cover/fl4bzxx2pvifrjtc4l6x) no-repeat center center / cover'
     }
@@ -29,9 +28,10 @@ export const ProfileInfo: FC<PropsType> = ({
     // проверка для отображения заголовка "Контакты"
     let contactsExist = Object.keys(profile.contacts).some(key => profile.contacts[key as keyof ProfileContactsType] !== null);
 
+    const followingClick = () => !profile.followed ? follow(profile.userId) : unfollow(profile.userId)
     return (
         <div>
-            <div className={s.background} style={background}></div>
+            <div className={s.background} style={background} />
             <div className={s.avaAndName}>
                 <div className={s.avatar}
                      style={{background: `url(${profile.photos.large || defaultImage}) no-repeat center center / cover`}}>
@@ -48,6 +48,13 @@ export const ProfileInfo: FC<PropsType> = ({
                         <p className={s.name}>{profile.fullName}</p>
                         {isOwner && <img onClick={() => setEditModeProfileData && setEditModeProfileData(true)}
                                          src={editProfileBtn} alt="icon" className={s.editProfileBtn}/>}
+
+                        {!isOwner && <button disabled={followingInProgress.some(id => id === profile.userId)}
+                                             className={cn({[s.followed]: profile.followed}, s.followBtn)}
+                                             onClick={() => followingClick()}>
+                            {profile.followed ? 'Unfollow' : 'Follow'}
+
+                        </button>}
                     </div>
                     <UserStatus userStatus={userStatus} updateUserStatus={updateUserStatus} isOwner={isOwner}/>
                 </div>

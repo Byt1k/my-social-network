@@ -3,6 +3,7 @@ import {FormAction, stopSubmit} from "redux-form"
 import {actionsApp} from "./app-reducer"
 import {BaseThunkType, InferValuesType, PostType, ProfilePhotosType, ProfileType} from "../types/types"
 import {profileAPI} from "../api/profile-api";
+import {usersAPI} from "../api/users-api";
 
 const initialState = {
     posts: [
@@ -54,8 +55,14 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
         case "profile/UPDATE_MAIN_PHOTO":
             return {
                 ...state,
-                // @ts-ignore
+            // @ts-ignore
                 profile: {...state.profile, photos: action.photos}
+            }
+        case "profile/SET_PROFILE_FOLLOWED":
+            return {
+                ...state,
+            // @ts-ignore
+                profile: {...state.profile, followed: action.followed}
             }
         default:
             return state
@@ -70,14 +77,17 @@ export const actionsProfile = {
     setUserProfile: (profile: ProfileType) => ({type: 'profile/SET_USERS_PROFILE', profile} as const),
     setUserStatus: (status: string) => ({type: 'profile/SET_USER_STATUS', status} as const),
     toggleIsFetching: (isFetching: boolean) => ({type: 'profile/TOGGLE_IS_FETCHING', isFetching} as const),
-    savePhotoSuccess: (photos: ProfilePhotosType) => ({type: 'profile/UPDATE_MAIN_PHOTO', photos} as const)
+    savePhotoSuccess: (photos: ProfilePhotosType) => ({type: 'profile/UPDATE_MAIN_PHOTO', photos} as const),
+    setProfileFollowed: (followed: boolean) => ({type: 'profile/SET_PROFILE_FOLLOWED', followed} as const)
 }
 
-export const getUserProfile = (userId: number | null): ThunkType => async dispatch => {
+export const getUserProfile = (userId: number): ThunkType => async dispatch => {
     dispatch(actionsProfile.toggleIsFetching(true))
 
-    let data = await profileAPI.getUserProfile(userId)
-    dispatch(actionsProfile.setUserProfile(data))
+    let profile = await profileAPI.getUserProfile(userId)
+    let followed = await usersAPI.isFollowed(userId)
+    dispatch(actionsProfile.setUserProfile(profile))
+    dispatch(actionsProfile.setProfileFollowed(followed))
 
     dispatch(actionsProfile.toggleIsFetching(false))
 }
@@ -110,7 +120,7 @@ export const updateMainPhoto = (photos: File): ThunkType => async dispatch => {
 }
 
 export const updateProfileData = (profileData: ProfileType): ThunkType => async (dispatch, getState) => {
-    const userId = getState().auth.userId
+    const userId = getState().auth.userId as number
     let data = await profileAPI.updateProfileData(profileData)
     if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(getUserProfile(userId))

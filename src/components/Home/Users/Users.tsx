@@ -30,21 +30,22 @@ const Users: FC<PropsType> = ({
     return (
         <>
             {!isFriends && <UsersSearchForm onSubmitUsersSearchForm={onSubmitUsersSearchForm} term={term}/>}
-            {isFetching ? <Preloader /> : <div className={s.users}>
-                {isFriends && (
-                    <div className={s.myFriendsTitle}>
-                        <p>My friends</p>
-                        <span>{totalCount}</span>
-                    </div>
-                )}
-                {
-                    users.map(u => <UsersItem key={u.id} user={u} followingInProgress={followingInProgress}
-                                              follow={follow}
-                                              unfollow={unfollow}/>)
-                }
-                <Pagination totalCount={totalCount} pageSize={pageSize} onChangePage={onChangePage}
-                            currentPage={currentPage}/>
-            </div>}
+            {isFetching ? <Preloader /> : (
+                <div className={s.users}>
+                    {isFriends && (
+                        <div className={s.myFriendsTitle}>
+                            <p>My friends</p>
+                            <span>{totalCount}</span>
+                        </div>
+                    )}
+                    {
+                        users.map(u => <UsersItem key={u.id} user={u} followingInProgress={followingInProgress}
+                                                  follow={follow} unfollow={unfollow}/>)
+                    }
+                    <Pagination totalCount={totalCount} pageSize={pageSize} onChangePage={onChangePage}
+                                currentPage={currentPage}/>
+                </div>
+            )}
         </>
     )
 }
