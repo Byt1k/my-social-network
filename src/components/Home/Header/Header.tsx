@@ -1,8 +1,8 @@
 import s from './Header.module.css'
 import {NavLink} from "react-router-dom"
-import {GlobalStateType} from "../../redux/redux-store"
+import {GlobalStateType} from "../../../redux/redux-store"
 import {connect} from "react-redux"
-import {logout} from "../../redux/auth-reducer"
+import {logout} from "../../../redux/auth-reducer"
 import {FC} from "react"
 
 type MapStatePropsType = {

@@ -1,9 +1,9 @@
 import s from "./ProfileInfo.module.css"
-import defaultImage from '../../../assets/images/user.jpg'
+import defaultImage from '../../../../assets/images/user.jpg'
 import UserStatus from "./UserStatus/UserStatus"
-import editProfileBtn from '../../../assets/images/eidtProfileBtn.png'
+import editProfileBtn from '../../../../assets/images/eidtProfileBtn.png'
 import {FC} from "react"
-import {ProfileContactsType, ProfileType} from "../../../types/types";
+import {ProfileContactsType, ProfileType} from "../../../../types/types";
 
 type PropsType = {
     profile: ProfileType

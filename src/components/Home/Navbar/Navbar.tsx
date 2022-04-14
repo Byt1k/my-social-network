@@ -2,7 +2,7 @@ import s from './Navbar.module.css'
 import {NavLink} from "react-router-dom"
 import FriendsNav from "./FriendsNav/FriendsNav"
 import {FC} from "react";
-import {UserType} from "../../types/types";
+import {UserType} from "../../../types/types";
 
 type PropsType = {
     friends: UserType[]
@@ -20,7 +20,7 @@ const Navbar: FC<PropsType> = ({friends}) => {
                 <a href="#" className={s.item}>Music</a>
                 <a href="#" className={s.item}>Settings</a>
             </div>
-            <FriendsNav friends={friends}/>
+            {!!friends.length && <FriendsNav friends={friends}/>}
         </div>
     )
 }

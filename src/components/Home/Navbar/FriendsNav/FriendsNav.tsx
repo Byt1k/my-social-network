@@ -1,7 +1,7 @@
 import s from './FriendsNav.module.css'
 import {FriendNavItem} from "./FriendItem/FriendNavItem"
 import {FC} from "react"
-import {UserType} from "../../../types/types";
+import {UserType} from "../../../../types/types";
 import {NavLink} from 'react-router-dom';
 
 

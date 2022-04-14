@@ -4,13 +4,13 @@ import {
     follow,
     getUsers, actionsUsers,
     unfollow,
-} from "../../redux/users-reducer"
+} from "../../../redux/users-reducer"
 import Users from "./Users"
-import Preloader from "../common/Preloader/Preloader"
-import {withAuthRedirect} from "../../hoc/withAuthRedirect"
+import Preloader from "../../common/Preloader/Preloader"
+import {withAuthRedirect} from "../../../hoc/withAuthRedirect"
 import {compose} from "redux"
-import {GlobalStateType} from "../../redux/redux-store"
-import {UserType} from "../../types/types"
+import {GlobalStateType} from "../../../redux/redux-store"
+import {UserType} from "../../../types/types"
 
 type MapStatePropsType = {
     users: Array<UserType>

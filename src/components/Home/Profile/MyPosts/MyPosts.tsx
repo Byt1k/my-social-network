@@ -3,9 +3,9 @@ import s from './MyPosts.module.css';
 import Post from "./Post/Post";
 import {FC} from "react";
 import {Field, FormAction, InjectedFormProps, reduxForm, reset} from "redux-form";
-import {Textarea} from "../../common/FieldsForm/FieldsForm";
-import {getCurrentDate} from "../../../utils/getCurrentDate";
-import {PostType, ProfileType} from "../../../types/types";
+import {Textarea} from "../../../common/FieldsForm/FieldsForm";
+import {getCurrentDate} from "../../../../utils/getCurrentDate";
+import {PostType, ProfileType} from "../../../../types/types";
 import {Dispatch} from "redux";
 
 type NewPostFormValuesType = {

@@ -1,7 +1,7 @@
-import Pagination from "../common/Pagination/Pagination"
+import Pagination from "../../common/Pagination/Pagination"
 import UsersItem from "./UsersItem/UsersItem"
 import s from './Users.module.css'
-import {UserType} from "../../types/types"
+import {UserType} from "../../../types/types"
 import {FC} from "react"
 
 type PropsType = {

@@ -1,9 +1,9 @@
 import s from './ProfileEditDataForm.module.css';
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {createField, Input} from "../../../common/FieldsForm/FieldsForm";
-import {required} from "../../../../utils/validators";
+import {createField, Input} from "../../../../common/FieldsForm/FieldsForm";
+import {required} from "../../../../../utils/validators";
 import {FC} from "react";
-import {ProfileType} from "../../../../types/types";
+import {ProfileType} from "../../../../../types/types";
 
 type ProfileEditFormKeys = Extract<keyof ProfileType, string>
 

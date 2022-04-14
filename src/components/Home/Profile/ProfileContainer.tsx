@@ -1,13 +1,13 @@
 import {FC, useEffect} from "react";
 import Profile from "./Profile";
-import {actionsProfile, getUserProfile, getUserStatus, updateUserStatus} from "../../redux/profile-reducer";
+import {actionsProfile, getUserProfile, getUserStatus, updateUserStatus} from "../../../redux/profile-reducer";
 import {connect} from "react-redux";
 import {useParams} from "react-router-dom";
-import Preloader from "../common/Preloader/Preloader";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import Preloader from "../../common/Preloader/Preloader";
+import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 import {compose} from "redux";
-import {PostType, ProfileType} from "../../types/types";
-import {GlobalStateType} from "../../redux/redux-store";
+import {PostType, ProfileType} from "../../../types/types";
+import {GlobalStateType} from "../../../redux/redux-store";
 
 type MapStatePropsType = {
     profile: ProfileType | null

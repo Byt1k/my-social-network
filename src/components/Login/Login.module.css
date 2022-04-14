@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 100vh;
     background: #e5ffff;
     border-radius: 12px; /* Убрать, когда Login будет отдельной страницей */
     padding: 50px 0;

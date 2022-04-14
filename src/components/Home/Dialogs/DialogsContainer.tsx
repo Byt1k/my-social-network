@@ -2,14 +2,14 @@ import s from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogItem"
 import Message from "./Message/Message"
 import {Field, InjectedFormProps, reduxForm} from "redux-form"
-import {Textarea} from "../common/FieldsForm/FieldsForm"
+import {Textarea} from "../../common/FieldsForm/FieldsForm"
 import {connect} from "react-redux"
-import {actionsDialogs} from "../../redux/dialogs-reducer"
-import {withAuthRedirect} from "../../hoc/withAuthRedirect"
+import {actionsDialogs} from "../../../redux/dialogs-reducer"
+import {withAuthRedirect} from "../../../hoc/withAuthRedirect"
 import {compose} from "redux"
 import {ComponentType, FC} from "react";
-import {DialogType, MessageType} from "../../types/types"
-import {GlobalStateType} from "../../redux/redux-store"
+import {DialogType, MessageType} from "../../../types/types"
+import {GlobalStateType} from "../../../redux/redux-store"
 
 type MapStatePropsType = {
     dialogsPage: {

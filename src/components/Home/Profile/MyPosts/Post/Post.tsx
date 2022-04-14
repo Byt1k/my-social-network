@@ -1,10 +1,10 @@
 // @ts-ignore
 import s from './Post.module.css';
 // @ts-ignore
-import defaultImage from '../../../../assets/images/user.jpg'
+import defaultImage from '../../../../../assets/images/user.jpg'
 // @ts-ignore
-import likeIcon from '../../../../assets/images/like.svg'
-import {ProfileType} from "../../../../types/types";
+import likeIcon from '../../../../../assets/images/like.svg'
+import {ProfileType} from "../../../../../types/types";
 import {FC} from "react";
 
 type PropsType = {

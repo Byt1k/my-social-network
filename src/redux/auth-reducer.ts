@@ -1,6 +1,7 @@
 import {authAPI, ResultCodeForCaptcha, ResultCodesEnum, securityAPI} from "../api/api"
 import {FormAction, stopSubmit} from "redux-form"
 import {BaseThunkType, InferValuesType} from "../types/types";
+import {getFriendsToNavbar} from "./navbar-reducer";
 
 const initialState = {
     userId: null as number | null,
@@ -51,6 +52,7 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
     const data = await authAPI.login(email, password, rememberMe, captcha)
     if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(getAuthUserData())
+        dispatch(getFriendsToNavbar())
         dispatch(actionsAuth.setCaptchaUrl(null))
     } else {
         dispatch(stopSubmit('login', {_error: data.messages[0]}))
@@ -63,7 +65,7 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
 export const logout = (): ThunkType => async dispatch => {
     const data = await authAPI.logout()
     if (data.resultCode === ResultCodesEnum.Success) {
-        dispatch(actionsAuth.setAuthUserData(null, null, null, false));
+        dispatch(actionsAuth.setAuthUserData(null, null, null, false))
     }
 }
 

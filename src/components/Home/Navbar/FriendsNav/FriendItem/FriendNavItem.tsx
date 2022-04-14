@@ -1,6 +1,6 @@
 import s from "./FriendNavItem.module.css"
 import {FC} from "react"
-import defaultImage from '../../../../assets/images/user.jpg'
+import defaultImage from '../../../../../assets/images/user.jpg'
 import {NavLink} from "react-router-dom"
 
 type PropsType = {

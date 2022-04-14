@@ -1,8 +1,8 @@
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import MyPosts from "./MyPosts/MyPosts";
-import Preloader from "../common/Preloader/Preloader";
+import Preloader from "../../common/Preloader/Preloader";
 import {FC} from "react";
-import {PostType, ProfileType} from "../../types/types";
+import {PostType, ProfileType} from "../../../types/types";
 
 type PropsType = {
     profile: ProfileType | null

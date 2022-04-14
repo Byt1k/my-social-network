@@ -1,8 +1,8 @@
 import s from "../Users.module.css"
 import {NavLink} from "react-router-dom"
-import defaultImage from "../../../assets/images/user.jpg"
+import defaultImage from "../../../../assets/images/user.jpg"
 import {FC} from "react";
-import {UserType} from "../../../types/types";
+import {UserType} from "../../../../types/types";
 import cn from 'classnames'
 
 type PropsType = {
