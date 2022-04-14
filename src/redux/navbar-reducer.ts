@@ -1,5 +1,5 @@
 import {BaseThunkType, InferValuesType, UserType} from "../types/types";
-import {usersAPI} from "../api/api";
+import {usersAPI} from "../api/users-api";
 
 const initialState = {
     friends: [] as UserType[]

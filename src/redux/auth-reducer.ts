@@ -1,7 +1,9 @@
-import {authAPI, ResultCodeForCaptcha, ResultCodesEnum, securityAPI} from "../api/api"
+import {ResultCodeForCaptcha, ResultCodesEnum} from "../api/api"
 import {FormAction, stopSubmit} from "redux-form"
 import {BaseThunkType, InferValuesType} from "../types/types";
 import {getFriendsToNavbar} from "./navbar-reducer";
+import {authApi} from "../api/auth-api";
+import {securityAPI} from "../api/security-api";
 
 const initialState = {
     userId: null as number | null,
@@ -41,7 +43,7 @@ export const actionsAuth = {
 }
 
 export const getAuthUserData = (): ThunkType => async dispatch => {
-    const data = await authAPI.getMe()
+    const data = await authApi.getMe()
     if (data.resultCode === 0) {
         let {id, login, email} = data.data
         dispatch(actionsAuth.setAuthUserData(id, login, email, true))
@@ -49,7 +51,7 @@ export const getAuthUserData = (): ThunkType => async dispatch => {
 }
 
 export const login = (email: string, password: string, rememberMe: boolean, captcha: string | null): ThunkType => async dispatch => {
-    const data = await authAPI.login(email, password, rememberMe, captcha)
+    const data = await authApi.login(email, password, rememberMe, captcha)
     if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(getAuthUserData())
         dispatch(getFriendsToNavbar())
@@ -63,7 +65,7 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
 }
 
 export const logout = (): ThunkType => async dispatch => {
-    const data = await authAPI.logout()
+    const data = await authApi.logout()
     if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(actionsAuth.setAuthUserData(null, null, null, false))
     }

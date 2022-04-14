@@ -1,7 +1,8 @@
-import {profileAPI, ResultCodesEnum} from "../api/api"
+import {ResultCodesEnum} from "../api/api"
 import {FormAction, stopSubmit} from "redux-form"
 import {actionsApp} from "./app-reducer"
 import {BaseThunkType, InferValuesType, PostType, ProfilePhotosType, ProfileType} from "../types/types"
+import {profileAPI} from "../api/profile-api";
 
 const initialState = {
     posts: [
@@ -19,7 +20,7 @@ const initialState = {
     isFetching: false
 }
 
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 
 const profileReducer = (state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {

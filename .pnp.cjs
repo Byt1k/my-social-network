@@ -44,6 +44,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-router", "npm:5.1.18"],\
             ["@types/react-router-dom", "npm:5.3.3"],\
             ["@types/redux-form", "npm:8.3.3"],\
+            ["@types/testing-library__jest-dom", "npm:5.14.3"],\
             ["axios", "npm:0.26.1"],\
             ["classnames", "npm:2.3.1"],\
             ["react", "npm:18.0.0"],\
@@ -14883,6 +14884,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-router", "npm:5.1.18"],\
             ["@types/react-router-dom", "npm:5.3.3"],\
             ["@types/redux-form", "npm:8.3.3"],\
+            ["@types/testing-library__jest-dom", "npm:5.14.3"],\
             ["axios", "npm:0.26.1"],\
             ["classnames", "npm:2.3.1"],\
             ["react", "npm:18.0.0"],\

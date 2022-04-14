@@ -1,6 +1,7 @@
-import {followingAPI, ResultCodesEnum, usersAPI} from "../api/api"
+import {ResultCodesEnum, ServerResponseType} from "../api/api"
 import {BaseThunkType, InferValuesType, UserType} from "../types/types"
 import {Dispatch} from "redux";
+import {usersAPI} from "../api/users-api";
 
 const initialState = {
     users: [] as Array<UserType>,
@@ -83,7 +84,8 @@ export const getUsers = (currentPage: number, pageSize: number, isFriend?: boole
     dispatch(actionsUsers.toggleIsFetching(false))
 }
 
-const followUnfollowFlow = async (apiRequest: any, userId: number, dispatch: Dispatch<ActionsType>) => {
+const _followUnfollowFlow = async (apiRequest: (userId: number) => Promise<ServerResponseType>,
+                                   userId: number, dispatch: Dispatch<ActionsType>) => {
     dispatch(actionsUsers.toggleFollowingInProgress(true, userId));
 
     let data = await apiRequest(userId)
@@ -95,11 +97,11 @@ const followUnfollowFlow = async (apiRequest: any, userId: number, dispatch: Dis
 }
 
 export const follow = (userId: number): ThunkType => async dispatch => {
-    followUnfollowFlow(followingAPI.follow, userId, dispatch)
+    await _followUnfollowFlow(usersAPI.follow, userId, dispatch)
 }
 
 export const unfollow = (userId: number): ThunkType  => async dispatch => {
-    followUnfollowFlow(followingAPI.unfollow, userId, dispatch)
+    await _followUnfollowFlow(usersAPI.unfollow, userId, dispatch)
 }
 
 export default usersReducer
