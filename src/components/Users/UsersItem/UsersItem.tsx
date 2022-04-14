@@ -1,4 +1,3 @@
-// @ts-ignore
 import s from "../Users.module.css"
 import {NavLink} from "react-router-dom"
 import defaultImage from "../../../assets/images/user.jpg"

@@ -1,8 +1,14 @@
 import s from './Navbar.module.css'
 import {NavLink} from "react-router-dom"
-import Friends from "./Friends/Friends"
+import FriendsNav from "./FriendsNav/FriendsNav"
+import {FC} from "react";
+import {UserType} from "../../types/types";
 
-const Navbar = () => {
+type PropsType = {
+    friends: UserType[]
+}
+
+const Navbar: FC<PropsType> = ({friends}) => {
     const isActiveLink = (navData: any) => navData.isActive ? `${s.item} ${s.active}` : s.item;
     return (
         <div className={s.navbar}>
@@ -14,9 +20,10 @@ const Navbar = () => {
                 <a href="#" className={s.item}>Music</a>
                 <a href="#" className={s.item}>Settings</a>
             </div>
-            <Friends />
-        </div >
+            <FriendsNav friends={friends}/>
+        </div>
     )
 }
+
 
 export default Navbar

@@ -22,18 +22,27 @@ type MapStatePropsType = {
 }
 
 type MapDispatchPropsType = {
-    getUsers: (currentPage: number, pageSize: number) => void
+    getUsers: (currentPage: number, pageSize: number, isFriend?: boolean) => void
     follow: (userId: number) => void
     unfollow: (userId: number) => void
     setCurrentPage: (pageNumber: number) => void
 }
 
-type PropsType = MapStatePropsType & MapDispatchPropsType
+type OwnPropsType = {
+    isFriends?: boolean
+}
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
 const UsersContainer: FC<PropsType> = props => {
+
     useEffect(() => {
-        props.getUsers(props.currentPage, props.pageSize)
-    }, [props.currentPage, props.pageSize])
+        props.getUsers(props.currentPage, props.pageSize, props.isFriends)
+    }, [props.currentPage, props.pageSize, props.isFriends])
+
+    useEffect(() => {
+        props.setCurrentPage(1)
+    }, [props.isFriends])
 
     const onChangePage = (pageNumber: number) => {
         props.setCurrentPage(pageNumber);
@@ -50,6 +59,7 @@ const UsersContainer: FC<PropsType> = props => {
             followingInProgress={props.followingInProgress}
             follow={props.follow}
             unfollow={props.unfollow}
+            isFriends={props.isFriends}
         />}
     </>
 }
@@ -65,8 +75,8 @@ const mapStateToProps = (state: GlobalStateType): MapStatePropsType => {
     }
 }
 
-export default compose<FC>(
-    connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateToProps,
+export default compose<FC<OwnPropsType>>(
+    connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, GlobalStateType>(mapStateToProps,
     {getUsers, follow, unfollow, setCurrentPage: actionsUsers.setCurrentPage}),
     withAuthRedirect)(UsersContainer)
 

@@ -1,7 +1,6 @@
 import {authAPI, ResultCodeForCaptcha, ResultCodesEnum, securityAPI} from "../api/api"
 import {FormAction, stopSubmit} from "redux-form"
 import {BaseThunkType, InferValuesType} from "../types/types";
-import {Dispatch} from "redux";
 
 const initialState = {
     userId: null as number | null,

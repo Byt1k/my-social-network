@@ -1,25 +1,34 @@
-import {InferValuesType} from "../types/types";
+import {BaseThunkType, InferValuesType, UserType} from "../types/types";
+import {usersAPI} from "../api/api";
 
 const initialState = {
-    friends: [
-        {id: 1, image: 'https://img.freepik.com/free-photo/portrait-of-confident-beautiful-brunette-woman-turning-face-at-camera-with-dreamy-look-white_1258-19144.jpg?size=626&ext=jpg', firstName: 'Anna'},
-        {id: 2, image: 'https://img.freepik.com/free-photo/portrait-dark-skinned-cheerful-woman-with-curly-hair-touches-chin-gently-laughs-happily-enjoys-day-off-feels-happy-enthusiastic-hears-something-positive-wears-casual-blue-turtleneck_273609-43443.jpg?size=626&ext=jpg&ga=GA1.1.1517186578.1641859200', firstName: 'Maria'},
-        {id: 3, image: 'https://image.shutterstock.com/image-photo/portrait-happy-fashionable-handsome-man-260nw-600200732.jpg', firstName: 'Max'},
-    ]
+    friends: [] as UserType[]
 }
 
 type InitialStateType = typeof initialState
 
-const navbarReducer = (state = initialState, action: ActionsType):InitialStateType => {
-    switch (action) {
-        default: return state
+const navbarReducer = (state = initialState, action: ActionsType): InitialStateType => {
+    switch (action.type) {
+        case "navbar/SET_FRIENDS":
+            return {
+                ...state,
+                friends: action.friends
+            }
+        default:
+            return state
     }
 }
 
-const actionsNavbar = {
-
+export const actionsNavbar = {
+    setFriends: (friends: UserType[]) => ({type: 'navbar/SET_FRIENDS', friends} as const)
 }
 
 type ActionsType = InferValuesType<typeof actionsNavbar>
+export type ThunkType = BaseThunkType<ActionsType>
+
+export const getFriendsToNavbar = (): ThunkType => async (dispatch) => {
+    const data = await usersAPI.getUsers(1, 3, true)
+    dispatch(actionsNavbar.setFriends(data.items))
+}
 
 export default navbarReducer

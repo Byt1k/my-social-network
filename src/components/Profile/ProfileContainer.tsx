@@ -25,22 +25,24 @@ type MapDispatchPropsType = {
 }
 
 type OwnPropsType = {
-    setEditModeProfileData: (editModeProfileData: boolean) => void
-    setPhotoUploadMode: (photoUploadMode: boolean) => void
+    setEditModeProfileData?: (editModeProfileData: boolean) => void
+    setPhotoUploadMode?: (photoUploadMode: boolean) => void
 }
 
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
 const ProfileContainer: FC<PropsType> = (props) => {
-    //@ts-ignore
-    let {userId} = +useParams()
+    let {userId} = useParams()
     let isOwner = false
     if (!userId) {
+        // @ts-ignore
         userId = props.authorizedUserId;
         isOwner = true;
     }
     useEffect(() => {
+        // @ts-ignore
         props.getUserStatus(userId)
+        // @ts-ignore
         props.getUserProfile(userId)
     }, [userId])
 

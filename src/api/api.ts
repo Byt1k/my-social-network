@@ -10,11 +10,9 @@ const instance = axios.create({
 })
 
 export const usersAPI = {
-    getUsers(currentPage = 1, pageSize = 10) {
-        return instance.get<GetItemsResponse<UserType>>(`users?page=${currentPage}&count=${pageSize}`).then(res => res.data)
-    },
-    getFriends(currentPage = 1, pageSize = 10) {
-        return instance.get<GetItemsResponse>(`users?page=${currentPage}&count=${pageSize}&friend=${true}`).then(res => res.data)
+    getUsers(currentPage = 1, pageSize = 10, isFriend: boolean | undefined = undefined) {
+        return instance.get<GetItemsResponse<UserType>>(`users?page=${currentPage}&count=${pageSize}&friend=${isFriend}`)
+            .then(res => res.data)
     }
 }
 

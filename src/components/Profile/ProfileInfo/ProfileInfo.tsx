@@ -10,8 +10,8 @@ type PropsType = {
     userStatus: string
     updateUserStatus: (status: string) => void
     isOwner: boolean
-    setEditModeProfileData: (editModeProfileData: boolean) => void
-    setPhotoUploadMode: (photoUploadMode: boolean) => void
+    setEditModeProfileData?: (editModeProfileData: boolean) => void
+    setPhotoUploadMode?: (photoUploadMode: boolean) => void
 }
 
 export const ProfileInfo: FC<PropsType> = ({
@@ -39,14 +39,14 @@ export const ProfileInfo: FC<PropsType> = ({
                         <div className={s.isOpenToWork} title={profile.lookingForAJobDescription}>#OpenToWork</div>}
                     <div className={s.uploadAvatarWrapper}>
                         {isOwner &&
-                            <div className={s.uploadAvatar} onClick={() => setPhotoUploadMode(true)}>Upload
+                            <div className={s.uploadAvatar} onClick={() => setPhotoUploadMode && setPhotoUploadMode(true)}>Upload
                                 photo</div>}
                     </div>
                 </div>
                 <div className={s.nameAndStatus}>
                     <div className={s.nameContainer}>
                         <p className={s.name}>{profile.fullName}</p>
-                        {isOwner && <img onClick={() => setEditModeProfileData(true)}
+                        {isOwner && <img onClick={() => setEditModeProfileData && setEditModeProfileData(true)}
                                          src={editProfileBtn} alt="icon" className={s.editProfileBtn}/>}
                     </div>
                     <UserStatus userStatus={userStatus} updateUserStatus={updateUserStatus} isOwner={isOwner}/>

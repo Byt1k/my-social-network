@@ -9,8 +9,8 @@ type PropsType = {
     userStatus: string
     updateUserStatus: (status: string) => void
     isOwner: boolean
-    setEditModeProfileData: (editModeProfileData: boolean) => void
-    setPhotoUploadMode: (photoUploadMode: boolean) => void
+    setEditModeProfileData?: (editModeProfileData: boolean) => void
+    setPhotoUploadMode?: (photoUploadMode: boolean) => void
     posts: Array<PostType>
     addPost: (newPostBody: string, currentDate: string, newPostId: number) => void
 }

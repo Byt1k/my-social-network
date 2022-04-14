@@ -1,6 +1,5 @@
 import './zeroing.css'
 import './App.css'
-import Navbar from './components/Navbar/Navbar'
 import Login from "./components/Login/Login"
 import Header from "./components/Header/Header"
 import ProfileContainer from "./components/Profile/ProfileContainer"
@@ -14,10 +13,11 @@ import store, {GlobalStateType} from "./redux/redux-store"
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom"
 import Modal from "./components/common/Modal/Modal"
 import ProfileEditDataForm from "./components/Profile/ProfileInfo/ProfileEditDataForm/ProfileEditDataForm"
-import {ThunkType, updateMainPhoto, updateProfileData} from "./redux/profile-reducer"
+import {updateMainPhoto, updateProfileData} from "./redux/profile-reducer"
 import UploadAvatarForm from "./components/Profile/ProfileInfo/UploadAvatarForm/UploadAvatarForm"
 import ErrorModal from "./components/common/ErrorModal/ErrorModal"
 import {ProfileType} from "./types/types"
+import NavbarContainer from "./components/Navbar/NavbarContainer";
 
 type MapStatePropsType = ReturnType<typeof mapStateToProps>
 
@@ -60,18 +60,18 @@ const App:FC<PropsType> = (props) => {
         <div className="wrapper">
             <Header />
             <div className="container">
-                <Navbar />
+                <NavbarContainer />
                 <div className="content">
                     <Routes>
                         <Route path='/' element={<Navigate to='/profile' />}/>
                         <Route path='/profile/:userId'
-                               element={<ProfileContainer setEditModeProfileData={setEditModeProfileData}
-                                                          setPhotoUploadMode={setPhotoUploadMode} />} />
+                               element={<ProfileContainer />} />
                         <Route path='/profile'
                                element={<ProfileContainer setEditModeProfileData={setEditModeProfileData}
                                                           setPhotoUploadMode={setPhotoUploadMode} />} />
                         <Route path='/dialogs/*' element={<DialogsContainer />}/>
                         <Route path='/users' element={<UsersContainer />}/>
+                        <Route path='/friends' element={<UsersContainer isFriends={true} />}/>
                         <Route path='/login' element={<Login />}/>
                     </Routes>
                 </div>
