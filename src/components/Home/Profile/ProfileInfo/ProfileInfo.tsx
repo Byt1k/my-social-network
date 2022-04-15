@@ -76,7 +76,7 @@ export const ProfileInfo: FC<PropsType> = ({profile, userStatus, updateUserStatu
     );
 }
 
-const ContactItem: FC<{contactTitle: string, contactValue: string}> = ({contactTitle, contactValue}) => {
+const ContactItem: FC<{contactTitle: string, contactValue: string | null}> = ({contactTitle, contactValue}) => {
     return (
         <div>
             {contactValue && <p>{contactTitle}: <span>{contactValue}</span></p>}

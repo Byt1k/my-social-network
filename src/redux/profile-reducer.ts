@@ -55,14 +55,12 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
         case "profile/UPDATE_MAIN_PHOTO":
             return {
                 ...state,
-            // @ts-ignore
-                profile: {...state.profile, photos: action.photos}
+                profile: {...state.profile, photos: action.photos} as ProfileType
             }
         case "profile/SET_PROFILE_FOLLOWED":
             return {
                 ...state,
-            // @ts-ignore
-                profile: {...state.profile, followed: action.followed}
+                profile: {...state.profile, followed: action.followed} as ProfileType
             }
         default:
             return state
@@ -74,7 +72,7 @@ export type ThunkType = BaseThunkType<ActionsType | FormAction>
 
 export const actionsProfile = {
     addPost: (newPostBody: string, date: string, newPostId: number) => ({type: 'profile/ADD-POST', newPostBody, date, newPostId} as const),
-    setUserProfile: (profile: ProfileType) => ({type: 'profile/SET_USERS_PROFILE', profile} as const),
+    setUserProfile: (profile: ProfileType | null) => ({type: 'profile/SET_USERS_PROFILE', profile} as const),
     setUserStatus: (status: string) => ({type: 'profile/SET_USER_STATUS', status} as const),
     toggleIsFetching: (isFetching: boolean) => ({type: 'profile/TOGGLE_IS_FETCHING', isFetching} as const),
     savePhotoSuccess: (photos: ProfilePhotosType) => ({type: 'profile/UPDATE_MAIN_PHOTO', photos} as const),
@@ -83,6 +81,7 @@ export const actionsProfile = {
 
 export const getUserProfile = (userId: number): ThunkType => async dispatch => {
     dispatch(actionsProfile.toggleIsFetching(true))
+    dispatch(actionsProfile.setUserProfile(null))
 
     let profile = await profileAPI.getUserProfile(userId)
     let followed = await usersAPI.isFollowed(userId)

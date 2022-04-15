@@ -2,10 +2,10 @@ import {ProfilePhotosType, ProfileType} from "../types/types";
 import {instance, ServerResponseType} from "./api";
 
 export const profileAPI = {
-    getUserProfile(userId: number | null) {
+    getUserProfile(userId: number) {
         return instance.get<ProfileType>(`profile/` + userId).then(res => res.data)
     },
-    getUserStatus(userId: number | null) {
+    getUserStatus(userId: number) {
         return instance.get<string>(`profile/status/` + userId).then(res => res.data)
     },
     updateUserStatus(status: string) {
