@@ -1,4 +1,4 @@
-import Header from "./Header/Header"
+import {Header} from "./Header/Header"
 import Navbar from "./Navbar/Navbar"
 import ProfileContainer from "./Profile/ProfileContainer"
 import DialogsContainer from "./Dialogs/DialogsContainer"
@@ -40,7 +40,7 @@ const Home: FC<PropsType> = props => {
         <div className="wrapper">
             <Header />
             <div className="container">
-                <Navbar friends={props.friends} />
+                <Navbar />
                 <div className="content">
                     <Routes>
                         <Route path='/' element={<Navigate to='/profile' />}/>
@@ -75,8 +75,7 @@ const mapStateProps = (state: GlobalStateType) => ({
     authorizedUserId: state.auth.userId,
     profile: state.profilePage.profile,
     errorMessage: state.app.errorMessage,
-    isAuth: state.auth.isAuth,
-    friends: state.navbar.friends
+    isAuth: state.auth.isAuth
 })
 
 export default connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateProps, {
@@ -92,7 +91,6 @@ type MapStatePropsType = {
     profile: ProfileType | null
     errorMessage: string | null
     isAuth: boolean
-    friends: UserType[]
 }
 
 type MapDispatchPropsType = {

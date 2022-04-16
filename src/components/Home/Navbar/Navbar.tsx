@@ -2,14 +2,13 @@ import s from './Navbar.module.css'
 import {NavLink} from "react-router-dom"
 import FriendsNav from "./FriendsNav/FriendsNav"
 import {FC} from "react";
-import {UserType} from "../../../types/types";
+import {useSelector} from "react-redux";
+import {getFriends} from "../../../redux/navbar-selectors";
 
-type PropsType = {
-    friends: UserType[]
-}
+const Navbar: FC = () => {
+    const friends = useSelector(getFriends)
 
-const Navbar: FC<PropsType> = ({friends}) => {
-    const isActiveLink = (navData: any) => navData.isActive ? `${s.item} ${s.active}` : s.item;
+    const isActiveLink = (navData: any) => navData.isActive ? `${s.item} ${s.active}` : s.item
     return (
         <div className={s.navbar}>
             <div className={s.menu}>

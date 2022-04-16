@@ -1,22 +1,21 @@
 import s from './Header.module.css'
 import {NavLink} from "react-router-dom"
-import {GlobalStateType} from "../../../redux/redux-store"
-import {connect} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import {logout} from "../../../redux/auth-reducer"
 import {FC} from "react"
+import {getIsAuth, getLogin} from "../../../redux/auth-selectors";
 
-type MapStatePropsType = {
-    isAuth: boolean
-    login: string | null
-}
+export const Header:FC = () => {
 
-type MapDispatchPropsType = {
-    logout: () => void
-}
+    const isAuth = useSelector(getIsAuth)
+    const login = useSelector(getLogin)
 
-type PropsType = MapStatePropsType & MapDispatchPropsType
+    const dispatch = useDispatch()
 
-const Header:FC<PropsType> = ({isAuth, login, logout}) => {
+    const signOut = () => {
+        dispatch(logout())
+    }
+
     return (
         <div className={s.header}>
             <div className={s.logo}>
@@ -24,18 +23,9 @@ const Header:FC<PropsType> = ({isAuth, login, logout}) => {
             </div>
             <div className={s.auth}>
                 {isAuth ?
-                    <div>{login} | <button className={s.logoutBtn} onClick={logout}>Log out</button></div> :
+                    <div>{login} | <button className={s.logoutBtn} onClick={signOut}>Log out</button></div> :
                     <NavLink to={'/login'}>Sign In</NavLink>}
             </div>
         </div>
     )
 }
-
-const mapStateToProps = (state: GlobalStateType): MapStatePropsType => {
-    return {
-        isAuth: state.auth.isAuth,
-        login: state.auth.login
-    }
-}
-
-export default connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateToProps, {logout})(Header)

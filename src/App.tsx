@@ -1,17 +1,22 @@
 import './zeroing.css'
 import './App.css'
 import {FC, useEffect} from "react"
-import {connect, Provider} from "react-redux"
+import {Provider, useDispatch, useSelector} from "react-redux"
 import Preloader from "./components/common/Preloader/Preloader"
 import {initializeApp} from "./redux/app-reducer"
-import store, {GlobalStateType} from "./redux/redux-store"
+import store from "./redux/redux-store"
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import Home from "./components/Home/Home";
-import Login from "./components/Login/Login";
+import {Login} from "./components/Login/Login";
+import {getInitialized} from "./redux/app-selectors";
 
-const App: FC<PropsType> = ({initialized, initializeApp}) => {
+const App: FC = () => {
+    const dispatch = useDispatch()
+    const initialized = useSelector(getInitialized)
 
-    useEffect(() => initializeApp(), [])
+    useEffect(() => {
+        dispatch(initializeApp())
+    }, [])
 
     if (!initialized) {
         return <div className="startAppPreloader">
@@ -27,29 +32,14 @@ const App: FC<PropsType> = ({initialized, initializeApp}) => {
     )
 }
 
-const mapStateToProps = (state: GlobalStateType) => ({
-    initialized: state.app.initialized,
-})
-
-const AppConnected = connect(mapStateToProps,
-    {initializeApp})(App);
-
-const AppContainer: FC = () => {
+export const AppContainer: FC = () => {
     return (
         // BrowserRouter should be used
         // HashRouter used only of deploy on GitHub Pages
         <BrowserRouter>
             <Provider store={store}>
-                <AppConnected/>
+                <App />
             </Provider>
         </BrowserRouter>
     )
-}
-
-export default AppContainer
-
-
-type PropsType = {
-    initialized: boolean
-    initializeApp: () => void
 }
