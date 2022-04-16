@@ -2,7 +2,6 @@ import Header from "./Header/Header"
 import Navbar from "./Navbar/Navbar"
 import ProfileContainer from "./Profile/ProfileContainer"
 import DialogsContainer from "./Dialogs/DialogsContainer"
-import UsersContainer from "./Users/UsersContainer"
 import Modal from "../common/Modal/Modal"
 import ProfileEditDataForm from "./Profile/ProfileInfo/ProfileEditDataForm/ProfileEditDataForm"
 import UploadAvatarForm from "./Profile/ProfileInfo/UploadAvatarForm/UploadAvatarForm"
@@ -15,6 +14,7 @@ import {connect} from "react-redux";
 import {updateMainPhoto, updateProfileData} from "../../redux/profile-reducer";
 import {actionsApp} from "../../redux/app-reducer";
 import {getFriendsToNavbar} from "../../redux/navbar-reducer";
+import {Users} from "./Users/Users";
 
 const Home: FC<PropsType> = props => {
     useEffect(() => {
@@ -50,8 +50,8 @@ const Home: FC<PropsType> = props => {
                                element={<ProfileContainer setEditModeProfileData={setEditModeProfileData}
                                                           setPhotoUploadMode={setPhotoUploadMode} />} />
                         <Route path='/dialogs/*' element={<DialogsContainer />}/>
-                        <Route path='/users' element={<UsersContainer />}/>
-                        <Route path='/friends' element={<UsersContainer isFriends={true} />}/>
+                        <Route path='/users' element={<Users />}/>
+                        <Route path='/friends' element={<Users isFriends={true} />}/>
                     </Routes>
                 </div>
             </div>

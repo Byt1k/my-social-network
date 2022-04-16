@@ -1,32 +1,66 @@
 import Pagination from "../../common/Pagination/Pagination"
 import UsersItem from "./UsersItem/UsersItem"
 import s from './Users.module.css'
-import {UserType} from "../../../types/types"
-import {FC} from "react"
+import {FC, useEffect} from "react"
 import {UsersSearchForm, ValuesType} from "./UsersSearchForm/UsersSearchForm";
 import {FormikHelpers} from "formik";
 import Preloader from "../../common/Preloader/Preloader";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalCount,
+    getUsersFilter,
+    getUsersSelector
+} from "../../../redux/users-selectors";
+import {actionsUsers, follow, getUsers, unfollow} from "../../../redux/users-reducer";
 
 type PropsType = {
-    totalCount: number
-    pageSize: number
-    onChangePage: (pageNumber: number) => void
-    currentPage: number
-    users: Array<UserType>
-    followingInProgress: Array<number>
-    follow: (userId: number) => void
-    unfollow: (userId: number) => void
     isFriends?: boolean
-    onSubmitUsersSearchForm: (values: ValuesType, {setSubmitting}: FormikHelpers<ValuesType>) => void
-    term: string
-    isFetching: boolean
 }
 
-const Users: FC<PropsType> = ({
-                                  totalCount, pageSize, onChangePage, currentPage,
-                                  users, followingInProgress, follow, unfollow,
-                                  isFriends, onSubmitUsersSearchForm, term, isFetching
-                              }) => {
+export const Users: FC<PropsType> = ({isFriends}) => {
+    const dispatch = useDispatch();
+
+    const users = useSelector(getUsersSelector)
+    const followingInProgress = useSelector(getFollowingInProgress)
+    const currentPage = useSelector(getCurrentPage)
+    const totalCount = useSelector(getTotalCount)
+    const pageSize = useSelector(getPageSize)
+    let term = useSelector(getUsersFilter)
+    const isFetching = useSelector(getIsFetching)
+
+    useEffect(() => {
+        isFriends ? term = '' : null
+        dispatch(getUsers(currentPage, pageSize, term, isFriends))
+    }, [currentPage, pageSize, isFriends])
+
+    useEffect(() => {
+        dispatch(actionsUsers.setCurrentPage(1))
+    }, [isFriends])
+
+    const followUser = (userId: number) => {
+        dispatch(follow(userId))
+    }
+
+
+    const unfollowUser = (userId: number) => {
+        dispatch(unfollow(userId))
+    }
+
+    const onChangePage = (pageNumber: number) => {
+        dispatch(actionsUsers.setCurrentPage(pageNumber))
+        getUsers(pageNumber, pageSize, term, isFriends)
+    }
+
+    const onSubmitUsersSearchForm = (values: ValuesType, {setSubmitting}: FormikHelpers<ValuesType>) => {
+        dispatch(actionsUsers.setCurrentPage(1))
+        dispatch(getUsers(1, pageSize, values.term, isFriends))
+        setSubmitting(false)
+    }
+
     return (
         <>
             {!isFriends && <UsersSearchForm onSubmitUsersSearchForm={onSubmitUsersSearchForm} term={term}/>}
@@ -40,7 +74,7 @@ const Users: FC<PropsType> = ({
                     )}
                     {
                         users.map(u => <UsersItem key={u.id} user={u} followingInProgress={followingInProgress}
-                                                  follow={follow} unfollow={unfollow}/>)
+                                                  follow={followUser} unfollow={unfollowUser}/>)
                     }
                     <Pagination totalCount={totalCount} pageSize={pageSize} onChangePage={onChangePage}
                                 currentPage={currentPage}/>
@@ -49,5 +83,3 @@ const Users: FC<PropsType> = ({
         </>
     )
 }
-
-export default Users
