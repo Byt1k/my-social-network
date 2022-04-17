@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
 import {logout} from "../../../redux/auth-reducer"
 import {FC} from "react"
-import {getIsAuth, getLogin} from "../../../redux/auth-selectors";
+import {getIsAuth, getLogin} from "../../../redux/selectors/auth-selectors";
 
 export const Header:FC = () => {
 

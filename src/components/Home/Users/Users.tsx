@@ -14,7 +14,7 @@ import {
     getTotalCount,
     getUsersFilter,
     getUsersSelector
-} from "../../../redux/users-selectors";
+} from "../../../redux/selectors/users-selectors";
 import {actionsUsers, follow, getUsers, unfollow} from "../../../redux/users-reducer";
 
 type PropsType = {

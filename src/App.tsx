@@ -8,7 +8,7 @@ import store from "./redux/redux-store"
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import Home from "./components/Home/Home";
 import {Login} from "./components/Login/Login";
-import {getInitialized} from "./redux/app-selectors";
+import {getInitialized} from "./redux/selectors/app-selectors";
 
 const App: FC = () => {
     const dispatch = useDispatch()

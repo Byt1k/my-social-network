@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom"
 import FriendsNav from "./FriendsNav/FriendsNav"
 import {FC} from "react";
 import {useSelector} from "react-redux";
-import {getFriends} from "../../../redux/navbar-selectors";
+import {getFriends} from "../../../redux/selectors/navbar-selectors";
 
 const Navbar: FC = () => {
     const friends = useSelector(getFriends)

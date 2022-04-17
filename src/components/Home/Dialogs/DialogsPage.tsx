@@ -3,32 +3,21 @@ import DialogItem from "./DialogItem/DialogItem"
 import Message from "./Message/Message"
 import {Field, InjectedFormProps, reduxForm} from "redux-form"
 import {Textarea} from "../../common/FieldsForm/FieldsForm"
-import {connect} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import {actionsDialogs} from "../../../redux/dialogs-reducer"
-import {withAuthRedirect} from "../../../hoc/withAuthRedirect"
-import {compose} from "redux"
-import {ComponentType, FC} from "react";
-import {DialogType, MessageType} from "../../../types/types"
-import {GlobalStateType} from "../../../redux/redux-store"
-
-type MapStatePropsType = {
-    dialogsPage: {
-        dialogs: Array<DialogType>
-        messages: Array<MessageType>
-    }
-}
-
-type MapDispatchPropsType = {
-    sendMessage: (newMessage: string) => void
-}
-
-type PropsType = MapStatePropsType & MapDispatchPropsType
+import {FC} from "react";
+import {getDialogsPageData} from "../../../redux/selectors/dialogs-selectors";
 
 type NewMessageType = {
     newMessageText: string
 }
 
-const Dialogs: FC<PropsType> = ({dialogsPage: {dialogs, messages}, sendMessage}) => {
+export const DialogsPage: FC = () => {
+
+    const dialogsPageData = useSelector(getDialogsPageData)
+    const {dialogs, messages} = dialogsPageData
+
+    const dispatch = useDispatch();
 
     const dialogsList = dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id} image={d.image}/>)
     const messagesList = messages.map(m => <Message key={m.id} message={m.message}/>)
@@ -40,7 +29,9 @@ const Dialogs: FC<PropsType> = ({dialogsPage: {dialogs, messages}, sendMessage})
             </div>
             <div className={s.chat}>
                 {messagesList}
-                <NewMessageReduxForm onSubmit={(values: NewMessageType) => sendMessage(values.newMessageText)}/>
+                <NewMessageReduxForm onSubmit={(values: NewMessageType) => {
+                    dispatch(actionsDialogs.sendMessage(values.newMessageText))
+                }}/>
             </div>
         </div>
     )
@@ -56,12 +47,3 @@ const NewMessageForm: FC<InjectedFormProps<NewMessageType>> = ({handleSubmit}) =
 }
 
 const NewMessageReduxForm = reduxForm<NewMessageType>({form: 'dialogsNewMessage'})(NewMessageForm);
-
-const mapStateToProps = (state: GlobalStateType):MapStatePropsType => ({dialogsPage: state.dialogsPage})
-
-const DialogsContainer = compose<FC>(
-    connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateToProps,
-        {sendMessage: actionsDialogs.sendMessage}),
-    withAuthRedirect)(Dialogs)
-
-export default DialogsContainer

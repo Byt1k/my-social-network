@@ -3,7 +3,7 @@ import {login} from "../../redux/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {Navigate} from "react-router-dom";
 import {FC} from "react";
-import {getCaptcha, getIsAuth} from "../../redux/auth-selectors";
+import {getCaptcha, getIsAuth} from "../../redux/selectors/auth-selectors";
 import {LoginFormDataType, LoginReduxForm} from "./LoginForm";
 
 export const Login: FC = () => {

@@ -1,14 +1,14 @@
 import {Header} from "./Header/Header"
 import Navbar from "./Navbar/Navbar"
 import ProfileContainer from "./Profile/ProfileContainer"
-import DialogsContainer from "./Dialogs/DialogsContainer"
+import {DialogsPage} from "./Dialogs/DialogsPage"
 import Modal from "../common/Modal/Modal"
 import ProfileEditDataForm from "./Profile/ProfileInfo/ProfileEditDataForm/ProfileEditDataForm"
 import UploadAvatarForm from "./Profile/ProfileInfo/UploadAvatarForm/UploadAvatarForm"
 import ErrorModal from "../common/ErrorModal/ErrorModal"
 import {Navigate, Route, Routes} from "react-router-dom"
 import {ChangeEvent, FC, useEffect, useState} from "react"
-import {ProfileType, UserType} from "../../types/types"
+import {ProfileType} from "../../types/types"
 import {GlobalStateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 import {updateMainPhoto, updateProfileData} from "../../redux/profile-reducer";
@@ -49,7 +49,7 @@ const Home: FC<PropsType> = props => {
                         <Route path='/profile'
                                element={<ProfileContainer setEditModeProfileData={setEditModeProfileData}
                                                           setPhotoUploadMode={setPhotoUploadMode} />} />
-                        <Route path='/dialogs/*' element={<DialogsContainer />}/>
+                        <Route path='/dialogs/*' element={<DialogsPage />}/>
                         <Route path='/users' element={<Users />}/>
                         <Route path='/friends' element={<Users isFriends={true} />}/>
                     </Routes>
