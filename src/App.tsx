@@ -6,9 +6,9 @@ import Preloader from "./components/common/Preloader/Preloader"
 import {initializeApp} from "./redux/app-reducer"
 import store from "./redux/redux-store"
 import {BrowserRouter, Route, Routes} from "react-router-dom"
-import Home from "./components/Home/Home";
-import {Login} from "./components/Login/Login";
-import {getInitialized} from "./redux/selectors/app-selectors";
+import {Home} from "./components/Home/Home"
+import {Login} from "./components/Login/Login"
+import {getInitialized} from "./redux/selectors/app-selectors"
 
 const App: FC = () => {
     const dispatch = useDispatch()
@@ -27,7 +27,7 @@ const App: FC = () => {
     return (
         <Routes>
             <Route path='/login' element={<Login/>}/>
-            <Route path='*' element={<Home />}/>
+            <Route path='*' element={<Home/>}/>
         </Routes>
     )
 }
@@ -38,7 +38,7 @@ export const AppContainer: FC = () => {
         // HashRouter used only of deploy on GitHub Pages
         <BrowserRouter>
             <Provider store={store}>
-                <App />
+                <App/>
             </Provider>
         </BrowserRouter>
     )

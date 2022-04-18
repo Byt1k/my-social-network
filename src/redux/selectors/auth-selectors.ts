@@ -12,3 +12,6 @@ export const getCaptcha = (state: GlobalStateType) => {
     return state.auth.captchaUrl
 }
 
+export const getAuthorizedUserId = (state: GlobalStateType) => {
+    return state.auth.userId
+}

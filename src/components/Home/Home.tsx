@@ -1,6 +1,5 @@
 import {Header} from "./Header/Header"
 import Navbar from "./Navbar/Navbar"
-import ProfileContainer from "./Profile/ProfileContainer"
 import {DialogsPage} from "./Dialogs/DialogsPage"
 import Modal from "../common/Modal/Modal"
 import ProfileEditDataForm from "./Profile/ProfileInfo/ProfileEditDataForm/ProfileEditDataForm"
@@ -9,31 +8,43 @@ import ErrorModal from "../common/ErrorModal/ErrorModal"
 import {Navigate, Route, Routes} from "react-router-dom"
 import {ChangeEvent, FC, useEffect, useState} from "react"
 import {ProfileType} from "../../types/types"
-import {GlobalStateType} from "../../redux/redux-store";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {updateMainPhoto, updateProfileData} from "../../redux/profile-reducer";
 import {actionsApp} from "../../redux/app-reducer";
 import {getFriendsToNavbar} from "../../redux/navbar-reducer";
 import {Users} from "./Users/Users";
+import {ProfilePage} from "./Profile/Profile";
+import {getErrorMessage} from "../../redux/selectors/app-selectors";
+import {getProfilePageData} from "../../redux/selectors/profile-selectors";
 
-const Home: FC<PropsType> = props => {
+export const Home: FC = () => {
+    const dispatch = useDispatch()
+
     useEffect(() => {
-        props.getFriendsToNavbar()
+        dispatch(getFriendsToNavbar())
     }, [])
+
+    const errorMessage = useSelector(getErrorMessage)
+    const {profile} = useSelector(getProfilePageData)
 
     // редактирование профиля
     let [editModeProfileData, setEditModeProfileData] = useState(false);
-    const saveProfileData = (profileData: ProfileType) => {
-        props.updateProfileData(profileData).then(() => setEditModeProfileData(false))
+    const saveProfileData = async (profileData: ProfileType) => {
+        await dispatch(updateProfileData(profileData))
+        setEditModeProfileData(false)
     }
 
     // загрузка аватара
     let [photoUploadMode, setPhotoUploadMode] = useState(false);
     const saveMainPhoto = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.length) {
-            props.updateMainPhoto(e.target.files[0])
+            dispatch(updateMainPhoto(e.target.files[0]))
         }
         setPhotoUploadMode(false);
+    }
+
+    const setErrorMessage = (errorMessage: string | null) => {
+        dispatch(actionsApp.setErrorMessage(errorMessage))
     }
 
     return (
@@ -45,9 +56,9 @@ const Home: FC<PropsType> = props => {
                     <Routes>
                         <Route path='/' element={<Navigate to='/profile' />}/>
                         <Route path='/profile/:userId'
-                               element={<ProfileContainer />} />
+                               element={<ProfilePage />} />
                         <Route path='/profile'
-                               element={<ProfileContainer setEditModeProfileData={setEditModeProfileData}
+                               element={<ProfilePage setEditModeProfileData={setEditModeProfileData}
                                                           setPhotoUploadMode={setPhotoUploadMode} />} />
                         <Route path='/dialogs/*' element={<DialogsPage />}/>
                         <Route path='/users' element={<Users />}/>
@@ -58,46 +69,15 @@ const Home: FC<PropsType> = props => {
             {/* Модальное окно редактирования профиля*/}
             <Modal active={editModeProfileData} setActive={setEditModeProfileData}>
                 {/* @ts-ignore */}
-                <ProfileEditDataForm initialValues={props.profile} onSubmit={saveProfileData}/>
+                <ProfileEditDataForm initialValues={profile} onSubmit={saveProfileData}/>
             </Modal>
             {/* Модальное окно загрузки аватара */}
             <Modal active={photoUploadMode} setActive={setPhotoUploadMode}>
                 <UploadAvatarForm updateMainPhoto={saveMainPhoto}/>
             </Modal>
             {/* Модальное окно ошибки */}
-            <ErrorModal errorMessage={props.errorMessage} active={!!props.errorMessage}
-                        hideModal={props.setErrorMessage}/>
+            <ErrorModal errorMessage={errorMessage} active={!!errorMessage}
+                        hideModal={setErrorMessage}/>
         </div>
     )
 }
-
-const mapStateProps = (state: GlobalStateType) => ({
-    authorizedUserId: state.auth.userId,
-    profile: state.profilePage.profile,
-    errorMessage: state.app.errorMessage,
-    isAuth: state.auth.isAuth
-})
-
-export default connect<MapStatePropsType, MapDispatchPropsType, {}, GlobalStateType>(mapStateProps, {
-    updateProfileData,
-    updateMainPhoto,
-    setErrorMessage: actionsApp.setErrorMessage,
-    getFriendsToNavbar
-})(Home)
-
-
-type MapStatePropsType = {
-    authorizedUserId: number | null
-    profile: ProfileType | null
-    errorMessage: string | null
-    isAuth: boolean
-}
-
-type MapDispatchPropsType = {
-    updateProfileData: Function
-    updateMainPhoto: Function
-    setErrorMessage: (errorMessage: string | null) => void
-    getFriendsToNavbar: () => void
-}
-
-type PropsType = MapStatePropsType & MapDispatchPropsType
