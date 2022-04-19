@@ -1,4 +1,3 @@
-// @ts-ignore
 import s from './UploadAvatarForm.module.css'
 import {ChangeEvent, FC} from "react";
 

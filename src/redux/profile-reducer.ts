@@ -17,8 +17,7 @@ const initialState = {
         {id: 3, date: "21 sep 2021", likesCount: 913, text: "This is my first post. Now I'm with you!"}
     ] as Array<PostType>,
     profile: null as ProfileType | null,
-    userStatus: '',
-    isFetching: false
+    userStatus: ''
 }
 
 export type InitialStateType = typeof initialState
@@ -47,11 +46,6 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
                 ...state,
                 userStatus: action.status
             }
-        case "profile/TOGGLE_IS_FETCHING":
-            return {
-                ...state,
-                isFetching: action.isFetching
-            }
         case "profile/UPDATE_MAIN_PHOTO":
             return {
                 ...state,
@@ -74,13 +68,12 @@ export const actionsProfile = {
     addPost: (newPostBody: string, date: string, newPostId: number) => ({type: 'profile/ADD-POST', newPostBody, date, newPostId} as const),
     setUserProfile: (profile: ProfileType | null) => ({type: 'profile/SET_USERS_PROFILE', profile} as const),
     setUserStatus: (status: string) => ({type: 'profile/SET_USER_STATUS', status} as const),
-    toggleIsFetching: (isFetching: boolean) => ({type: 'profile/TOGGLE_IS_FETCHING', isFetching} as const),
     savePhotoSuccess: (photos: ProfilePhotosType) => ({type: 'profile/UPDATE_MAIN_PHOTO', photos} as const),
     setProfileFollowed: (followed: boolean) => ({type: 'profile/SET_PROFILE_FOLLOWED', followed} as const)
 }
 
 export const getUserProfile = (userId: number): ThunkType => async dispatch => {
-    dispatch(actionsProfile.toggleIsFetching(true))
+    dispatch(actionsApp.toggleIsFetching(true))
     dispatch(actionsProfile.setUserProfile(null))
 
     let profile = await profileAPI.getUserProfile(userId)
@@ -88,16 +81,16 @@ export const getUserProfile = (userId: number): ThunkType => async dispatch => {
     dispatch(actionsProfile.setUserProfile(profile))
     dispatch(actionsProfile.setProfileFollowed(followed))
 
-    dispatch(actionsProfile.toggleIsFetching(false))
+    dispatch(actionsApp.toggleIsFetching(false))
 }
 
 export const getUserStatus = (userId: number): ThunkType => async dispatch => {
-    dispatch(actionsProfile.toggleIsFetching(true))
+    dispatch(actionsApp.toggleIsFetching(true))
 
     let data = await profileAPI.getUserStatus(userId)
     dispatch(actionsProfile.setUserStatus(data))
 
-    dispatch(actionsProfile.toggleIsFetching(false))
+    dispatch(actionsApp.toggleIsFetching(false))
 }
 
 export const updateUserStatus = (status:string): ThunkType => async dispatch => {
@@ -109,10 +102,12 @@ export const updateUserStatus = (status:string): ThunkType => async dispatch => 
     }
 }
 
-export const updateMainPhoto = (photos: File): ThunkType => async dispatch => {
+export const updateMainPhoto = (photos: File): ThunkType => async (dispatch, getState) => {
+    const userId = getState().auth.userId as number
     let data = await profileAPI.uploadMainPhoto(photos)
     if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(actionsProfile.savePhotoSuccess(data.data))
+        dispatch(getUserProfile(userId))
     } else {
         dispatch(actionsApp.setErrorMessage(data.messages[0]))
     }

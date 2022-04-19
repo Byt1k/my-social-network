@@ -9,13 +9,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     getCurrentPage,
     getFollowingInProgress,
-    getIsFetching,
     getPageSize,
     getTotalCount,
     getUsersFilter,
     getUsersSelector
 } from "../../../redux/selectors/users-selectors";
 import {actionsUsers, follow, getUsers, unfollow} from "../../../redux/users-reducer";
+import {getIsFetching} from "../../../redux/selectors/app-selectors";
 
 type PropsType = {
     isFriends?: boolean

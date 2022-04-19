@@ -8,6 +8,7 @@ import {ProfileType} from "../../../../../types/types";
 type ProfileEditFormKeys = Extract<keyof ProfileType, string>
 
 const ProfileEditDataForm: FC<InjectedFormProps<ProfileType>> = ({handleSubmit, error}) => {
+    console.log(error)
     return (
         <form className={s.form} onSubmit={handleSubmit} >
             <p className={s.title}>Editing your profile information</p>

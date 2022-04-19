@@ -40,7 +40,7 @@ export const Home: FC = () => {
         if (e.target.files?.length) {
             dispatch(updateMainPhoto(e.target.files[0]))
         }
-        setPhotoUploadMode(false);
+        setPhotoUploadMode(false)
     }
 
     const setErrorMessage = (errorMessage: string | null) => {

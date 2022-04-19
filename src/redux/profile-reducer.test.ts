@@ -15,8 +15,7 @@ beforeEach(() => {
             {id: 3, date: "21 sep 2021", likesCount: 913, text: "This is my first post. Now I'm with you!"}
         ],
         profile: null,
-        userStatus: '',
-        isFetching: false
+        userStatus: ''
     }
 })
 

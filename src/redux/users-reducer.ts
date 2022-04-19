@@ -3,13 +3,13 @@ import {BaseThunkType, InferValuesType, UserType} from "../types/types"
 import {Action, Dispatch} from "redux";
 import {usersAPI} from "../api/users-api";
 import {actionsProfile} from "./profile-reducer";
+import {actionsApp} from "./app-reducer";
 
 const initialState = {
     users: [] as Array<UserType>,
     pageSize: 10,
     totalCount: 0,
     currentPage: 1,
-    isFetching: false,
     followingInProgress: [] as Array<number>,
     term: ''
 }
@@ -48,11 +48,6 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
                 ...state,
                 term: action.term
             }
-        case "users/TOGGLE_IS_FETCHING":
-            return {
-                ...state,
-                isFetching: action.isFetching
-            }
         case "users/TOGGLE_FOLLOWING_IN_PROGRESS":
             return {
                 ...state,
@@ -74,7 +69,6 @@ export const actionsUsers = {
     setTotalCount: (totalCount: number) => ({type: 'users/SET_TOTAL_COUNT', totalCount} as const),
     setCurrentPage: (pageNumber: number)  => ({type: 'users/CHANGE_PAGE', pageNumber} as const),
     setUsersFilter: (term: string)  => ({type: 'users/SET_USERS_FILTER', term} as const),
-    toggleIsFetching: (isFetching: boolean) => ({type: 'users/TOGGLE_IS_FETCHING', isFetching} as const),
     toggleFollowingInProgress: (isFollowing: boolean, userId: number) => ({
         type: 'users/TOGGLE_FOLLOWING_IN_PROGRESS',
         isFollowing,
@@ -82,15 +76,17 @@ export const actionsUsers = {
     } as const)
 }
 
-export const getUsers = (currentPage: number, pageSize: number, term: string, isFriend: boolean | undefined = undefined): ThunkType => async dispatch => {
-    dispatch(actionsUsers.toggleIsFetching(true))
+export const getUsers = (currentPage: number,
+                         pageSize: number, term: string,
+                         isFriend: boolean | undefined = undefined): ThunkType => async (dispatch) => {
+    dispatch(actionsApp.toggleIsFetching(true))
 
     let data = await usersAPI.getUsers(currentPage, pageSize, term, isFriend);
     dispatch(actionsUsers.setUsers(data.items))
     dispatch(actionsUsers.setTotalCount(data.totalCount))
     dispatch(actionsUsers.setUsersFilter(term))
 
-    dispatch(actionsUsers.toggleIsFetching(false))
+    dispatch(actionsApp.toggleIsFetching(false))
 }
 
 const _followUnfollowFlow = async (apiRequest: (userId: number) => Promise<ServerResponseType>,

@@ -10,6 +10,7 @@ import {follow, unfollow} from "../../../redux/users-reducer";
 import {actionsProfile, getUserProfile, getUserStatus, updateUserStatus} from "../../../redux/profile-reducer";
 import {getAuthorizedUserId} from "../../../redux/selectors/auth-selectors";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
+import {getIsFetching} from "../../../redux/selectors/app-selectors";
 
 type PropsType = {
     setEditModeProfileData?: (editModeProfileData: boolean) => void
@@ -36,7 +37,8 @@ const Profile: FC<PropsType> = props => {
     }, [userId])
 
     const profilePageData = useSelector(getProfilePageData)
-    const {posts, profile, userStatus, isFetching} = profilePageData
+    const {posts, profile, userStatus} = profilePageData
+    const isFetching = useSelector(getIsFetching)
     const followingInProgress = useSelector(getFollowingInProgress)
 
     const followUser = (userId: number) => {

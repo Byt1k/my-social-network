@@ -8,3 +8,7 @@ export const getErrorMessage = (state: GlobalStateType) => {
     return state.app.errorMessage
 }
 
+export const getIsFetching = (state: GlobalStateType) => {
+    return state.app.isFetching
+}
+
