@@ -103,6 +103,7 @@ export const updateUserStatus = (status:string): ThunkType => async dispatch => 
 }
 
 export const updateMainPhoto = (photos: File): ThunkType => async (dispatch, getState) => {
+    dispatch(actionsApp.toggleIsFetching(true))
     const userId = getState().auth.userId as number
     let data = await profileAPI.uploadMainPhoto(photos)
     if (data.resultCode === ResultCodesEnum.Success) {
@@ -111,6 +112,7 @@ export const updateMainPhoto = (photos: File): ThunkType => async (dispatch, get
     } else {
         dispatch(actionsApp.setErrorMessage(data.messages[0]))
     }
+    dispatch(actionsApp.toggleIsFetching(false))
 }
 
 export const updateProfileData = (profileData: ProfileType): ThunkType => async (dispatch, getState) => {

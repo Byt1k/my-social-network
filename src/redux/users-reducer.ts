@@ -61,7 +61,7 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
 }
 
 type ActionsType = InferValuesType<typeof actionsUsers>
-type ThunkType = BaseThunkType<ActionsType>
+type ThunkType = BaseThunkType<ActionsType | Action>
 
 export const actionsUsers = {
     toggleFollow: (userId: number) => ({type: 'users/TOGGLE_FOLLOW', userId} as const),

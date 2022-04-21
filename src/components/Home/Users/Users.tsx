@@ -16,6 +16,8 @@ import {
 } from "../../../redux/selectors/users-selectors";
 import {actionsUsers, follow, getUsers, unfollow} from "../../../redux/users-reducer";
 import {getIsFetching} from "../../../redux/selectors/app-selectors";
+import {useLocation, useNavigate} from "react-router-dom";
+import queryString from "query-string";
 
 type PropsType = {
     isFriends?: boolean
@@ -39,12 +41,49 @@ export const Users: FC<PropsType> = ({isFriends}) => {
 
     useEffect(() => {
         dispatch(actionsUsers.setCurrentPage(1))
+        dispatch(getUsers(1, pageSize, term, isFriends))
     }, [isFriends])
+
+
+
+
+
+    type UsersQueryStringType = {
+        page?: number
+        term?: string
+    }
+
+    const navigate = useNavigate()
+
+    const {search} = useLocation()
+
+    // useEffect(() => {
+    //     const parsed: UsersQueryStringType = queryString.parse(search.substr(1))
+    //
+    //     let actualPage = currentPage
+    //     if (!!parsed.page) actualPage = Number(parsed.page)
+    //
+    //     let actualTerm = term
+    //     if (!!parsed.term) actualTerm = parsed.term
+    //     debugger
+    //     dispatch*(getUsers(actualPage, pageSize, actualTerm, isFriends))
+    // }, [])
+    //
+    //
+    //
+    // useEffect(() => {
+    //     navigate({
+    //         pathname: '/users',
+    //         search: `?term=${term}&page=${currentPage}`
+    //     })
+    // }, [term, currentPage])
+
+
+
 
     const followUser = (userId: number) => {
         dispatch(follow(userId))
     }
-
 
     const unfollowUser = (userId: number) => {
         dispatch(unfollow(userId))
@@ -63,8 +102,8 @@ export const Users: FC<PropsType> = ({isFriends}) => {
 
     return (
         <>
-            {!isFriends && <UsersSearchForm onSubmitUsersSearchForm={onSubmitUsersSearchForm} term={term}/>}
-            {isFetching ? <Preloader /> : (
+            {!isFriends && <UsersSearchForm onSubmitUsersSearchForm={onSubmitUsersSearchForm}/>}
+            {isFetching ? <Preloader/> : (
                 <div className={s.users}>
                     {isFriends && (
                         <div className={s.myFriendsTitle}>
