@@ -27,7 +27,7 @@ export const ProfileInfo: FC<PropsType> = ({profile, userStatus, updateUserStatu
 
     // проверка для отображения заголовка "Контакты"
     let contactsExist = Object.keys(profile.contacts).some(key => profile.contacts[key as keyof ProfileContactsType] !== null);
-
+    console.log(contactsExist)
     const followingClick = () => !profile.followed ? follow(profile.userId) : unfollow(profile.userId)
     return (
         <div>

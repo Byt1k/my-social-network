@@ -79,6 +79,7 @@
     max-width: 70%;
     line-height: 1.5em;
     position: relative;
+    word-wrap: break-word;
 }
 
 .time {

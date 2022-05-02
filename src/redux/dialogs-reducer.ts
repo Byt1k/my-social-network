@@ -1,5 +1,7 @@
 import {DialogType, InferValuesType} from "../types/types"
 import {MessageType} from "../components/common/Chat/Chat";
+import {useSelector} from "react-redux";
+import {getAuthorizedUserId} from "./selectors/auth-selectors";
 
 const initialState = {
     dialogs:  [
@@ -12,7 +14,7 @@ const initialState = {
     ] as Array<DialogType>,
     messages: [
         {
-            userName: 'kirill',
+            userName: 'Hanna',
             photo: 'https://avatars.yandex.net/get-music-content/5412783/46b6c6da.p.5821649/m1000x1000',
             userId: 1,
             message: 'hello'
@@ -24,16 +26,18 @@ type InitialStateType = typeof initialState
 
 const dialogsReducer = (state = initialState, action: ActionsType):InitialStateType => {
     switch (action.type) {
-        // case 'SEND-MESSAGE': {
-        //     let newMessage = {
-        //         id: 7,
-        //         message: action.newMessageText
-        //     }
-        //     return {
-        //         ...state,
-        //         messages: [...state.messages, newMessage]
-        //     }
-        // }
+        case 'SEND-MESSAGE': {
+            const newMessage: MessageType = {
+                userId: 21641, // authorizedUserId
+                photo: '',
+                userName: 'Kirill',
+                message: action.newMessageBody
+            }
+            return {
+                ...state,
+                messages: [...state.messages, newMessage]
+            }
+        }
         default: return state
     }
 }
@@ -41,7 +45,7 @@ const dialogsReducer = (state = initialState, action: ActionsType):InitialStateT
 type ActionsType = InferValuesType<typeof actionsDialogs>
 
 export const actionsDialogs = {
-    // sendMessage: (newMessageText: string) => ({type: 'SEND-MESSAGE', newMessageText} as const)
+    sendMessage: (newMessageBody: string) => ({type: 'SEND-MESSAGE', newMessageBody} as const)
 }
 
 export default dialogsReducer
