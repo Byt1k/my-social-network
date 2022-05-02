@@ -13,9 +13,9 @@ const Navbar: FC = () => {
         <div className={s.navbar}>
             <div className={s.menu}>
                 <NavLink to="/profile" className={isActiveLink}>My profile</NavLink>
-                <NavLink to="/dialogs" className={isActiveLink}>Message</NavLink>
+                <NavLink to="/dialogs" className={isActiveLink}>Messages</NavLink>
                 <NavLink to="/users" className={isActiveLink}>Users</NavLink>
-                <a href="#" className={s.item}>News</a>
+                <NavLink to="/chat" className={isActiveLink}>General chat</NavLink>
                 <a href="#" className={s.item}>Music</a>
                 <a href="#" className={s.item}>Settings</a>
             </div>

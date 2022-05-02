@@ -1,4 +1,5 @@
-import {DialogType, InferValuesType, MessageType} from "../types/types"
+import {DialogType, InferValuesType} from "../types/types"
+import {MessageType} from "../components/common/Chat/Chat";
 
 const initialState = {
     dialogs:  [
@@ -10,12 +11,12 @@ const initialState = {
         {id: 6, name: 'Loren', image: 'https://media.glamour.ru/photos/6169476e09a34169a91cb864/master/w_1600%2Cc_limit/GettyImages-166977813.jpg'},
     ] as Array<DialogType>,
     messages: [
-        {id: 1, message: 'Hi!'},
-        {id: 2, message: 'How are you?'},
-        {id: 3, message: 'Yo'},
-        {id: 4, message: 'Yo'},
-        {id: 5, message: 'Yo'},
-        {id: 6, message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto optio illo pariatur molestiae sapiente similique, velit impedit dolorum quam ducimus libero explicabo voluptatum officiis. Ipsum esse in sunt autem ipsam!'}
+        {
+            userName: 'kirill',
+            photo: 'https://avatars.yandex.net/get-music-content/5412783/46b6c6da.p.5821649/m1000x1000',
+            userId: 1,
+            message: 'hello'
+        }
     ] as Array<MessageType>
 }
 
@@ -23,16 +24,16 @@ type InitialStateType = typeof initialState
 
 const dialogsReducer = (state = initialState, action: ActionsType):InitialStateType => {
     switch (action.type) {
-        case 'SEND-MESSAGE': {
-            let newMessage = {
-                id: 7,
-                message: action.newMessageText
-            }
-            return {
-                ...state,
-                messages: [...state.messages, newMessage]
-            }
-        }
+        // case 'SEND-MESSAGE': {
+        //     let newMessage = {
+        //         id: 7,
+        //         message: action.newMessageText
+        //     }
+        //     return {
+        //         ...state,
+        //         messages: [...state.messages, newMessage]
+        //     }
+        // }
         default: return state
     }
 }
@@ -40,7 +41,7 @@ const dialogsReducer = (state = initialState, action: ActionsType):InitialStateT
 type ActionsType = InferValuesType<typeof actionsDialogs>
 
 export const actionsDialogs = {
-    sendMessage: (newMessageText: string) => ({type: 'SEND-MESSAGE', newMessageText} as const)
+    // sendMessage: (newMessageText: string) => ({type: 'SEND-MESSAGE', newMessageText} as const)
 }
 
 export default dialogsReducer

@@ -44,19 +44,23 @@ export const Users: FC<PropsType> = ({isFriends}) => {
         dispatch(getUsers(1, pageSize, term, isFriends))
     }, [isFriends])
 
-
-
-
-
     type UsersQueryStringType = {
         page?: number
         term?: string
     }
 
-    const navigate = useNavigate()
-
-    const {search} = useLocation()
-
+    // Сохранение параметров поиска
+    // const navigate = useNavigate()
+    //
+    // const {search} = useLocation()
+    //
+    // useEffect(() => {
+    //     navigate({
+    //         pathname: '/users',
+    //         search: `?term=${term}&page=${currentPage}`
+    //     })
+    // }, [term, currentPage])
+    //
     // useEffect(() => {
     //     const parsed: UsersQueryStringType = queryString.parse(search.substr(1))
     //
@@ -66,20 +70,8 @@ export const Users: FC<PropsType> = ({isFriends}) => {
     //     let actualTerm = term
     //     if (!!parsed.term) actualTerm = parsed.term
     //     debugger
-    //     dispatch*(getUsers(actualPage, pageSize, actualTerm, isFriends))
+    //     dispatch(getUsers(actualPage, pageSize, actualTerm, isFriends))
     // }, [])
-    //
-    //
-    //
-    // useEffect(() => {
-    //     navigate({
-    //         pathname: '/users',
-    //         search: `?term=${term}&page=${currentPage}`
-    //     })
-    // }, [term, currentPage])
-
-
-
 
     const followUser = (userId: number) => {
         dispatch(follow(userId))

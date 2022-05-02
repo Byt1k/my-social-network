@@ -8,11 +8,6 @@ export type DialogType = {
     image: string
 }
 
-export type MessageType = {
-    id: number
-    message: string
-}
-
 export type PostType = {
     id: number
     date: string

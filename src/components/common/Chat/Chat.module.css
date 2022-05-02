@@ -1,0 +1,110 @@
+.chat {
+    width: 100%;
+    padding: 30px;
+}
+
+.messages {
+    height: calc(100vh - 300px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.messages::-webkit-scrollbar {
+    background: none;
+    position: absolute;
+    top: 0;
+    width: 5px;
+}
+
+.messages::-webkit-scrollbar-track {
+    margin: 12px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background-color: #25ACAC;
+    border-radius: 9em;
+    box-shadow: inset 1px 1px 10px #f3faf7;
+}
+
+.createMessage textarea {
+    width: 100%;
+    height: 70px;
+    border: 1px solid #d6fafa;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.createMessage button {
+    margin-left: auto;
+    display: block;
+    margin-top: 12px;
+    width: 120px;
+    height: 36px;
+    border-radius: 7px;
+    background: rgb(51, 122, 255);
+    color: #fff;
+    font-weight: 700;
+}
+
+.message {
+    margin-bottom: 20px;
+}
+
+.author {
+    display: flex;
+    align-items: center;
+}
+
+.author img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.author p {
+    font-weight: bold;
+    color: #000;
+}
+
+.text {
+    display: inline-block;
+    margin-left: 48px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0px 3px 28px rgba(0, 149, 122, 0.15);
+    min-width: 70px;
+    max-width: 70%;
+    line-height: 1.5em;
+    position: relative;
+}
+
+.time {
+    position: absolute;
+    bottom: 3px;
+    right: 7px;
+    font-size: 9px;
+    color: #25ACAC;
+}
+
+.authUserMessage {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.authUserMessage .author {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.authUserMessage .author img {
+    margin-left: 12px;
+}
+
+.authUserMessage .text {
+    background: #FFF4D1;
+    margin-right: 48px;
+}

@@ -16,6 +16,7 @@ import {Users} from "./Users/Users";
 import {ProfilePage} from "./Profile/Profile";
 import {getErrorMessage} from "../../redux/selectors/app-selectors";
 import {getProfilePageData} from "../../redux/selectors/profile-selectors";
+import {GeneralChat} from "./GeneralChat/GeneralChat";
 
 export const Home: FC = () => {
     const dispatch = useDispatch()
@@ -63,6 +64,7 @@ export const Home: FC = () => {
                         <Route path='/dialogs/*' element={<DialogsPage />}/>
                         <Route path='/users' element={<Users />}/>
                         <Route path='/friends' element={<Users isFriends={true} />}/>
+                        <Route path='/chat' element={<GeneralChat />}/>
                     </Routes>
                 </div>
             </div>

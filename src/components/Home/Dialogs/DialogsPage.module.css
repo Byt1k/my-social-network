@@ -1,0 +1,19 @@
+.dialogs {
+    display: flex;
+    height: 100%;
+}
+
+.dialogsList {
+    width: 30%;
+    padding: 20px 0;
+    background: rgba(240, 255, 255, 0.96);
+    border-radius: 12px 0 0 12px;
+}
+
+.chat {
+    width: 70%;
+}
+
+
+
+
