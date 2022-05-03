@@ -54,6 +54,7 @@
 .author {
     display: flex;
     align-items: center;
+    flex-basis: content;
 }
 
 .author img {

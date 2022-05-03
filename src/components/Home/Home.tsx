@@ -17,8 +17,9 @@ import {ProfilePage} from "./Profile/Profile";
 import {getErrorMessage} from "../../redux/selectors/app-selectors";
 import {getProfilePageData} from "../../redux/selectors/profile-selectors";
 import {GeneralChat} from "./GeneralChat/GeneralChat";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
-export const Home: FC = () => {
+const Home: FC = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -83,3 +84,5 @@ export const Home: FC = () => {
         </div>
     )
 }
+
+export default withAuthRedirect(Home);

@@ -46,10 +46,9 @@ const Message: FC<{ message: MessageType }> = ({message}) => {
     )
 }
 
-const NewMessageForm: FC<{ sendMessage: SendMessageType }> = ({sendMessage}) => {
+const NewMessageForm: FC<{ sendMessage: SendMessageType}> = ({sendMessage}) => {
     return (
-        <Formik initialValues={{newMessage: ''}}
-                onSubmit={sendMessage}>
+        <Formik initialValues={{newMessage: ''}} onSubmit={sendMessage}>
             <Form className={s.createMessage}>
                 <Field name='newMessage' placeholder='Your message...' as='textarea' required={true}/>
                 <button type="submit">Send</button>

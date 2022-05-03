@@ -6,7 +6,7 @@ import Preloader from "./components/common/Preloader/Preloader"
 import {initializeApp} from "./redux/app-reducer"
 import store from "./redux/redux-store"
 import {BrowserRouter, Route, Routes} from "react-router-dom"
-import {Home} from "./components/Home/Home"
+import Home from "./components/Home/Home"
 import {Login} from "./components/Login/Login"
 import {getInitialized} from "./redux/selectors/app-selectors"
 
